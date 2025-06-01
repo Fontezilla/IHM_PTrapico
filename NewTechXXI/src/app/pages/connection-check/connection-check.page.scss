@@ -1,0 +1,35 @@
+.splash-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  background-color: white;
+}
+
+.splash-logo {
+  width: 600px;
+  max-width: 600px;
+  height: auto;
+}
+
+.spinner-section {
+  position: fixed;
+  bottom: 80px;
+  left: 0;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+
+.spinner {
+  font-size: 32px;
+  color: var(--ion-color-primary);
+}
+
+.loading-text {
+  font-size: 16px;
+  color: var(--ion-color-medium);
+}

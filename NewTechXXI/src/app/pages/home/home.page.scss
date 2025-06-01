@@ -1,0 +1,234 @@
+.home-content {
+  --ion-background-color: var(--ion-color-background_light);
+  padding-bottom: 70px;
+  border-bottom: none !important;
+  box-shadow: none !important;
+}
+
+.home-toolbar {
+  --background: #357a50;
+  color: white;
+  padding: 0 12px;
+  min-height: 70px;
+  display: flex;
+  align-items: center;
+}
+
+.home-body-content {
+  margin-top: 70px;
+}
+
+.toolbar-content {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+}
+
+.circle-avatar {
+  width: 44px;
+  height: 44px;
+  background: #fff;
+  color: #357a50;
+  border-radius: 50%;
+  font-weight: bold;
+  font-size: 1.3rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 16px;
+}
+
+.search-bar {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  background: #fff;
+  border-radius: 22px;
+  padding: 0 12px;
+  height: 38px;
+}
+
+.search-input {
+  border: none;
+  background: transparent;
+  width: 100%;
+  font-size: 1.1rem;
+  color: #222;
+  outline: none;
+}
+
+.search-icon {
+  color: #357a50;
+  font-size: 1.2rem;
+  margin-right: 8px;
+}
+
+.logo-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 16px auto;
+  font-size: 1.4rem;
+  font-family: 'Montserrat', Arial, sans-serif;
+  border: 2px solid #357a50;
+  border-radius: 22px;
+  width: fit-content;
+  padding: 3px 10px;
+  cursor: pointer;
+  user-select: none;
+  transition: transform 0.13s cubic-bezier(.4,0,.2,1);
+}
+.logo-center:active { transform: scale(0.93); }
+.nt-green { color: #357a50; font-weight: bold; }
+.nt-black { color: #222; font-weight: 400; }
+
+.menu-icons {
+  display: flex;
+  justify-content: space-around;
+  margin: 18px 0;
+  padding: 0 6px;
+}
+.menu-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.menu-icon-circle {
+  width: 54px;
+  height: 54px;
+  background: #fff;
+  border: 2px solid #357a50;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 8px;
+}
+.menu-icon-circle ion-icon {
+  color: #357a50;
+  font-size: 1.8rem;
+}
+.menu-label {
+  color: #222;
+  font-size: 0.9rem;
+  text-align: center;
+  margin-top: 2px;
+  line-height: 1.1;
+}
+
+.divider {
+  border: none;
+  border-top: 1.5px solid #357a50;
+  margin-bottom: 8px;
+}
+
+.section {
+  padding: 16px;
+  h2 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 16px;
+    color: #333;
+  }
+}
+
+.produtos-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 18px 12px;
+  padding: 0 14px 14px;
+}
+.produto-card {
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 2px 7px #0001;
+  padding: 12px 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  height: 280px;
+  width: 100%;
+}
+.produto-img {
+  width: 100%;
+  height: 180px;
+  border-radius: 8px;
+  margin-bottom: 10px;
+  object-fit: contain;
+  background: #f5f5f5;
+}
+.produto-preco {
+  color: #357a50;
+  font-weight: bold;
+  font-size: 1.05rem;
+  margin-bottom: 5px;
+  width: 100%;
+  text-align: left;
+}
+.produto-nome {
+  color: #222;
+  font-size: 0.92rem;
+  margin-top: 2px;
+  width: 100%;
+  text-align: left;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  height: 2.5em;
+}
+
+.bottom-tabs {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 56px;
+  background: #fff;
+  border-top: 1.5px solid #357a50;
+  border-bottom-left-radius: 22px;
+  border-bottom-right-radius: 22px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  z-index: 100;
+  box-shadow: 0 -2px 8px #357a5011;
+}
+
+.tab-icon {
+  font-size: 2.2rem;
+  color: #000;
+  opacity: 0.85;
+  padding: 8px;
+  background: transparent;
+  transition: color 0.2s;
+}
+.tab-icon.active {
+  color: #357a50;
+  opacity: 1;
+}
+
+.discount-badge {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background: #ff4444;
+  color: white;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.global-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.4);
+  z-index: 900;
+  pointer-events: auto;
+}

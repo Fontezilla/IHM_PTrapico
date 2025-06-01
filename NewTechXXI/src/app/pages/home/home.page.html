@@ -1,0 +1,75 @@
+<ion-content class="home-content" fullscreen>
+  <app-search-header
+    #searchBar
+    (expandedChange)="searchExpanded = $event">
+  </app-search-header>
+
+  <div
+    class="global-backdrop"
+    *ngIf="searchExpanded"
+    (click)="collapseSearchBar()">
+  </div>
+
+  <div class="home-body-content">
+
+    <!-- LOGO CLICÁVEL -->
+    <div class="logo-center" (click)="irParaServicos()" (click)="animarLogo($event)">
+      <span class="nt-green">NT</span><span class="nt-black">soluções</span>
+    </div>
+
+    <!-- Menu Icons -->
+    <div class="menu-icons">
+      <div class="menu-item" (click)="navigateToWorkingOnIt()">
+        <div class="menu-icon-circle">
+          <ion-icon name="thumbs-up-sharp"></ion-icon>
+        </div>
+        <div class="menu-label">Promoções</div>
+      </div>
+      <div class="menu-item" (click)="navigateToWorkingOnIt()">
+        <div class="menu-icon-circle">
+          <ion-icon name="heart-sharp"></ion-icon>
+        </div>
+        <div class="menu-label">Favoritos</div>
+      </div>
+      <div class="menu-item" (click)="navigateToWorkingOnIt()">
+        <div class="menu-icon-circle">
+          <ion-icon name="cart-sharp"></ion-icon>
+        </div>
+        <div class="menu-label">As Minhas<br />Compras</div>
+      </div>
+    </div>
+
+    <hr class="divider" />
+
+    <!-- Produtos em Destaque -->
+    <div class="section">
+      <h2>Produtos em Destaque</h2>
+      <div class="produtos-grid">
+        <div
+          class="produto-card"
+          *ngFor="let product of featuredProducts"
+          [routerLink]="['/tabs/menu/product', product.id]">
+          <img [src]="product.image" [alt]="product.name" [title]="product.name" class="produto-img" />
+          <div class="produto-preco">{{ product.price | currency: 'EUR' }}</div>
+          <div class="produto-nome">{{ product.name }}</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Produtos Recentes -->
+    <div class="section">
+      <h2>Produtos Recentes</h2>
+      <div class="produtos-grid">
+        <div
+          class="produto-card"
+          *ngFor="let product of recentProducts"
+          [routerLink]="['/tabs/menu/product', product.id]">
+          <img [src]="product.image" [alt]="product.name" [title]="product.name" class="produto-img" />
+          <div class="produto-preco">{{ product.price | currency: 'EUR' }}</div>
+          <div class="produto-nome">{{ product.name }}</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</ion-content>

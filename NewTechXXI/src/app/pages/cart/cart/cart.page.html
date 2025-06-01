@@ -1,0 +1,54 @@
+<ion-content class="cart-container" [fullscreen]="true">
+  <div class="header-container">
+    <div class="header-row">
+      <div class="avatar">NT</div>
+
+      <div class="header-center">
+        <div class="header-title">Carrinho</div>
+        <ion-icon name="cart-outline" class="cart-icon"></ion-icon>
+      </div>
+    </div>
+  </div>
+
+  <div class="cart-count">O meu carrinho ({{ cartItems.length }} artigos)</div>
+
+  <div *ngIf="!isEmpty" class="cart-items">
+    <div *ngFor="let item of cartItems" class="cart-item-card">
+      <div class="cart-item">
+        <img [src]="item.image" [alt]="item.name" class="cart-item-img" />
+        <div class="cart-item-details">
+          <h3>{{ item.name }}</h3>
+          <p>€{{ item.price | number:'1.2-2' }}</p>
+          <div class="quantity-controls">
+            <button (click)="decreaseQuantity(item)">
+              <ion-icon name="remove-outline"></ion-icon>
+            </button>
+            <span>{{ item.quantity }}</span>
+            <button (click)="increaseQuantity(item)">
+              <ion-icon name="add-outline"></ion-icon>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="cart-empty-wrapper">
+    <div *ngIf="isEmpty" class="cart-empty-box">
+      <ion-icon name="basket-outline" class="cart-empty-icon"></ion-icon>
+      <div class="cart-empty-main">Carrinho vazio</div>
+      <div class="cart-empty-sub">Explora o site e descobre as melhores promoções</div>
+    </div>
+  </div>
+  
+</ion-content>
+
+<div *ngIf="!isEmpty" class="cart-footer-bar">
+  <div class="cart-footer-total">
+    Total ({{ cartItems.length }})
+    <span class="cart-footer-total-value">€{{ total | number:'1.2-2' }}</span>
+  </div>
+  <ion-button expand="block" class="cart-footer-btn" (click)="comprar()">
+    COMPRAR
+  </ion-button>
+</div>

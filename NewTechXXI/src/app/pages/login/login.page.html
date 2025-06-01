@@ -1,0 +1,98 @@
+<ion-content [fullscreen]="true" class="login-content">
+  <!-- Topo com avatar -->
+  <div class="top-bar">
+    <div class="circle-avatar">NT</div>
+  </div>
+
+  <!-- Bloco central de login -->
+  <div class="login-wrapper">
+
+    <!-- Título e subtítulo -->
+    <h1 class="login-title">Login</h1>
+    <p class="login-subtitle">Acede à tua conta para continuar</p>
+
+    <!-- Formulário de autenticação -->
+    <form (ngSubmit)="onSubmit()">
+      <!-- Campo e-mail ou telefone -->
+      <ion-item class="custom-item" lines="none">
+        <ion-input
+          [(ngModel)]="emailOuTelefone"
+          name="emailOuTelefone"
+          placeholder="E-mail ou telefone"
+          required
+          class="custom-input center-input">
+        </ion-input>
+      </ion-item>
+
+      <!-- Campo palavra-passe -->
+      <ion-item class="custom-item" lines="none">
+        <ion-input
+          [(ngModel)]="password"
+          name="password"
+          [type]="showPassword ? 'text' : 'password'"
+          placeholder="Palavra-passe"
+          required
+          class="custom-input center-input">
+        </ion-input>
+        <ion-icon
+          [name]="showPassword ? 'eye-off-outline' : 'eye-outline'"
+          slot="end"
+          class="password-toggle-icon"
+          (click)="togglePasswordVisibility()">
+        </ion-icon>
+      </ion-item>
+
+      <!-- Link recuperar senha -->
+      <ion-text class="forgot-password" (click)="esqueciSenha()">
+        Esqueceu a Palavra-passe?
+      </ion-text>
+
+      <!-- Botão Entrar -->
+      <ion-button
+        expand="block"
+        type="submit"
+        [disabled]="!emailOuTelefone || !password"
+        class="btn-login">
+        ENTRAR
+      </ion-button>
+    </form>
+
+  </div>
+
+  <!-- Secção de registo -->
+  <div class="signup-info">
+    <h2 class="signup-title">Ainda não tens conta?</h2>
+    <hr class="signup-divider" />
+
+    <div class="social-label">Entrar com:</div>
+    <div class="social-login">
+      <!-- Google Login -->
+      <img
+        src="../../../assets/icon/google.png"
+        alt="Entrar com Google"
+        class="social-img"
+        (click)="loginWithGoogle()"
+        role="button"
+        aria-label="Entrar com Google" />
+
+      <!-- Facebook Login -->
+      <img
+        src="../../../assets/icon/facebook.png"
+        alt="Entrar com Facebook"
+        class="social-img"
+        (click)="loginWithFacebook()"
+        role="button"
+        aria-label="Entrar com Facebook" />
+    </div>
+
+
+    <!-- Botão Registar -->
+    <ion-button
+      expand="block"
+      fill="outline"
+      class="btn-register"
+      (click)="irParaRegistar()">
+      REGISTAR
+    </ion-button>
+  </div>
+</ion-content>

@@ -1,0 +1,76 @@
+.profile-content {
+  --ion-background-color: var(--ion-color-background_light);
+  padding-bottom: 70px;
+}
+
+/* Header com avatar, nome e ícone */
+.profile-header {
+  display: flex;
+  align-items: center;
+  background: var(--ion-color-primary);
+  padding: 16px;
+  width: 100%;
+  height: 64px; 
+  box-sizing: border-box;
+  gap: 16px;
+}
+
+.avatar {
+  background-color: var(--ion-color-primary-contrast);
+  color: var(--ion-color-primary);
+  font-weight: bold;
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  font-family: var(--font-family);
+}
+
+/* Saudação */
+.profile-header > div:not(.avatar) {
+  color: var(--ion-color-primary-contrast);
+  font-size: 1.1rem;
+  font-weight: 600;
+  flex-grow: 1;
+}
+
+/* Notificação */
+ion-icon[name="notifications"] {
+  color: var(--ion-color-primary-contrast);
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
+/* Lista de opções */
+.profile-list-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px;
+  border-bottom: 1px solid #e0e0e0;
+  font-size: 1.08rem;
+  color: #222;
+  background: var(--ion-color-background_light);
+  transition: background 0.15s ease;
+  cursor: pointer;
+}
+
+.profile-list-item:active {
+  background: #f3f6f3;
+}
+
+/* Ícone de seta */
+.profile-list-item ion-icon {
+  color: #616161;
+  font-size: 1.5rem;
+  margin-left: 8px;
+}
+
+/* Destaque vermelho para "Terminar Sessão" */
+.logout-option-text span {
+  color: var(--ion-color-danger);
+  font-weight: 500;
+}

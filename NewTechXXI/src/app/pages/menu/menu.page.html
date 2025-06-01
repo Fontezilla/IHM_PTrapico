@@ -1,0 +1,36 @@
+<ion-content class="menu-content">
+  <app-search-header
+    #searchBar
+    (expandedChange)="searchExpanded = $event">
+  </app-search-header>
+
+  <div
+    class="global-backdrop"
+    *ngIf="searchExpanded"
+    (click)="collapseSearchBar()">
+  </div>
+  
+  <div class="menu-body-content">
+     <!-- Tabs -->
+    <div class="tab-container">
+      <button class="tab" [class.active]="activeTab === 'produtos'" (click)="activeTab = 'produtos'">Produtos</button>
+      <button class="tab" [class.active]="activeTab === 'servicos'" (click)="activeTab = 'servicos'">Serviços</button>
+    </div>
+
+    <!-- Lista de categorias -->
+    <div *ngIf="activeTab === 'produtos'" class="category-list">
+      <div class="category-item" *ngFor="let cat of categorias" (click)="abrirCategoria(cat)">
+        {{ cat.nome }}
+        <ion-icon name="chevron-forward-outline" class="chevron"></ion-icon>
+      </div>
+    </div>
+
+    <!-- Lista de serviços -->
+    <div *ngIf="activeTab === 'servicos'" class="category-list">
+      <div class="category-item" *ngFor="let servico of servicos" (click)="abrirServico(servico)">
+        {{ servico }}
+        <ion-icon name="chevron-forward-outline" class="chevron"></ion-icon>
+      </div>
+    </div>
+  </div>
+</ion-content>

@@ -1,0 +1,114 @@
+.menu-content {
+  --ion-background-color: #fff;
+  padding-bottom: 70px;
+  position: relative;
+}
+
+.menu-body-content {
+  margin-top: 60px;
+}
+
+/* Backdrop quando a barra de pesquisa está expandida */
+.global-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.28);
+  z-index: 10;
+}
+
+/* Tabs Produtos/Serviços */
+.tab-container {
+  display: flex;
+  width: 100%;
+  border-bottom: 2px solid #e0e0e0;
+  z-index: 11;
+  position: relative;
+}
+
+.tab {
+  flex: 1;
+  text-align: center;
+  padding: 22px 0 16px 0;
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: #222;
+  background: #fff;
+  position: relative;
+  cursor: pointer;
+  border: none;
+  transition: color 0.15s, background 0.15s;
+}
+
+.tab.active {
+  background: #e5e6e9;
+  font-weight: 700;
+}
+
+/* Produtos ativo: verde */
+.tab.active:first-child {
+  color: #42744c;
+}
+.tab.active:first-child::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  border-radius: 2px;
+  background-color: #42744c;
+}
+
+/* Serviços ativo: azul */
+.tab.active:last-child {
+  color: #7b98fa;
+}
+.tab.active:last-child::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  border-radius: 2px;
+  background-color: #7b98fa;
+}
+
+.tab:not(.active)::after {
+  display: none;
+}
+
+/* Lista de categorias/serviços */
+.category-list {
+  width: 100%;
+  background: #fff;
+  z-index: 1;
+}
+
+.category-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 17px 16px 15px 18px;
+  border-bottom: 1px solid #e0e0e0;
+  font-size: 1.08rem;
+  color: #222;
+  cursor: pointer;
+  transition: background 0.12s;
+}
+
+.category-item:active {
+  background: #f3f6f3;
+}
+
+.chevron {
+  color: #616161;
+  font-size: 1.55rem;
+  margin-left: 8px;
+  display: flex;
+  align-items: center;
+  font-weight: 600;
+}

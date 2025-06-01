@@ -1,0 +1,26 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>Definições de Rede</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="content-center">
+  <div class="center-wrapper">
+    <ion-card class="custom-card">
+      <ion-card-header>
+        <ion-card-title>Endereço da API</ion-card-title>
+      </ion-card-header>
+
+      <ion-card-content>
+        <ion-item class="custom-input" fill="outline" shape="round" lines="full">
+          <ion-input [(ngModel)]="apiUrl" inputmode="url" placeholder="URL da API"></ion-input>
+        </ion-item>
+
+        <div class="button-group">
+          <ion-button color="secondary" (click)="testarLigacao()">Testar</ion-button>
+          <ion-button color="primary" (click)="guardarLigacao()">Guardar</ion-button>
+        </div>
+      </ion-card-content>
+    </ion-card>
+  </div>
+</ion-content>

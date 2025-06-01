@@ -1,0 +1,26 @@
+<ion-content class="profile-content">
+
+  <!-- Header personalizado -->
+  <div class="profile-header">
+    <div class="avatar">
+      {{ (userName && userName.length > 1) ? userName.substring(0, 2).toUpperCase() : 'NT' }}
+    </div>
+    <div>
+      <div>Olá, {{ userName }}!</div>
+    </div>
+    <ion-icon name="notifications" (click)="abrirNotificacoes()"></ion-icon>
+  </div>
+
+  <!-- Lista de opções -->
+  <div>
+    <div 
+      *ngFor="let item of profileOptions"
+      (click)="handleOptionClick(item)"
+      [ngClass]="{'logout-option-text': item === 'Terminar Sessão'}"
+      class="profile-list-item">
+      <span>{{ item }}</span>
+      <ion-icon name="chevron-forward-outline"></ion-icon>
+    </div>
+  </div>
+
+</ion-content>

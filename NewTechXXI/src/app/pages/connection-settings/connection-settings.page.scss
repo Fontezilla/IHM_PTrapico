@@ -1,0 +1,59 @@
+ion-content.content-center {
+  --background: #ffffff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+.center-wrapper {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.custom-card {
+  width: 90%;
+  max-width: 420px;
+  padding: 20px;
+  border-radius: 12px;
+  background-color: #ffffff;
+  border: 2px solid var(--ion-color-primary);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+}
+
+.custom-input {
+  --border-color: var(--ion-color-primary);
+  --highlight-color-focused: var(--ion-color-primary);
+  --background: #f9f9f9;
+  margin-top: 12px;
+  border-radius: 8px;
+}
+
+.custom-input ion-label {
+  color: var(--ion-color-primary);
+  font-weight: 500;
+}
+
+.custom-input ion-input {
+  font-size: 16px;
+  color: #333;
+}
+
+.button-group {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 16px;
+  width: 100%;
+}
+
+.button-group ion-button {
+  flex: 1;
+  min-width: 0;
+  --padding-start: 0;
+  --padding-end: 0;
+  --border-radius: 8px;
+  font-weight: 600;
+}
