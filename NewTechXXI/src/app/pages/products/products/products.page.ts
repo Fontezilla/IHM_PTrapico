@@ -53,8 +53,6 @@ export class ProductsPage implements OnInit {
 
   filtroMarcas: string[] = [];
   marcasDisponiveis: string[] = [];
-  filtroPrecoMin: number | null = null;
-  filtroPrecoMax: number | null = null;
   filtroAvaliacao: number | null = null;
 
   searchExpanded: boolean = false;
@@ -68,6 +66,11 @@ export class ProductsPage implements OnInit {
     { label: 'Preço mais alto', value: 'preco-desc' },
     { label: 'Preço mais baixo', value: 'preco-asc' }
   ];
+
+  mostrarTodasMarcas = false;
+
+  selectedPrecoMin: number | null = null;
+  selectedPrecoMax: number | null = null;
 
   constructor(
     private route: ActivatedRoute,
@@ -146,19 +149,18 @@ export class ProductsPage implements OnInit {
     this.aplicarFiltro();
   }
 
-  setPrecoRapido(min: number, max: number | null): void {
-    this.filtroPrecoMin = min;
-    this.filtroPrecoMax = max;
-    console.log(`[DEBUG] Filtro de preço: Min = ${min}, Max = ${max}`);
+  limparFiltro(): void {
+    this.filtroMarcas = [];
+    this.selectedPrecoMin = null;
+    this.selectedPrecoMax = null;
+    this.filtroAvaliacao = null;
+    console.log('[DEBUG] Filtros limpos');
     this.aplicarFiltro();
   }
 
-  limparFiltro(): void {
-    this.filtroMarcas = [];
-    this.filtroPrecoMin = null;
-    this.filtroPrecoMax = null;
-    this.filtroAvaliacao = null;
-    console.log('[DEBUG] Filtros limpos');
+  setPrecoRapido(min: number, max: number | null): void {
+    this.selectedPrecoMin = min;
+    this.selectedPrecoMax = max;
     this.aplicarFiltro();
   }
 
@@ -175,8 +177,8 @@ export class ProductsPage implements OnInit {
         this.filtroMarcas.includes(prod.marca ?? prod.brand ?? '');
 
       const precoOk =
-        (!this.filtroPrecoMin || prod.price >= this.filtroPrecoMin) &&
-        (!this.filtroPrecoMax || prod.price <= this.filtroPrecoMax);
+        (this.selectedPrecoMin === null || prod.price >= this.selectedPrecoMin) &&
+        (this.selectedPrecoMax === null || prod.price <= this.selectedPrecoMax);
 
       const avaliacaoOk =
         !this.filtroAvaliacao || (prod.avaliacao ?? 0) >= this.filtroAvaliacao;
@@ -367,5 +369,13 @@ export class ProductsPage implements OnInit {
   
   collapseSearchBar() {
     this.searchBar.collapseSearch();
+  }
+
+  abrirOrdenar(): void {
+    this.ordenarMenuAberto = true;
+  }
+
+  abrirFiltro(): void {
+    this.filtroMenuAberto = true;
   }
 }

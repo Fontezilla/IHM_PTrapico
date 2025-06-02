@@ -17,6 +17,17 @@
       (click)="collapseSearchBar()">
     </div>
 
+    <div class="produto-filtros">
+      <button class="filtro-btn" (click)="abrirOrdenar()">
+        <ion-icon name="funnel-outline"></ion-icon>
+        Ordenar
+      </button>
+      <button class="filtro-btn" (click)="abrirFiltro()">
+        <ion-icon name="options-outline"></ion-icon>
+        Filtrar
+      </button>
+    </div>
+
     <hr class="divider" />
 
     <div class="search-label">
@@ -54,8 +65,8 @@
       <div class="filtro-options">
         <div class="filtro-section">
           <div class="filtro-label">Marca</div>
-          <div class="filtro-checkboxes">
-            <label *ngFor="let marca of marcasDisponiveis">
+          <div class="filtro-checkboxes dropdown">
+            <label *ngFor="let marca of marcasDisponiveis; let i = index" [style.marginBottom.px]="6 + i * 2">
               <input
                 type="checkbox"
                 [checked]="filtroMarcas.includes(marca)"
@@ -68,42 +79,25 @@
 
         <div class="filtro-section">
           <div class="filtro-label">Preço</div>
-          <div class="filtro-preco-inputs">
-            <input
-              type="number"
-              placeholder="Mín"
-              [(ngModel)]="filtroPrecoMin"
-              min="0"
-              [attr.aria-label]="'Preço mínimo'" />
-            <span>-</span>
-            <input
-              type="number"
-              placeholder="Máx"
-              [(ngModel)]="filtroPrecoMax"
-              min="0"
-              [attr.aria-label]="'Preço máximo'" />
-          </div>
           <div class="filtro-preco-rapido">
-            <button (click)="setPrecoRapido(0, 250)">Até 250€</button>
-            <button (click)="setPrecoRapido(250, 500)">250€ - 500€</button>
-            <button (click)="setPrecoRapido(500, 1000)">500€ - 1000€</button>
-            <button (click)="setPrecoRapido(1000, null)">Mais de 1000€</button>
+            <button class="preco-btn" (click)="setPrecoRapido(0, 250)">Até 250€</button>
+            <button class="preco-btn" (click)="setPrecoRapido(250, 500)">250€ - 500€</button>
+            <button class="preco-btn" (click)="setPrecoRapido(500, 1000)">500€ - 1000€</button>
+            <button class="preco-btn" (click)="setPrecoRapido(1000, null)">Mais de 1000€</button>
           </div>
         </div>
 
         <div class="filtro-section">
           <div class="filtro-label">Avaliação mínima</div>
-          <div class="filtro-avaliacao">
-            <label *ngFor="let star of [5, 4, 3, 2, 1]">
-              <span class="sr-only">Avaliação mínima {{ star }} estrelas</span>
+          <div class="filtro-avaliacao-checkboxes">
+            <label *ngFor="let star of [1,2,3,4,5]">
               <input
-                type="radio"
-                name="filtroAvaliacao"
-                [value]="star"
-                [(ngModel)]="filtroAvaliacao"
-                [attr.aria-label]="'Avaliação mínima ' + star + ' estrelas'" />
+                type="checkbox"
+                [checked]="filtroAvaliacao === star"
+                (change)="filtroAvaliacao = filtroAvaliacao === star ? null : star"
+                [attr.aria-label]="star + ' estrela' + (star > 1 ? 's' : '')" />
               <span class="star-group">
-                <ion-icon *ngFor="let _ of [].constructor(star)" name="star"></ion-icon>
+                <ion-icon *ngFor="let s of [1,2,3,4,5]" [name]="star >= s ? 'star' : 'star-outline'"></ion-icon>
               </span>
             </label>
           </div>

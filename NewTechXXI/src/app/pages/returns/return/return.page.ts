@@ -1,81 +1,48 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
 import { ApiService } from 'src/app/services/api/api.service';
 import { ApiEndpoints } from 'src/app/services/api/api-endpoints.enum';
-import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
-import { NavController } from '@ionic/angular';
-
-interface Product {
-  id: number;
-  name: string;
-  price: number;
-  image: SafeUrl;
-}
+import { Storage } from '@ionic/storage-angular';
 
 @Component({
   selector: 'app-return',
   templateUrl: './return.page.html',
   styleUrls: ['./return.page.scss'],
-  standalone: false
+  standalone: false,
 })
 export class ReturnPage implements OnInit {
-  recentProducts: Product[] = [];
-  selectedProduct: Product | null = null; // <- Voltar a adicionar
+  recentProducts: any[] = [];         // Lista de produtos comprados recentemente
+  selectedProduct: any = null;        // Produto selecionado para devolução
+  utilizadorId: number = 0;           // ID do utilizador autenticado
 
   constructor(
-    private apiService: ApiService,
-    private sanitizer: DomSanitizer,
-    private router: Router,
-    private navCtrl: NavController
+    private api: ApiService,
+    private storage: Storage
   ) {}
 
-  ngOnInit() {
-    this.loadProducts();
+  async ngOnInit() {
+    await this.api.ensureReady();                        // Garante que a base URL foi carregada
+    this.utilizadorId = await this.storage.get('userId'); // Busca o ID do utilizador autenticado
+    this.carregarProdutosRecentes();
   }
 
-  loadProducts() {
-    this.apiService.get(ApiEndpoints.PRODUTOS).subscribe((products: any[]) => {
-      const recentProducts = products.slice(-3);
-      this.recentProducts = [];
-
-      recentProducts.forEach(p => {
-        const prod: Product = {
-          id: p.id,
-          name: p.name ?? p.nome,
-          price: p.price ?? p.preco,
-          image: this.sanitizer.bypassSecurityTrustUrl('assets/images/no_image.jpg')
-        };
-
-        this.apiService.getImageBlob(ApiEndpoints.PRODUTOS, p.id).subscribe({
-          next: blob => {
-            if (blob && blob.size > 0) {
-              prod.image = this.sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(blob));
-            }
-          },
-          error: () => {
-            console.error('Erro ao carregar imagem do produto');
-          }
-        });
-
-        this.recentProducts.push(prod);
+  carregarProdutosRecentes() {
+    this.api.get(`${ApiEndpoints.ENCOMENDAS}/encomendas-recentes/${this.utilizadorId}`)
+      .subscribe((produtos: any[]) => {
+        this.recentProducts = produtos;
       });
-    });
   }
 
-  selectProduct(product: Product) {
-    this.selectedProduct = product;
+  selectProduct(prod: any) {
+    this.selectedProduct = prod;
   }
 
   proceedToDetails() {
-    // Navegar para página de detalhes só quando clica "Seguinte"
-    if (this.selectedProduct) {
-      this.router.navigate(['/return-details'], {
-        state: { selectedProduct: this.selectedProduct }
-      });
-    }
+    // Aqui podes redirecionar para a próxima página ou guardar o produto selecionado
+    console.log('Produto selecionado para devolução:', this.selectedProduct);
   }
 
   voltar() {
-    this.navCtrl.back();
+    // Lógica para voltar à página anterior
+    window.history.back();
   }
 }

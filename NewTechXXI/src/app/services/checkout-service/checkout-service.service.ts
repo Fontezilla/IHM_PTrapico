@@ -139,14 +139,18 @@ export class CheckoutService {
   async finalizarCompra(utilizadorId: number, api: ApiService): Promise<Observable<any>> {
   await api.ensureReady();
 
-  const encomendaPayload = {
+  const encomendaPayload: any = {
     utilizador_id: utilizadorId,
     morada_id: this.tipoEntrega === 'MORADA' ? this.moradaId : null,
     estado: 'Pendente',
     total: this.total,
-    local_entrega: this.tipoEntrega,
-    loja_morada: this.tipoEntrega === 'LOJA' ? this.lojaMorada : null
+    local_entrega: this.tipoEntrega
   };
+
+  if (this.tipoEntrega === 'LOJA') {
+    encomendaPayload.loja_morada = this.lojaMorada;
+  }
+
 
   return new Observable<any>((observer) => {
     api.post(ApiEndpoints.ENCOMENDAS, encomendaPayload).subscribe({
