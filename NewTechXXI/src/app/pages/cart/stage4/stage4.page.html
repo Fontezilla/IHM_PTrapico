@@ -1,13 +1,114 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>stage4</ion-title>
+<ion-header>
+  <ion-toolbar class="etapa4-header">
+    <ion-buttons slot="start">
+      <ion-button (click)="goBack()">
+        <ion-icon name="arrow-back-outline" class="etapa4-back-icon"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <div class="etapa4-logo">
+      <div class="etapa4-logo-circle">NT</div>
+    </div>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">stage4</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content class="etapa4-content">
+  <div class="etapa4-steps">
+    <div class="etapa4-step">1</div>
+    <div class="etapa4-step">2</div>
+    <div class="etapa4-step">3</div>
+    <div class="etapa4-step active">4</div>
+  </div>
+  <div class="etapa4-divider"></div>
+
+  <h2 class="etapa4-title">Confirmação</h2>
+
+  <!-- Lista de produtos -->
+  <div *ngIf="produtos.length > 0" class="cart-items">
+    <div *ngFor="let item of produtos" class="cart-item-card">
+      <div class="cart-item">
+        <img [src]="item.imagem || 'assets/images/no_image.jpg'" alt="Produto" class="cart-item-img" />
+        <div class="cart-item-details">
+          <div class="cart-item-header">
+            <h3>{{ item.descricao }}</h3>
+          </div>
+          <p>€{{ item.precoUnitario | number:'1.2-2' }}</p>
+          <div class="quantity-controls">
+            <button (click)="decreaseQuantity(item)">
+              <ion-icon name="remove-outline"></ion-icon>
+            </button>
+            <div class="quantity-display">
+              <span>{{ item.quantidade }}</span>
+            </div>
+            <button (click)="increaseQuantity(item)">
+              <ion-icon name="add-outline"></ion-icon>
+            </button>
+            <div class="vertical-divider"></div>
+            <ion-icon
+              name="trash-outline"
+              class="trash-inline-icon"
+              (click)="removeItem(item)">
+            </ion-icon>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Resumo -->
+  <div class="etapa4-summary">
+    <!-- Título com botão toggle -->
+    <div class="etapa4-summary-item" [class.expanded]="showDeliveryDetails" (click)="toggleDelivery()">
+      <span class="etapa4-summary-label">Local da Entrega</span>
+      <div class="etapa4-summary-value">
+        <ion-icon [name]="showDeliveryDetails ? 'chevron-up-outline' : 'chevron-down-outline'" class="etapa4-summary-arrow"></ion-icon>
+      </div>
+    </div>
+
+    <!-- Conteúdo expandido -->
+    <div class="etapa4-details" [class.expanded]="showDeliveryDetails">
+      <div class="etapa4-details-content" *ngIf="showDeliveryDetails">
+        <!-- Caso seja entrega em casa, mostrar campos da morada -->
+        <div *ngIf="localEntrega === 'Entrega em casa'">
+          <p><strong>Rua:</strong> {{ morada.rua }}</p>
+          <p><strong>Código Postal:</strong> {{ morada.codigo_postal }}</p>
+          <p><strong>Cidade:</strong> {{ morada.cidade }}</p>
+          <p><strong>País:</strong> {{ morada.pais }}</p>
+        </div>
+
+
+        <!-- Caso seja entrega na loja -->
+        <div *ngIf="localEntrega !== 'Entrega em casa'">
+          <p><strong>Morada:</strong> {{ localEntrega }}</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="etapa4-summary-item" [class.expanded]="showPaymentDetails" (click)="togglePayment()">
+      <span class="etapa4-summary-label">Método de Pagamento</span>
+      <div class="etapa4-summary-value">
+        <span>{{ metodoPagamento }}</span>
+        <ion-icon [name]="showPaymentDetails ? 'chevron-up-outline' : 'chevron-down-outline'" class="etapa4-summary-arrow"></ion-icon>
+      </div>
+    </div>
+    <div class="etapa4-details" [class.expanded]="showPaymentDetails">
+      <div class="etapa4-details-content">
+        <p><strong>Dados do Cartão:</strong></p>
+        <p>
+          Titular: {{ cartao.nomeTitular }}<br />
+          Cartão: **** **** **** {{ cartao.numeroCartao?.slice(-4) }}<br />
+          Validade: {{ cartao.validade }}
+        </p>
+      </div>
+    </div>
+  </div>
 </ion-content>
+
+<!-- Footer -->
+<div class="etapa4-footer-bar">
+  <div class="etapa4-footer-total">
+    €{{ total | number:'1.2-2' }}
+  </div>
+  <ion-button expand="block" class="etapa4-footer-btn" (click)="concluir()">
+    Concluir
+  </ion-button>
+</div>

@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { ApiService } from 'src/app/services/api.service';
-import { ApiEndpoints } from 'src/app/services/api-endpoints.enum';
+import { Router } from '@angular/router';
+import { ApiService } from 'src/app/services/api/api.service';
+import { ApiEndpoints } from 'src/app/services/api/api-endpoints.enum';
 import { Storage } from '@ionic/storage-angular';
-import { NavController } from '@ionic/angular';
+import { CheckoutService, ProdutoCarrinho } from 'src/app/services/checkout-service/checkout-service.service';
 
 @Component({
   selector: 'app-stage1',
@@ -11,88 +12,83 @@ import { NavController } from '@ionic/angular';
   standalone: false,
 })
 export class Stage1Page implements OnInit {
-  selectedDelivery: 'store' | 'home' = 'home';
+  selectedDelivery: 'store' | 'home' | null = null;
   total: number = 0;
-  cartItems: any[] = [];
-  isEmpty: boolean = true;
 
   constructor(
+    private router: Router,
     private api: ApiService,
     private storage: Storage,
-    private navCtrl: NavController
+    private checkoutService: CheckoutService
   ) {}
 
-  async ngOnInit() {
-    await this.api.ensureReady();
-    await this.clearPreviousCheckoutData();
-    await this.inicializarCarrinhoDoUtilizador();
+  ngOnInit() {}
+
+  async ionViewWillEnter() {
+    await this.inicializarCarrinho();
   }
 
-  private async clearPreviousCheckoutData() {
-    const keysToClear = ['localEntrega', 'totalCarrinho', 'moradaId', 'metodoPagamento'];
-    for (const key of keysToClear) {
-      const exists = await this.storage.get(key);
-      if (exists !== null && exists !== undefined) {
-        await this.storage.remove(key);
-      }
-    }
-  }
-
-  async inicializarCarrinhoDoUtilizador() {
+  async inicializarCarrinho() {
     await this.storage.create();
+
     const rawUser = await this.storage.get('utilizador');
     if (!rawUser) return;
 
     const utilizador = typeof rawUser === 'string' ? JSON.parse(rawUser) : rawUser;
     const userId = utilizador.id;
 
-    this.api.get(`${ApiEndpoints.CARRINHOS}/utilizador/${userId}`).subscribe({
+    this.api.get(`carrinhos/utilizador/${userId}`).subscribe({
       next: (carrinhos) => {
         if (!carrinhos || carrinhos.length === 0) {
-          // Se não existir, cria novo carrinho
-          this.api.post(ApiEndpoints.CARRINHOS, { utilizador_id: userId }).subscribe({
-            next: async (novoCarrinho) => {
-              await this.storage.set('carrinho_id', novoCarrinho.id);
-              this.carregarCarrinho(novoCarrinho.id);
-            }
-          });
-        } else {
-          const carrinho = carrinhos[0];
-          this.storage.set('carrinho_id', carrinho.id);
-          this.carregarCarrinho(carrinho.id);
+          console.warn('Nenhum carrinho encontrado para o utilizador.');
+          return;
         }
+
+        const carrinho = carrinhos[0];
+        this.checkoutService.setCarrinhoId(carrinho.id);
+
+        this.api.get(`${ApiEndpoints.CARRINHO_PRODUTOS}/detalhes/${carrinho.id}`).subscribe(produtos => {
+          const produtosCheckout: ProdutoCarrinho[] = produtos.map((prod: any) => ({
+            id: prod.id,
+            produtoId: prod.produto_id,
+            quantidade: prod.quantidade,
+            precoUnitario: prod.preco
+          }));
+
+          this.checkoutService.setProdutos(produtosCheckout);
+
+          // Calcular e guardar total
+          const totalCalculado = produtosCheckout.reduce((sum, p) => sum + p.quantidade * p.precoUnitario, 0);
+          this.checkoutService.setTotal(totalCalculado);
+          this.total = totalCalculado;
+        });
       }
     });
   }
 
-  carregarCarrinho(carrinhoId: number) {
-    this.api.get(`${ApiEndpoints.CARRINHO_PRODUTOS}/detalhes/${carrinhoId}`).subscribe(produtos => {
-      this.cartItems = produtos;
-      this.isEmpty = produtos.length === 0;
-      this.atualizarTotal();
-    });
+  // Método chamado ao clicar numa opção de entrega
+  selectDelivery(tipo: 'store' | 'home') {
+    this.selectedDelivery = tipo;
   }
 
-  atualizarTotal() {
-    this.total = this.cartItems.reduce((sum, item) => {
-      const preco = Number(item.preco);
-      const quantidade = Number(item.quantidade);
-      return isNaN(preco) || isNaN(quantidade) ? sum : sum + preco * quantidade;
-    }, 0);
+  // Botão para continuar para a etapa 2
+  continuar() {
+    if (!this.selectedDelivery) return;
+
+    // Guardar escolha no serviço
+    const tipo = this.selectedDelivery === 'store' ? 'LOJA' : 'MORADA';
+    this.checkoutService.setTipoEntrega(tipo);
+
+    // Redirecionar para a próxima etapa
+    if (tipo === 'LOJA') {
+      this.router.navigateByUrl('/stage2-shop');
+    } else {
+      this.router.navigateByUrl('/stage2-home');
+    }
   }
 
-  selectDelivery(option: 'store' | 'home') {
-    this.selectedDelivery = option;
-  }
-
-  async continuar() {
-    if (this.isEmpty) return;
-    await this.storage.set('localEntrega', this.selectedDelivery);
-    await this.storage.set('totalCarrinho', this.total);
-    this.navCtrl.navigateForward('/stage2');
-  }
-
+  // Botão de voltar (ícone topo)
   goBack() {
-    this.navCtrl.back();
+    this.router.navigateByUrl('/tabs/cart');
   }
 }

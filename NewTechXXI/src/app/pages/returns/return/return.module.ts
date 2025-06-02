@@ -4,17 +4,17 @@ import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-import { Stage2PageRoutingModule } from './stage2-routing.module';
+import { ReturnPageRoutingModule } from './return-routing.module';
 
-import { Stage2Page } from './stage2.page';
+import { ReturnPage } from './return.page';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    Stage2PageRoutingModule
+    ReturnPageRoutingModule
   ],
-  declarations: [Stage2Page]
+  declarations: [ReturnPage]
 })
-export class Stage2PageModule {}
+export class ReturnPageModule {}

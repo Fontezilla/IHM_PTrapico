@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DomSanitizer } from '@angular/platform-browser';
-import { ApiService } from 'src/app/services/api.service';
-import { ApiEndpoints } from 'src/app/services/api-endpoints.enum';
+import { ApiService } from 'src/app/services/api/api.service';
+import { ApiEndpoints } from 'src/app/services/api/api-endpoints.enum';
 import { Location } from '@angular/common';
 import { ViewChild } from '@angular/core';
 import { SearchHeaderComponent } from 'src/app/components/search-header/search-header.component';

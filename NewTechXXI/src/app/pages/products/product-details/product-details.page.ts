@@ -3,8 +3,8 @@ import { ActivatedRoute } from '@angular/router';
 import { NavController, ToastController } from '@ionic/angular';
 import { Storage } from '@ionic/storage-angular';
 import { DomSanitizer } from '@angular/platform-browser';
-import { ApiService } from 'src/app/services/api.service';
-import { ApiEndpoints } from 'src/app/services/api-endpoints.enum';
+import { ApiService } from 'src/app/services/api/api.service';
+import { ApiEndpoints } from 'src/app/services/api/api-endpoints.enum';
 import { ViewChild } from '@angular/core';
 import { SearchHeaderComponent } from 'src/app/components/search-header/search-header.component';
 
@@ -90,8 +90,13 @@ export class ProductDetailsPage implements OnInit {
     this.loadProduct();
   }
 
-  private async showToast(message: string, color: 'success' | 'warning' | 'danger') {
-    const toast = await this.toastCtrl.create({ message, duration: 2000, color });
+  private async showToast(message: string, color: 'success' | 'warning' | 'danger', buttons?: any[]) {
+    const toast = await this.toastCtrl.create({ 
+      message, 
+      duration: 2000, 
+      color, 
+      buttons: buttons || []
+    });
     await toast.present();
   }
 
@@ -212,7 +217,14 @@ export class ProductDetailsPage implements OnInit {
 
     this.apiService.post(ApiEndpoints.CARRINHO_PRODUTOS, payload).subscribe(
       async () => {
-        await this.showToast('Produto adicionado ao carrinho.', 'success');
+        await this.showToast('Produto adicionado ao carrinho.', 'success', [
+          {
+            text: 'Ver carrinho',
+            handler: () => {
+              this.navCtrl.navigateForward('/tabs/cart');
+            }
+          }
+        ]);
       },
       async (err) => {
         console.error('Erro ao adicionar ao carrinho:', err.error || err);

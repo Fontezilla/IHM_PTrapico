@@ -1,13 +1,123 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>stage3</ion-title>
+<ion-header>
+  <ion-toolbar class="etapa3-header">
+    <ion-buttons slot="start">
+      <ion-button (click)="goBack()">
+        <ion-icon name="arrow-back-outline" class="etapa3-back-icon"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <div class="etapa3-logo">
+      <div class="etapa3-logo-circle">NT</div>
+    </div>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">stage3</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content class="etapa3-content">
+  <!-- Passos do checkout -->
+  <div class="etapa3-steps">
+    <div class="etapa3-step">1</div>
+    <div class="etapa3-step">2</div>
+    <div class="etapa3-step active">3</div>
+    <div class="etapa3-step">4</div>
+  </div>
+  <div class="etapa3-divider"></div>
+
+  <!-- Opções de pagamento -->
+  <div *ngIf="!showCardForm">
+    <h2 class="etapa3-title">Método de Pagamento</h2>
+    <div class="etapa3-payment-options">
+      <div class="etapa3-payment-option" [class.selected]="selectedPayment === 'cartao'" (click)="selectPayment('cartao')">
+        <span class="etapa3-payment-text">Cartão de Crédito</span>
+        <ion-icon name="card-outline" class="etapa3-payment-icon"></ion-icon>
+      </div>
+      <div class="etapa3-payment-option" [class.selected]="selectedPayment === 'universo'" (click)="selectPayment('universo')">
+        <span class="etapa3-payment-text">Cartão Universo</span>
+      </div>
+      <div class="etapa3-payment-option" [class.selected]="selectedPayment === 'referencia'" (click)="selectPayment('referencia')">
+        <span class="etapa3-payment-text">Referência Multibanco</span>
+      </div>
+      <div class="etapa3-payment-option" [class.selected]="selectedPayment === 'mbway'" (click)="selectPayment('mbway')">
+        <span class="etapa3-payment-text">MB Way</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Formulário do cartão de crédito -->
+  <div *ngIf="showCardForm">
+    <h2 class="etapa3-title">Cartão de Crédito</h2>
+    <div class="etapa3-card-form">
+      <div class="etapa3-input-group">
+        <ion-input 
+          label="Nome do Titular"
+          labelPlacement="floating"
+          placeholder="Insira o nome como está no cartão" 
+          [(ngModel)]="cartao.nomeTitular"
+          (ionInput)="checkStepValidity()"
+          class="etapa3-input"
+          fill="outline"
+          required>
+        </ion-input>
+        <ion-icon name="person-outline" class="etapa3-input-icon"></ion-icon>
+      </div>
+      <div class="etapa3-input-group">
+        <ion-input 
+          label="Número do Cartão"
+          labelPlacement="floating"
+          type="tel"
+          inputmode="numeric"
+          placeholder="0000 0000 0000 0000" 
+          [(ngModel)]="cartao.numeroCartao"
+          (ionInput)="checkStepValidity()"
+          class="etapa3-input"
+          fill="outline"
+          maxlength="19"
+          required>
+        </ion-input>
+        <ion-icon name="card-outline" class="etapa3-input-icon"></ion-icon>
+      </div>
+      <div class="etapa3-input-row">
+        <div class="etapa3-input-group etapa3-input-half">
+          <ion-input 
+            label="Validade (MM/AA)"
+            labelPlacement="floating"
+            placeholder="MM/AA" 
+            [(ngModel)]="cartao.validade"
+            (ionInput)="formatExpiryDate(); checkStepValidity()"
+            class="etapa3-input"
+            fill="outline"
+            maxlength="5"
+            required>
+          </ion-input>
+        </div>
+        <div class="etapa3-input-group etapa3-input-half">
+          <ion-input 
+            label="CVV"
+            labelPlacement="floating"
+            type="password"
+            inputmode="numeric"
+            placeholder="000" 
+            [(ngModel)]="cartao.cvv"
+            (ionInput)="checkStepValidity()"
+            class="etapa3-input"
+            fill="outline"
+            maxlength="3"
+            required>
+          </ion-input>
+        </div>
+      </div>
+    </div>
+  </div>
 </ion-content>
+
+<!-- Footer fixo com total e botão -->
+<div class="etapa3-footer-bar">
+  <div class="etapa3-footer-total">
+    €{{ total | number:'1.2-2' }}
+  </div>
+  <ion-button 
+    expand="block" 
+    class="etapa3-footer-btn" 
+    (click)="continuar()"
+    [disabled]="!isStepValid">
+    Continuar
+  </ion-button>
+</div>

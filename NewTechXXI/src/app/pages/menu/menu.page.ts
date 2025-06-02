@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ApiService } from 'src/app/services/api.service';
-import { ApiEndpoints } from 'src/app/services/api-endpoints.enum';
+import { ApiService } from 'src/app/services/api/api.service';
+import { ApiEndpoints } from 'src/app/services/api/api-endpoints.enum';
 import { AlertController } from '@ionic/angular';
 import { ViewChild } from '@angular/core';
 import { SearchHeaderComponent } from 'src/app/components/search-header/search-header.component';
@@ -25,6 +25,8 @@ export class MenuPage implements OnInit {
     'Suporte Técnico Online',
     'Devoluções'
   ];
+
+  @ViewChild('searchBar') searchBar!: SearchHeaderComponent;
 
   constructor(
     private route: ActivatedRoute,
@@ -59,11 +61,9 @@ export class MenuPage implements OnInit {
 
   abrirServico(servico: string) {
     if (servico === 'Devoluções') {
-      this.router.navigate(['/tabs/menu/devolucoes']);
+      this.router.navigate(['/return']);
     } else {
-      this.router.navigate(['/working-on-it'], {
-        queryParams: { servico }
-      });
+      this.mostrarAlerta('Serviço', `Serviço "${servico}" não implementado nesta versão.`);
     }
   }
 
@@ -75,8 +75,6 @@ export class MenuPage implements OnInit {
     });
     await alert.present();
   }
-
-  @ViewChild('searchBar') searchBar!: SearchHeaderComponent;
 
   collapseSearchBar() {
     this.searchBar.collapseSearch();

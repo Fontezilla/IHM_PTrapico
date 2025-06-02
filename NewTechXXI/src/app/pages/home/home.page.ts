@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { ApiService } from 'src/app/services/api.service';
-import { ApiEndpoints } from 'src/app/services/api-endpoints.enum';
+import { ApiService } from 'src/app/services/api/api.service';
+import { ApiEndpoints } from 'src/app/services/api/api-endpoints.enum';
 import { SearchHeaderComponent } from 'src/app/components/search-header/search-header.component';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { Router } from '@angular/router';
@@ -115,15 +115,15 @@ export class HomePage implements OnInit {
   }
 
   onPromocoesClick() {
-    this.mostrarAlerta('Promoções', 'Funcionalidade de promoções ainda não implementada.');
+    this.mostrarAlerta('Promoções', 'Funcionalidade "Promoções" não implementada nesta versão.');
   }
 
   onFavoritosClick() {
-    this.mostrarAlerta('Favoritos', 'Funcionalidade de favoritos ainda não implementada.');
+    this.mostrarAlerta('Favoritos', 'Funcionalidade "Favoritos" não implementada nesta versão.');
   }
 
   onComprasClick() {
-    this.mostrarAlerta('As Minhas Compras', 'Funcionalidade de histórico de compras ainda não implementada.');
+    this.mostrarAlerta('As Minhas Compras', 'Funcionalidade "As Minhas Compras" não implementada nesta versão.');
   }
 
   irParaServicos(): void {

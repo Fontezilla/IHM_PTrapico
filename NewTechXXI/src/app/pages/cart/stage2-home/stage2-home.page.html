@@ -78,18 +78,23 @@
 
     <h3 class="stage2-subtitle">Escolhe uma morada guardada</h3>
 
-    <div class="stage2-saved-addresses" *ngIf="savedAddresses.length > 0">
+    <div class="etapa2-loja-cities" *ngIf="savedAddresses.length > 0">
       <div 
-        *ngFor="let address of savedAddresses"
-        class="stage2-saved-address"
+        *ngFor="let address of savedAddresses" 
+        class="etapa2-loja-city-option"
         [class.selected]="selectedAddressId === address.id"
         (click)="selectAddress(address.id)">
         
-        <p>{{ address.rua }}</p>
-        <p>{{ address.codigoPostal }} - {{ address.pais }}</p>
+        <div class="etapa2-loja-city-info">
+          <h3 class="etapa2-loja-city-name">{{ address.rua }}</h3>
+          <p class="etapa2-loja-city-address">
+            {{ address.codigo_postal }} - {{ address.cidade }}, {{ address.pais }}
+          </p>
+        </div>
+
+        <ion-icon name="location-outline" class="etapa2-loja-city-icon"></ion-icon>
       </div>
     </div>
-
   </div>
 </ion-content>
 

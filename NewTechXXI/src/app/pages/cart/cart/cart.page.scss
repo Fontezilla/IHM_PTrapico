@@ -2,7 +2,7 @@
   display: flex;
   flex-direction: column;
   min-height: 100%;
-  padding-bottom: 64px; // espaço reservado para a footer bar
+  padding-bottom: 64px; 
 }
 
 // Header
@@ -126,11 +126,16 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 12px;
+  gap: 6px; 
   background: var(--ion-color-background_light);
-  padding: 6px 12px;
+  padding: 2px 8px; 
   border-radius: var(--border-radius-global);
   border: 1px solid var(--ion-color-medium-tint);
+  min-width: unset;
+  width: fit-content;
+  height: 36px; 
+  box-sizing: border-box;
+  margin-left: auto;
 }
 
 .quantity-controls button {
@@ -173,7 +178,6 @@
   font-size: 18px;
   cursor: pointer;
 }
-
 
 // Carrinho vazio
 .cart-empty-wrapper {
@@ -218,7 +222,7 @@
   font-size: 1.05rem;
 }
 
-/* Footer */
+
 .cart-footer-bar {
   position: fixed;
   bottom: 0;
@@ -229,7 +233,7 @@
   border-top: 2px solid var(--ion-color-primary);
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items: stretch;
   box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.05);
   z-index: 100;
   margin: 0;
@@ -238,24 +242,48 @@
 }
 
 .cart-footer-total {
-  font-size: 16px;
-  font-weight: 500;
-  color: var(--ion-color-primary);
-  padding-left: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  padding-left: 0;
+  height: 100%;
+  background: var(--ion-color-background_light);
+  border-right: 2px solid var(--ion-color-primary);
+}
+
+.cart-footer-total-label {
+  font-size: 0.90rem;
+  color: var(--ion-color-primary); 
+  font-weight: 600;
+  margin-bottom: 2px;
+  line-height: 1;
 }
 
 .cart-footer-total-value {
-  margin-left: 6px;
-  font-weight: bold;
-  color: #000;
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--ion-color-primary);
+  font-weight: 700;
+  font-size: 1.4rem;
+  background: var(--ion-color-background_light);
 }
 
 .cart-footer-btn {
   --background: var(--ion-color-primary);
   --color: var(--ion-color-primary-contrast);
-  --border-radius: 0;
+  font-size: 1.18rem;
   font-weight: 700;
+  --border-radius: 0;
   height: 100%;
-  width: 50%;
-  margin-left: auto;
+  flex: 1;
+  margin: 0;
+  box-shadow: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-transform: none;
 }

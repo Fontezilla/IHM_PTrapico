@@ -1,0 +1,54 @@
+<ion-header>
+  <div class="devolucao-header">
+    <ion-icon name="arrow-back-outline" class="back-icon" (click)="voltar()"></ion-icon>
+    <span class="devolucao-title">Detalhes</span>
+  </div>
+</ion-header>
+
+<ion-content class="devolucao-detalhe-content">
+  <div *ngIf="product" class="produto-nome-topo">{{ product.name }}</div>
+
+  <form [formGroup]="devolucaoForm" (ngSubmit)="enviarPedido()" class="devolucao-form">
+    <div class="erro-geral" *ngIf="erroGeral">{{ erroGeral }}</div>
+
+    <div class="motivo-section">
+      <div class="motivo-dropdown-wrapper">
+        <button type="button" class="motivo-dropdown-btn" (click)="mostrarDropdown = !mostrarDropdown">
+          <span *ngIf="!motivoSelecionado">Motivo da Devolução</span>
+          <span *ngIf="motivoSelecionado">{{ motivoSelecionado }}</span>
+          <ion-icon name="chevron-down-outline" class="dropdown-icon"></ion-icon>
+        </button>
+        <div class="motivo-dropdown-list" *ngIf="mostrarDropdown">
+          <div class="motivo-dropdown-item" *ngFor="let motivo of motivosPredefinidos" (click)="motivoSelecionado = motivo; mostrarDropdown = false; devolucaoForm.patchValue({ motivo: motivo }); motivoOutro = ''">
+            {{ motivo }}
+          </div>
+        </div>
+      </div>
+      <input *ngIf="motivoSelecionado === 'Outros'" type="text" class="motivo-descricao-input" placeholder="Descreva o motivo" [(ngModel)]="motivoOutro" [ngModelOptions]="{standalone: true}" name="motivoOutro" required />
+    </div>
+
+    <label class="devolucao-label">
+      <div class="devolucao-card">
+        <img *ngIf="fotoPreview" [src]="fotoPreview" class="foto-preview" />
+        <ion-icon name="image-outline" class="devolucao-icon"></ion-icon>
+        <div class="devolucao-card-label">Imagem do produto</div>
+        <button type="button" class="foto-btn" (click)="abrirFileInput('produto')">Adicionar Foto</button>
+        <input #fileInputProduto type="file" accept="image/*" (change)="onFotoChange($event)" class="devolucao-file-produto" style="display:none;" />
+      </div>
+    </label>
+
+    <label class="devolucao-label">
+      <div class="devolucao-card">
+        <img *ngIf="fotoFaturaPreview" [src]="fotoFaturaPreview" class="foto-preview" />
+        <ion-icon name="receipt-outline" class="devolucao-icon"></ion-icon>
+        <div class="devolucao-card-label">Imagem da fatura</div>
+        <button type="button" class="foto-btn" (click)="abrirFileInput('fatura')">Adicionar Foto</button>
+        <input #fileInputFatura type="file" accept="image/*" (change)="onFotoFaturaChange($event)" class="devolucao-file-fatura" style="display:none;" />
+      </div>
+    </label>
+
+    <button type="submit" class="devolucao-btn" [ngClass]="{'ativo': (motivoSelecionado && (motivoSelecionado !== 'Outros' || motivoOutro)) && devolucaoForm.value.foto && devolucaoForm.value.fotoFatura}">
+      Enviar Pedido
+    </button>
+  </form>
+</ion-content>

@@ -1,0 +1,157 @@
+.return-content {
+  --ion-background-color: var(--ion-color-background_light);
+  --padding-start: 0;
+  --padding-end: 0;
+  padding-bottom: 80px;
+}
+
+.return-header {
+  position: relative; 
+  display: flex;
+  align-items: center;
+  background: var(--ion-color-primary);
+  color: var(--ion-color-primary-contrast);
+  padding: 18px 16px 12px 12px;
+  font-size: 1.2rem;
+  font-weight: bold;
+  width: 100vw;
+  box-sizing: border-box;
+max-width: 420px; /* ou o valor desejado */
+  margin: 0 auto;
+}
+
+.back-icon {
+  color: var(--ion-color-primary-contrast);
+  font-size: 2rem;
+  margin-right: 12px;
+  cursor: pointer;
+  border-radius: 50%;
+  padding: 6px;
+  transition: background 0.2s ease-in-out;
+  z-index: 10; /* Para ficar acima do título absoluto */
+  position: relative;
+}
+
+.back-icon:hover {
+  background: var(--ion-color-primary-shade);
+}
+
+.return-title {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  color: var(--ion-color-primary-contrast);
+  font-size: 1.2rem;
+  font-weight: bold;
+  pointer-events: none; /* Para não interferir com clique no botão voltar */
+}
+
+.recent-section {
+  padding: 18px 16px 0 16px;
+}
+
+.recent-section h2 {
+  font-size: 1.1rem;
+  color: var(--ion-color-primary);
+  margin-bottom: 12px;
+  font-weight: 600;
+}
+
+.recent-products {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 18px;
+  justify-content: center;
+}
+
+.recent-card {
+  background: var(--ion-color-background_light);
+  border-radius: var(--border-radius-global);
+  box-shadow: 0 2px 7px rgba(0, 0, 0, 0.1);
+  padding: 14px 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+  cursor: pointer;
+  transition: box-shadow 0.2s, border 0.2s;
+  height: 170px;
+  border: 2px solid transparent;
+}
+
+.recent-card:hover {
+  box-shadow: 0 4px 16px rgba(var(--ion-color-primary-rgb), 0.15);
+}
+
+.recent-card.selected {
+  border: 2px solid var(--ion-color-primary);
+  box-shadow: 0 4px 16px rgba(var(--ion-color-primary-rgb), 0.25);
+}
+
+.recent-img {
+  width: 90px;
+  height: 90px;
+  object-fit: contain;
+  margin-bottom: 8px;
+  background: var(--ion-color-light);
+  border-radius: 8px;
+}
+
+.recent-info {
+  text-align: center;
+}
+
+.recent-name {
+  font-size: 0.95rem;
+  font-weight: 500;
+  margin-bottom: 4px;
+  color: var(--ion-color-dark);
+}
+
+.recent-price {
+  color: var(--ion-color-primary);
+  font-weight: bold;
+  font-size: 0.98rem;
+}
+
+// Botão Seguinte fixo
+.seguinte-bar {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: var(--ion-color-background_light);
+  padding: 12px 18px 10px 18px;
+  z-index: 100;
+  display: flex;
+  justify-content: center;
+  box-shadow: 0 -2px 8px rgba(var(--ion-color-dark-rgb), 0.1);
+  border-top: 1px solid var(--ion-color-light);
+}
+
+.seguinte-btn {
+  width: 100%;
+  max-width: 420px;
+  background: var(--ion-color-primary);
+  color: var(--ion-color-primary-contrast);
+  border: none;
+  border-radius: var(--border-radius-global);
+  padding: 16px 0;
+  font-size: 1.1rem;
+  font-weight: bold;
+  font-family: var(--font-family);
+  cursor: pointer;
+  transition: background 0.2s, transform 0.1s;
+  margin-bottom: 0;
+  box-shadow: 0 2px 8px rgba(var(--ion-color-primary-rgb), 0.2);
+}
+
+.seguinte-btn:hover {
+  background: var(--ion-color-primary-shade);
+}
+
+.seguinte-btn:active {
+  transform: scale(0.98);
+}

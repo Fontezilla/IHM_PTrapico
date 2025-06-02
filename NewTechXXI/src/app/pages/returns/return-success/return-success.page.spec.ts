@@ -1,12 +1,12 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { Stage2Page } from './stage2.page';
+import { ReturnSuccessPage } from './return-success.page';
 
-describe('Stage2Page', () => {
-  let component: Stage2Page;
-  let fixture: ComponentFixture<Stage2Page>;
+describe('ReturnSuccessPage', () => {
+  let component: ReturnSuccessPage;
+  let fixture: ComponentFixture<ReturnSuccessPage>;
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(Stage2Page);
+    fixture = TestBed.createComponent(ReturnSuccessPage);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

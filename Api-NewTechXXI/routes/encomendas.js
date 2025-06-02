@@ -1,4 +1,3 @@
-// routes/encomendas.js
 const express = require('express');
 const router = express.Router();
 const db = require('../db');
@@ -26,11 +25,11 @@ router.get('/:id', async (req, res) => {
 
 // POST criar nova encomenda
 router.post('/', async (req, res) => {
-  const { utilizador_id, morada_id, estado, total } = req.body;
+  const { utilizador_id, morada_id, estado, total, local_entrega, loja_morada } = req.body;
   try {
     const result = await db.query(
-      'INSERT INTO encomendas (utilizador_id, morada_id, estado, total) VALUES ($1, $2, $3, $4) RETURNING *',
-      [utilizador_id, morada_id, estado || 'Pendente', total]
+      'INSERT INTO encomendas (utilizador_id, morada_id, estado, total, local_entrega, loja_morada) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *',
+      [utilizador_id, morada_id, estado || 'Pendente', total, local_entrega, loja_morada]
     );
     res.status(201).json(result.rows[0]);
   } catch (err) {
@@ -40,11 +39,11 @@ router.post('/', async (req, res) => {
 
 // PUT atualizar encomenda
 router.put('/:id', async (req, res) => {
-  const { utilizador_id, morada_id, estado, total } = req.body;
+  const { utilizador_id, morada_id, estado, total, local_entrega, loja_morada } = req.body;
   try {
     const result = await db.query(
-      'UPDATE encomendas SET utilizador_id = $1, morada_id = $2, estado = $3, total = $4 WHERE id = $5 RETURNING *',
-      [utilizador_id, morada_id, estado, total, req.params.id]
+      'UPDATE encomendas SET utilizador_id = $1, morada_id = $2, estado = $3, total = $4, local_entrega = $5, loja_morada = $6 WHERE id = $7 RETURNING *',
+      [utilizador_id, morada_id, estado, total, local_entrega, loja_morada, req.params.id]
     );
     if (result.rows.length === 0) return res.status(404).json({ erro: 'Encomenda não encontrada' });
     res.json(result.rows[0]);

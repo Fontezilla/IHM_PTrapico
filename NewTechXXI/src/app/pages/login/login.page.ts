@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { Storage } from '@ionic/storage-angular';
-import { ApiService } from 'src/app/services/api.service';
+import { ApiService } from 'src/app/services/api/api.service';
 import { AlertController } from '@ionic/angular';
 
 @Component({

@@ -1,0 +1,28 @@
+<ion-content class="return-content">
+  <div class="return-header">
+    <ion-icon name="arrow-back-outline" class="back-icon" (click)="voltar()"></ion-icon>
+    <span class="return-title">Devoluções</span>
+  </div>
+
+  <!-- Apenas a seção de produtos recentes -->
+  <div class="recent-section">
+    <h2>Artigos Comprados Recentemente</h2>
+    <div class="recent-products">
+      <div class="recent-card" 
+           *ngFor="let product of recentProducts"
+           [class.selected]="selectedProduct?.id === product.id"
+           (click)="selectProduct(product)">
+        <img [src]="product.image" [alt]="product.name" class="recent-img" />
+        <div class="recent-info">
+          <div class="recent-name">{{ product.name }}</div>
+          <div class="recent-price">{{ product.price | currency:'EUR' }}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Botão Seguinte -->
+  <div *ngIf="selectedProduct" class="seguinte-bar">
+    <button class="seguinte-btn" (click)="proceedToDetails()">Seguinte</button>
+  </div>
+</ion-content>

@@ -1,13 +1,62 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>stage2-shop</ion-title>
+<ion-header>
+  <ion-toolbar class="etapa2-loja-header">
+    <ion-buttons slot="start">
+      <ion-button (click)="goBack()">
+        <ion-icon name="arrow-back-outline" class="etapa2-loja-back-icon"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <div class="etapa2-loja-logo">
+      <div class="etapa2-loja-logo-circle">NT</div>
+    </div>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">stage2-shop</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content class="etapa2-loja-content">
+  <!-- Passos do checkout -->
+  <div class="etapa2-loja-steps">
+    <div class="etapa2-loja-step">1</div>
+    <div class="etapa2-loja-step active">2</div>
+    <div class="etapa2-loja-step">3</div>
+    <div class="etapa2-loja-step">4</div>
+  </div>
+
+  <div class="etapa2-loja-divider"></div>
+
+  <h2 class="etapa2-loja-title">Loja NewTechXXI</h2>
+
+  <!-- Pesquisa de cidades -->
+  <div class="etapa2-loja-search">
+    <ion-input 
+      placeholder="Localização" 
+      [(ngModel)]="searchText"
+      (ionInput)="filterCities()"
+      class="etapa2-loja-input">
+    </ion-input>
+    <ion-icon name="search-outline" class="etapa2-loja-search-icon"></ion-icon>
+  </div>
+
+  <!-- Lista de cidades -->
+  <div class="etapa2-loja-cities">
+    <div 
+      *ngFor="let city of filteredCities" 
+      class="etapa2-loja-city-option"
+      [class.selected]="selectedCity === city.name"
+      (click)="selectCity(city)">
+      <div class="etapa2-loja-city-info">
+        <h3 class="etapa2-loja-city-name">{{ city.name }}</h3>
+        <p class="etapa2-loja-city-address">{{ city.address }}</p>
+      </div>
+      <ion-icon name="location-outline" class="etapa2-loja-city-icon"></ion-icon>
+    </div>
+  </div>
 </ion-content>
+
+<!-- Footer fixo com total e botão -->
+<div class="etapa2-loja-footer-bar">
+  <div class="etapa2-loja-footer-total">
+    €{{ total | number:'1.2-2' }}
+  </div>
+  <ion-button expand="block" class="etapa2-loja-footer-btn" (click)="continuar()">
+    Continuar
+  </ion-button>
+</div>

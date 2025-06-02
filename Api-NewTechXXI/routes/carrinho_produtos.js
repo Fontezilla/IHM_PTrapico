@@ -50,9 +50,6 @@ router.get('/detalhes/:id', async (req, res) => {
   }
 });
 
-
-
-
 // POST adicionar produto ao carrinho
 router.post('/', async (req, res) => {
   const { carrinho_id, produto_id, quantidade } = req.body;

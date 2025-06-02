@@ -81,8 +81,8 @@ const routes: Routes = [
     loadChildren: () => import('./pages/cart/stage1/stage1.module').then( m => m.Stage1PageModule)
   },
   {
-    path: 'stage2',
-    loadChildren: () => import('./pages/cart/stage2/stage2.module').then( m => m.Stage2PageModule)
+    path: 'stage2-home',
+    loadChildren: () => import('./pages/cart/stage2-home/stage2-home.module').then( m => m.Stage2PageModule)
   },
   {
     path: 'stage3',
@@ -99,6 +99,18 @@ const routes: Routes = [
   {
     path: 'finish',
     loadChildren: () => import('./pages/cart/finish/finish.module').then( m => m.FinishPageModule)
+  },
+  {
+    path: 'return',
+    loadChildren: () => import('./pages/returns/return/return.module').then( m => m.ReturnPageModule)
+  },
+  {
+    path: 'return-details',
+    loadChildren: () => import('./pages/returns/return-details/return-details.module').then( m => m.ReturnDetailsPageModule)
+  },
+  {
+    path: 'return-success',
+    loadChildren: () => import('./pages/returns/return-success/return-success.module').then( m => m.ReturnSuccessPageModule)
   },
   
 ];
