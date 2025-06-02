@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { CheckoutService } from 'src/app/services/checkout-service/checkout-service.service';
+import { NavController } from '@ionic/angular';
 
 @Component({
   selector: 'app-stage2-shop',
@@ -36,7 +37,8 @@ export class Stage2ShopPage implements OnInit {
 
   constructor(
     private router: Router,
-    private checkoutService: CheckoutService
+    private checkoutService: CheckoutService,
+    private navCtrl: NavController
   ) {}
 
   ngOnInit() {
@@ -69,7 +71,7 @@ export class Stage2ShopPage implements OnInit {
   }
 
   // Voltar à etapa anterior
-  goBack() {
-    this.router.navigateByUrl('/stage1');
+  voltar() {
+    this.navCtrl.back();
   }
 }

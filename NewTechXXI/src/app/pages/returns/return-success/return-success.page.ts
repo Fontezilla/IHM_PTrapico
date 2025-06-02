@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
+import { NavController } from '@ionic/angular';
 
 @Component({
   selector: 'app-return-success',
@@ -8,9 +8,11 @@ import { Router } from '@angular/router';
   standalone: false,
 })
 export class ReturnSuccessPage {
-  constructor(private router: Router) {}
+  constructor(
+    private navCtrl: NavController
+  ) {}
 
   voltar() {
-    this.router.navigate(['/return']);
+    this.navCtrl.back();
   }
 }

@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ApiService } from 'src/app/services/api/api.service';
 import { ApiEndpoints } from 'src/app/services/api/api-endpoints.enum';
+import { NavController } from '@ionic/angular';
 
 @Component({
   selector: 'app-return-details',
@@ -36,7 +37,8 @@ export class ReturnDetailsPage implements OnInit {
     private fb: FormBuilder,
     private router: Router,
     private route: ActivatedRoute,
-    private apiService: ApiService
+    private apiService: ApiService,
+    private navCtrl: NavController,
   ) {
     this.devolucaoForm = this.fb.group({
       foto: [null, Validators.required],
@@ -121,6 +123,6 @@ export class ReturnDetailsPage implements OnInit {
   }
 
   voltar() {
-    this.router.navigate(['return']);
+    this.navCtrl.back();
   }
 }

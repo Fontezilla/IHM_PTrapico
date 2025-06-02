@@ -40,10 +40,6 @@ const routes: Routes = [
     loadChildren: () => import('./pages/notifications/notifications.module').then( m => m.NotificationsPageModule)
   },
   {
-    path: 'wip',
-    loadChildren: () => import('./pages/wip/wip.module').then( m => m.WipPageModule)
-  },
-  {
     path: 'splash',
     loadChildren: () => import('./pages/splash/splash.module').then( m => m.SplashPageModule)
   },

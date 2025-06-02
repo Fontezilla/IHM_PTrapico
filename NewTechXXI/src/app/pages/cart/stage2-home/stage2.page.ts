@@ -4,7 +4,7 @@ import { ApiService } from 'src/app/services/api/api.service';
 import { ApiEndpoints } from 'src/app/services/api/api-endpoints.enum';
 import { Storage } from '@ionic/storage-angular';
 import { CheckoutService } from 'src/app/services/checkout-service/checkout-service.service';
-import { ToastController } from '@ionic/angular';
+import { NavController, ToastController } from '@ionic/angular';
 
 @Component({
   selector: 'app-stage2-home',
@@ -32,7 +32,8 @@ export class Stage2HomePage implements OnInit {
     private api: ApiService,
     private storage: Storage,
     private checkoutService: CheckoutService,
-    private toastController: ToastController
+    private toastController: ToastController,
+    private navCtrl: NavController
   ) {}
 
   async ngOnInit() {
@@ -136,6 +137,6 @@ export class Stage2HomePage implements OnInit {
 
   // Voltar para a etapa anterior
   goBack() {
-    this.router.navigateByUrl('/stage1');
+    this.navCtrl.back();
   }
 }

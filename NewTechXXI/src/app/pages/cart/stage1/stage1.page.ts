@@ -4,6 +4,7 @@ import { ApiService } from 'src/app/services/api/api.service';
 import { ApiEndpoints } from 'src/app/services/api/api-endpoints.enum';
 import { Storage } from '@ionic/storage-angular';
 import { CheckoutService, ProdutoCarrinho } from 'src/app/services/checkout-service/checkout-service.service';
+import { NavController } from '@ionic/angular';
 
 @Component({
   selector: 'app-stage1',
@@ -19,7 +20,8 @@ export class Stage1Page implements OnInit {
     private router: Router,
     private api: ApiService,
     private storage: Storage,
-    private checkoutService: CheckoutService
+    private checkoutService: CheckoutService,
+    private navCtrl: NavController
   ) {}
 
   ngOnInit() {}
@@ -89,6 +91,6 @@ export class Stage1Page implements OnInit {
 
   // Botão de voltar (ícone topo)
   goBack() {
-    this.router.navigateByUrl('/tabs/cart');
+    this.navCtrl.back();
   }
 }

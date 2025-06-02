@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
 import { CheckoutService } from 'src/app/services/checkout-service/checkout-service.service';
+import { NavController } from '@ionic/angular';
 
 @Component({
   selector: 'app-stage3',
@@ -26,7 +27,8 @@ export class Stage3Page {
   constructor(
     private router: Router,
     private alertController: AlertController,
-    private checkoutService: CheckoutService
+    private checkoutService: CheckoutService,
+    private navCtrl: NavController
   ) {}
 
   ionViewWillEnter() {
@@ -41,10 +43,6 @@ export class Stage3Page {
       validade: '',
       cvv: ''
     };
-  }
-
-  goBack() {
-    this.router.navigate(['/stage2-home']);
   }
 
   selectPayment(metodo: string) {
@@ -104,5 +102,9 @@ export class Stage3Page {
   stringifyCartao(): string {
     const { nomeTitular, numeroCartao, validade, cvv } = this.cartao;
     return `${nomeTitular};${numeroCartao};${validade};${cvv}`;
+  }
+
+  voltar() {
+    this.navCtrl.back();
   }
 }

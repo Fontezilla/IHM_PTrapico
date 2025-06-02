@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { Location } from '@angular/common';
 import { ApiService } from 'src/app/services/api/api.service';
 import { ApiEndpoints } from 'src/app/services/api/api-endpoints.enum';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
+import { NavController } from '@ionic/angular';
 
 interface Product {
   id: number;
@@ -26,7 +26,7 @@ export class ReturnPage implements OnInit {
     private apiService: ApiService,
     private sanitizer: DomSanitizer,
     private router: Router,
-    private location: Location
+    private navCtrl: NavController
   ) {}
 
   ngOnInit() {
@@ -76,6 +76,6 @@ export class ReturnPage implements OnInit {
   }
 
   voltar() {
-    this.location.back();
+    this.navCtrl.back();
   }
 }

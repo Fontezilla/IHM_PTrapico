@@ -193,7 +193,7 @@ export class Stage4Page {
     await toast.present();
   }
 
-  goBack() {
+  voltar() {
     this.navCtrl.back();
   }
 }
