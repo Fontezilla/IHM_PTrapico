@@ -1,0 +1,110 @@
+<ion-header>
+  <ion-toolbar class="stage2-header">
+    <ion-buttons slot="start">
+      <ion-button (click)="goBack()">
+        <ion-icon name="arrow-back-outline" class="stage2-back-icon"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+
+    <!-- Logotipo NT centrado -->
+    <div class="stage2-logo">
+      <div class="stage2-logo-circle">NT</div>
+    </div>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="stage2-content">
+  <!-- Passos do checkout (1 a 4), com o passo 2 ativo -->
+  <div class="stage2-steps">
+    <div class="stage2-step">1</div>
+    <div class="stage2-step active">2</div>
+    <div class="stage2-step">3</div>
+    <div class="stage2-step">4</div>
+  </div>
+
+  <div class="stage2-divider"></div>
+
+  <h2 class="stage2-title">Morada</h2>
+
+  <!-- Formulário para introduzir nova morada -->
+  <div class="stage2-form">
+    <div class="stage2-input-group">
+      <ion-input 
+        label="Rua"
+        labelPlacement="floating"
+        placeholder="Ex: Rua das Flores, 123" 
+        [(ngModel)]="morada.rua"
+        (ionInput)="checkFormValidity()"
+        class="stage2-input"
+        required>
+      </ion-input>
+    </div>
+
+    <div class="stage2-input-group">
+      <ion-input 
+        label="Código Postal"
+        labelPlacement="floating"
+        placeholder="Ex: 1000-001" 
+        [(ngModel)]="morada.codigoPostal"
+        (ionInput)="checkFormValidity()"
+        class="stage2-input"
+        required>
+      </ion-input>
+    </div>
+
+    <div class="stage2-input-group">
+      <ion-input 
+        label="Cidade"
+        labelPlacement="floating"
+        placeholder="Ex: Lisboa" 
+        [(ngModel)]="morada.cidade"
+        (ionInput)="checkFormValidity()"
+        class="stage2-input"
+        required>
+      </ion-input>
+    </div>
+
+    <div class="stage2-input-group">
+      <ion-input 
+        label="País"
+        labelPlacement="floating"
+        placeholder="Ex: Portugal" 
+        [(ngModel)]="morada.pais"
+        (ionInput)="checkFormValidity()"
+        class="stage2-input"
+        required>
+      </ion-input>
+    </div>
+
+    <h3 class="stage2-subtitle">Escolhe uma morada guardada</h3>
+
+    <div class="stage2-saved-addresses" *ngIf="savedAddresses.length > 0">
+      <div 
+        *ngFor="let address of savedAddresses"
+        class="stage2-saved-address"
+        [class.selected]="selectedAddressId === address.id"
+        (click)="selectAddress(address.id)">
+        
+        <p>{{ address.rua }}</p>
+        <p>{{ address.codigoPostal }} - {{ address.pais }}</p>
+      </div>
+    </div>
+
+  </div>
+</ion-content>
+
+<!-- Barra fixa com total e botão continuar -->
+<div class="stage2-footer-bar">
+  <div class="stage2-footer-total">
+    €{{ total | number:'1.2-2' }}
+  </div>
+
+  <!-- Botão só fica ativo quando o formulário estiver válido -->
+  <ion-button 
+    expand="block" 
+    class="stage2-footer-btn" 
+    (click)="continuar()"
+    [disabled]="!isFormValid">
+    Continuar
+  </ion-button>
+</div>

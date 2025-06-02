@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Storage } from '@ionic/storage-angular';
+import { AlertController } from '@ionic/angular'; // <-- Adicionado
 
 @Component({
   selector: 'app-account_settings',
@@ -26,7 +27,8 @@ export class AccountSettingsPage  implements OnInit {
 
   constructor(
     private router: Router,
-    private storage: Storage
+    private storage: Storage,
+    private alertCtrl: AlertController 
   ) {}
 
   async ngOnInit() {
@@ -48,7 +50,16 @@ export class AccountSettingsPage  implements OnInit {
     this.router.navigate(['/login'], { replaceUrl: true });
   }
 
-  handleOptionClick(option: string) {
+  async mostrarAlerta(titulo: string, mensagem: string) {
+    const alert = await this.alertCtrl.create({
+      header: titulo,
+      message: mensagem,
+      buttons: ['OK']
+    });
+    await alert.present();
+  }
+
+  handleOptionClick(option: string, event?: Event) {
     switch (option) {
       case 'Notificações':
         this.abrirNotificacoes();
@@ -57,7 +68,36 @@ export class AccountSettingsPage  implements OnInit {
         this.logout();
         break;
       default:
-        this.navigateToWorkingOnIt();
+        let mensagem = '';
+        switch (option) {
+          case 'Ver conta':
+            mensagem = 'Funcionalidade de ver conta não implementada nesta versão.';
+            break;
+          case 'As minhas Compras':
+            mensagem = 'Funcionalidade de compras não implementada nesta versão.';
+            break;
+          case 'Os meus Serviços':
+            mensagem = 'Funcionalidade de serviços não implementada nesta versão.';
+            break;
+          case 'Dados Pessoais':
+            mensagem = 'Funcionalidade de dados pessoais não implementada nesta versão.';
+            break;
+          case 'Contas associadas':
+            mensagem = 'Funcionalidade de contas associadas não implementada nesta versão.';
+            break;
+          case 'Gestão de Moradas':
+            mensagem = 'Funcionalidade de gestão de moradas não implementada nesta versão.';
+            break;
+          case 'Preferencias de Comunicação':
+            mensagem = 'Funcionalidade de preferências de comunicação não implementada nesta versão.';
+            break;
+          case 'Gestão de Cookies':
+            mensagem = 'Funcionalidade de gestão de cookies não implementada nesta versão.';
+            break;
+          default:
+            mensagem = 'Funcionalidade não implementada nesta versão.';
+        }
+        this.mostrarAlerta(option, mensagem);
         break;
     }
   }

@@ -1,0 +1,124 @@
+<ion-content class="page-content">
+  <ion-header translucent>
+    <app-search-header
+      #searchBar
+      [modoVoltar]="true"
+      (voltar)="voltar()"
+      (expandedChange)="searchExpanded = $event">
+    </app-search-header>
+  </ion-header>
+  
+  <ion-content>
+    <div class="header-gap"></div>
+
+    <div
+      class="global-backdrop"
+      *ngIf="searchExpanded"
+      (click)="collapseSearchBar()">
+    </div>
+
+    <ng-container *ngIf="product; else notFound">
+
+      <!-- DETALHES -->
+      <ion-card class="card-detalhes">
+        <ion-card-header>
+          <ion-card-title>{{ product!.name || product!.nome }}</ion-card-title>
+        </ion-card-header>
+
+        <!-- wrapper → permite centralizar e limitar a 75 % -->
+        <div class="imagem-wrapper" *ngIf="product!.image">
+          <img
+            [src]="product!.image"
+            [alt]="product!.name || product!.nome" />
+        </div>
+
+        <ion-card-content>
+          <h2>Descrição</h2>
+          <p>{{ product!.description || product!.descricao }}</p>
+
+          <hr class="divider" />
+
+          <h2>Características</h2>
+          <p><strong>Marca:</strong> {{ product!.brand || product!.marca }}</p>
+          <p><strong>Categoria:</strong> {{ product!.categoryName }}</p>
+          <p><strong>Stock:</strong> {{ product!.stock }} unidades</p>
+        </ion-card-content>
+      </ion-card>
+
+      <!-- AVALIAÇÕES -->
+      <ion-card class="card-avaliacoes">
+        <ion-card-header>
+          <ion-card-title>Avaliações</ion-card-title>
+        </ion-card-header>
+
+        <ion-card-content>
+          <div class="rating-summary" *ngIf="product!.reviews !== undefined">
+            <div class="average-rating">{{ getAverageRating() | number:'1.1-1' }}</div>
+            <div class="stars">
+              <ion-icon *ngFor="let star of [1,2,3,4,5]"
+                [name]="star <= getAverageRating() ? 'star'
+                  : (star - getAverageRating() < 1 ? 'star-half' : 'star-outline')">
+              </ion-icon>
+            </div>
+            <div class="total-reviews">
+              Baseado em {{ product!.reviews!.length }} avaliação(ões)
+            </div>
+          </div>
+
+          <div class="reviews-scrollbox" *ngIf="product!.reviews?.length">
+            <div class="review-item" *ngFor="let r of product!.reviews">
+              <div class="review-header">
+                <div class="review-meta">
+                  <span class="reviewer-name">{{ r.userName }}</span>
+                  <span class="review-date">{{ r.date | date:'dd/MM/yyyy' }}</span>
+                </div>
+                <div class="review-stars">
+                  <ion-icon *ngFor="let s of [1,2,3,4,5]"
+                    [name]="r.rating >= s ? 'star'
+                      : (r.rating >= s - 0.5 ? 'star-half' : 'star-outline')">
+                  </ion-icon>
+                </div>
+              </div>
+              <p class="review-content">{{ r.comment }}</p>
+            </div>
+          </div>
+
+          <div *ngIf="product!.reviews && product!.reviews.length === 0" class="no-reviews">
+            Este produto ainda não possui avaliações.
+          </div>
+
+          <ion-button expand="block" fill="outline" (click)="escreverAvaliacao()">
+            <ion-icon slot="start" name="create-outline"></ion-icon>
+            Escrever Avaliação
+          </ion-button>
+        </ion-card-content>
+      </ion-card>
+
+    </ng-container>
+    <ng-template #notFound>
+      <div class="product-not-found">
+        <p>Produto não encontrado.</p>
+        <ion-button (click)="voltar()">Voltar</ion-button>
+      </div>
+    </ng-template>
+  </ion-content>
+</ion-content>
+
+<!-- RODAPÉ -->
+<ion-footer class="footer-bar">
+  <ion-toolbar>
+    <ion-grid>
+      <ion-row>
+        <ion-col size="6" class="footer-price">
+          {{ (product?.price || product?.preco) | currency:'EUR' }}
+        </ion-col>
+        <ion-col size="6">
+          <ion-button expand="block" (click)="adicionarAoCarrinho()">
+            <ion-icon slot="start" name="cart-outline"></ion-icon>
+            Adicionar
+          </ion-button>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </ion-toolbar>
+</ion-footer>

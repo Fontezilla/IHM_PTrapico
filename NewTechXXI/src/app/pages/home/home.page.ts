@@ -1,14 +1,16 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ApiService } from 'src/app/services/api.service';
 import { ApiEndpoints } from 'src/app/services/api-endpoints.enum';
-import { ViewChild } from '@angular/core';
 import { SearchHeaderComponent } from 'src/app/components/search-header/search-header.component';
+import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
+import { Router } from '@angular/router';
+import { AlertController } from '@ionic/angular';
 
 interface Product {
   id: number;
   name: string;
   price: number;
-  image: string;
+  image: SafeUrl;
 }
 
 @Component({
@@ -22,16 +24,21 @@ export class HomePage implements OnInit {
   recentProducts: Product[] = [];
   searchExpanded = false;
 
-  constructor(private api: ApiService) {}
+  @ViewChild('searchBar') searchBar!: SearchHeaderComponent;
+
+  constructor(
+    private api: ApiService,
+    private sanitizer: DomSanitizer,
+    private router: Router,
+    private alertController: AlertController
+  ) {}
 
   ngOnInit(): void {
     this.loadProducts();
   }
 
-  @ViewChild('searchBar') searchBar!: SearchHeaderComponent;
-
   collapseSearchBar() {
-    this.searchBar.collapseSearch();
+    this.searchBar?.collapseSearch();
   }
 
   private loadProducts(): void {
@@ -44,11 +51,18 @@ export class HomePage implements OnInit {
           id: p.id,
           name: p.name ?? p.nome,
           price: p.price ?? p.preco,
-          image: ''
+          image: this.sanitizer.bypassSecurityTrustUrl('assets/images/no_image.jpg')
         };
-        this.api.getImageBlob(ApiEndpoints.PRODUTOS, p.id).subscribe(blob => {
-          prod.image = URL.createObjectURL(blob);
+
+        this.api.getImageBlob(ApiEndpoints.PRODUTOS, p.id).subscribe({
+          next: blob => {
+            if (blob && blob.size > 0) {
+              prod.image = this.sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(blob));
+            }
+          },
+          error: () => {}
         });
+
         this.featuredProducts.push(prod);
       });
     });
@@ -62,11 +76,18 @@ export class HomePage implements OnInit {
           id: p.id,
           name: p.name ?? p.nome,
           price: p.price ?? p.preco,
-          image: ''
+          image: this.sanitizer.bypassSecurityTrustUrl('assets/images/no_image.jpg')
         };
-        this.api.getImageBlob(ApiEndpoints.PRODUTOS, p.id).subscribe(blob => {
-          prod.image = URL.createObjectURL(blob);
+
+        this.api.getImageBlob(ApiEndpoints.PRODUTOS, p.id).subscribe({
+          next: blob => {
+            if (blob && blob.size > 0) {
+              prod.image = this.sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(blob));
+            }
+          },
+          error: () => {}
         });
+
         this.recentProducts.push(prod);
       });
     });
@@ -79,13 +100,34 @@ export class HomePage implements OnInit {
       .map(({ value }) => value);
   }
 
-
   navigateToWorkingOnIt(): void {
     console.log('Funcionalidade ainda não implementada');
   }
 
+  async mostrarAlerta(titulo: string, mensagem: string): Promise<void> {
+    const alert = await this.alertController.create({
+      header: titulo,
+      message: mensagem,
+      buttons: ['OK']
+    });
+
+    await alert.present();
+  }
+
+  onPromocoesClick() {
+    this.mostrarAlerta('Promoções', 'Funcionalidade de promoções ainda não implementada.');
+  }
+
+  onFavoritosClick() {
+    this.mostrarAlerta('Favoritos', 'Funcionalidade de favoritos ainda não implementada.');
+  }
+
+  onComprasClick() {
+    this.mostrarAlerta('As Minhas Compras', 'Funcionalidade de histórico de compras ainda não implementada.');
+  }
+
   irParaServicos(): void {
-    console.log('Ir para serviços');
+    this.router.navigate(['/tabs/menu'], { queryParams: { tab: 'servicos' } });
   }
 
   animarLogo(event: Event): void {

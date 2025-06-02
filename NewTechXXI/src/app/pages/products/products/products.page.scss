@@ -1,18 +1,3 @@
-/* ===== Container e Estrutura Geral ===== */
-.products-container {
-  padding-top: 20%;
-}
-
-.produtos-content {
-  --ion-background-color: var(--ion-color-background_light);
-  font-family: var(--font-family);
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-  position: relative;
-}
-
-/* ===== Header (voltar + título + pesquisa) ===== */
 .produto-header {
   display: flex;
   align-items: center;
@@ -22,10 +7,6 @@
   box-shadow: 0 2px 8px rgba(var(--ion-color-primary-rgb), 0.15);
   border-bottom-left-radius: var(--border-radius-global);
   border-bottom-right-radius: var(--border-radius-global);
-}
-
-.header-gap {
-  height: 18px;
 }
 
 .produto-title {
@@ -212,9 +193,10 @@
   display: flex;
   gap: 8px;
 }
+
 .filtro-preco-inputs input {
   width: 70px;
-  border: 1px solid #ddd;
+  border: 1px solid var(--ion-color-medium-tint);
   border-radius: 6px;
   padding: 4px 8px;
   font-size: 1rem;
@@ -369,6 +351,7 @@
   text-align: left;
   display: -webkit-box;
   -webkit-line-clamp: 2;
+  line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
   text-overflow: ellipsis;

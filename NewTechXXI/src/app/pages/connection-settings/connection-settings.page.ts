@@ -19,7 +19,7 @@ export class ConnectionSettingsPage implements OnInit {
   ) {}
 
   async ngOnInit() {
-    await this.storage.create(); // obrigatório antes de usar o storage
+    await this.storage.create();
     const savedUrl = await this.storage.get('apiUrl');
     if (savedUrl) {
       this.apiUrl = savedUrl;
@@ -47,6 +47,6 @@ export class ConnectionSettingsPage implements OnInit {
     }
 
     await this.storage.set('apiUrl', this.apiUrl);
-    alert('URL guardado com sucesso!');
+    this.router.navigateByUrl('/connection-check', { replaceUrl: true });
   }
 }

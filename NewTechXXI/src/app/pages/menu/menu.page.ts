@@ -54,12 +54,7 @@ export class MenuPage implements OnInit {
   }
 
   abrirCategoria(categoria: any) {
-    this.router.navigate(['/tabs/menu/categoria'], {
-      queryParams: {
-        id: categoria.id,
-        nome: categoria.nome
-      }
-    });
+    this.router.navigate(['/products', categoria.id]);
   }
 
   abrirServico(servico: string) {

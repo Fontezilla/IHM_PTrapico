@@ -109,3 +109,26 @@ ion-card.custom-card ion-card-content {
   box-sizing: border-box;
   color: white;
 }
+
+.header-gap {
+  height: 80px;
+}
+
+.page-content {
+  --ion-background-color: var(--ion-color-background_light);
+  font-family: var(--font-family);
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  position: relative;
+}
+
+.global-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.28);
+  z-index: 900;
+}

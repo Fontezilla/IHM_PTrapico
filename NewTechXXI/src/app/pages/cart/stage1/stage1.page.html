@@ -1,0 +1,66 @@
+<ion-header>
+  <ion-toolbar class="stage1-header">
+    <ion-buttons slot="start">
+      <ion-button (click)="goBack()">
+        <ion-icon name="arrow-back-outline" class="stage1-back-icon"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    
+    <!-- Logotipo NT no topo -->
+    <div class="stage1-logo">
+      <div class="stage1-logo-circle">NT</div>
+    </div>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="stage1-content">
+  <!-- Passos do checkout (1 a 4) -->
+  <div class="stage1-steps">
+    <div class="stage1-step active">1</div>
+    <div class="stage1-step">2</div>
+    <div class="stage1-step">3</div>
+    <div class="stage1-step">4</div>
+  </div>
+
+  <!-- Linha divisória -->
+  <div class="stage1-divider"></div>
+
+  <!-- Título da secção -->
+  <h2 class="stage1-title">Local de Entrega</h2>
+
+  <!-- Opções de entrega: loja ou casa -->
+  <div class="stage1-delivery-options">
+    
+    <!-- Opção: Levanta na loja -->
+    <div 
+      class="stage1-delivery-option" 
+      [class.selected]="selectedDelivery === 'store'" 
+      (click)="selectDelivery('store')">
+      <ion-icon name="storefront-outline" class="stage1-delivery-icon"></ion-icon>
+      <span class="stage1-delivery-text">Levanta na loja</span>
+    </div>
+
+    <!-- Opção: Recebe em casa -->
+    <div 
+      class="stage1-delivery-option" 
+      [class.selected]="selectedDelivery === 'home'" 
+      (click)="selectDelivery('home')">
+      <ion-icon name="home-outline" class="stage1-delivery-icon"></ion-icon>
+      <span class="stage1-delivery-text">Recebe em casa</span>
+    </div>
+
+  </div>
+</ion-content>
+
+<!-- Barra fixa no fundo com total e botão de continuar -->
+<div class="stage1-footer-bar">
+  <!-- Total formatado -->
+  <div class="stage1-footer-total">
+    €{{ total | number:'1.2-2' }}
+  </div>
+
+  <!-- Botão para avançar para a próxima etapa -->
+  <ion-button expand="block" class="stage1-footer-btn" (click)="continuar()">
+    Continuar
+  </ion-button>
+</div>

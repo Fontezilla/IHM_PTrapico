@@ -24,6 +24,19 @@ router.get('/:id', async (req, res) => {
   }
 });
 
+// GET carrinhos por utilizador_id
+router.get('/utilizador/:id', async (req, res) => {
+  try {
+    const result = await db.query(
+      'SELECT * FROM carrinhos WHERE utilizador_id = $1 ORDER BY id LIMIT 1',
+      [req.params.id]
+    );
+    res.json(result.rows); // devolve um array (vazio ou com um carrinho)
+  } catch (err) {
+    res.status(500).json({ erro: err.message });
+  }
+});
+
 // POST criar carrinho (1 por utilizador)
 router.post('/', async (req, res) => {
   const { utilizador_id } = req.body;

@@ -67,6 +67,39 @@ const routes: Routes = [
     path: 'products',
     loadChildren: () => import('./pages/products/products/products.module').then( m => m.ProductsPageModule)
   },
+  {
+    path: 'product-details/:id',
+    loadChildren: () =>
+      import('./pages/products/product-details/product-details.module').then(m => m.ProductDetailsPageModule)
+  },
+  {
+    path: 'product-details',
+    loadChildren: () => import('./pages/products/product-details/product-details.module').then( m => m.ProductDetailsPageModule)
+  },
+  {
+    path: 'stage1',
+    loadChildren: () => import('./pages/cart/stage1/stage1.module').then( m => m.Stage1PageModule)
+  },
+  {
+    path: 'stage2',
+    loadChildren: () => import('./pages/cart/stage2/stage2.module').then( m => m.Stage2PageModule)
+  },
+  {
+    path: 'stage3',
+    loadChildren: () => import('./pages/cart/stage3/stage3.module').then( m => m.Stage3PageModule)
+  },
+  {
+    path: 'stage4',
+    loadChildren: () => import('./pages/cart/stage4/stage4.module').then( m => m.Stage4PageModule)
+  },
+  {
+    path: 'stage2-shop',
+    loadChildren: () => import('./pages/cart/stage2-shop/stage2-shop.module').then( m => m.Stage2ShopPageModule)
+  },
+  {
+    path: 'finish',
+    loadChildren: () => import('./pages/cart/finish/finish.module').then( m => m.FinishPageModule)
+  },
   
 ];
 @NgModule({

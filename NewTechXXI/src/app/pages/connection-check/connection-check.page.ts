@@ -22,7 +22,7 @@ export class ConnectionCheckPage implements OnInit {
     const apiUrl = await this.storage.get('apiUrl');
 
     if (!apiUrl) {
-      this.router.navigateByUrl('/settings', { replaceUrl: true });
+      this.router.navigateByUrl('/connection-settings', { replaceUrl: true });
       return;
     }
 

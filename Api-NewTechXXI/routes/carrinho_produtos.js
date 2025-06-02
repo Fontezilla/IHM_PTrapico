@@ -24,6 +24,35 @@ router.get('/:id', async (req, res) => {
   }
 });
 
+// GET produtos de um único carrinho por carrinho_id
+router.get('/detalhes/:id', async (req, res) => {
+  const carrinhoId = req.params.id;
+
+  try {
+    const result = await db.query(`
+      SELECT 
+        cp.id,
+        cp.carrinho_id,
+        cp.produto_id,
+        cp.quantidade,
+        p.nome,
+        p.preco,
+        p.imagem
+      FROM carrinho_produtos cp
+      JOIN produtos p ON cp.produto_id = p.id
+      WHERE cp.carrinho_id = $1
+      ORDER BY cp.id
+    `, [carrinhoId]);
+
+    res.json(result.rows);
+  } catch (err) {
+    res.status(500).json({ erro: err.message });
+  }
+});
+
+
+
+
 // POST adicionar produto ao carrinho
 router.post('/', async (req, res) => {
   const { carrinho_id, produto_id, quantidade } = req.body;

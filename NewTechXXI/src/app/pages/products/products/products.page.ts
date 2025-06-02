@@ -1,9 +1,11 @@
-import { Component, OnInit }            from '@angular/core';
-import { ActivatedRoute }               from '@angular/router';
-import { DomSanitizer }                 from '@angular/platform-browser';
-import { ApiService }                   from 'src/app/services/api.service';
-import { ApiEndpoints }                 from 'src/app/services/api-endpoints.enum';
-import { Location }                     from '@angular/common';
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { DomSanitizer } from '@angular/platform-browser';
+import { ApiService } from 'src/app/services/api.service';
+import { ApiEndpoints } from 'src/app/services/api-endpoints.enum';
+import { Location } from '@angular/common';
+import { ViewChild } from '@angular/core';
+import { SearchHeaderComponent } from 'src/app/components/search-header/search-header.component';
 
 export interface Product {
   id: number;
@@ -29,52 +31,55 @@ interface Category {
 }
 
 @Component({
-  selector:    'app-produtos-por-categoria',
+  selector: 'app-produtos-por-categoria',
   templateUrl: './products.page.html',
-  styleUrls:   ['./products.page.scss'],
-  standalone:  false
+  styleUrls: ['./products.page.scss'],
+  standalone: false
 })
 export class ProductsPage implements OnInit {
 
-  nomeCategoria     = 'Produtos';
-  termoPesquisa     = '';
+  nomeCategoria = 'Produtos';
+  termoPesquisa = '';
 
-  allProducts:      Product[] = [];
+  allProducts: Product[] = [];
   filteredProducts: Product[] = [];
 
   currentPage: number = 1;
-  pageSize:    number = 12;
+  pageSize: number = 12;
 
-  pesquisaAberta      = false;
-  filtroMenuAberto    = false;
-  ordenarMenuAberto   = false;
+  pesquisaAberta = false;
+  filtroMenuAberto = false;
+  ordenarMenuAberto = false;
 
-  filtroMarcas:     string[]      = [];
-  marcasDisponiveis:string[]      = [];
-  filtroPrecoMin:   number | null = null;
-  filtroPrecoMax:   number | null = null;
-  filtroAvaliacao:  number | null = null;
+  filtroMarcas: string[] = [];
+  marcasDisponiveis: string[] = [];
+  filtroPrecoMin: number | null = null;
+  filtroPrecoMax: number | null = null;
+  filtroAvaliacao: number | null = null;
+
+  searchExpanded: boolean = false;
 
   selectedOrder = 'relevancia';
   opcoesOrdenacao = [
-    { label: 'Relevância',       value: 'relevancia'      },
-    { label: 'Melhor avaliação', value: 'melhor-avaliacao'},
-    { label: 'Mais vendidos',    value: 'mais-vendidos'   },
-    { label: 'Melhor desconto',  value: 'melhor-desconto' },
-    { label: 'Preço mais alto',  value: 'preco-desc'      },
-    { label: 'Preço mais baixo', value: 'preco-asc'       }
+    { label: 'Relevância', value: 'relevancia' },
+    { label: 'Melhor avaliação', value: 'melhor-avaliacao' },
+    { label: 'Mais vendidos', value: 'mais-vendidos' },
+    { label: 'Melhor desconto', value: 'melhor-desconto' },
+    { label: 'Preço mais alto', value: 'preco-desc' },
+    { label: 'Preço mais baixo', value: 'preco-asc' }
   ];
 
   constructor(
-    private route:      ActivatedRoute,
+    private route: ActivatedRoute,
     private apiService: ApiService,
-    private sanitizer:  DomSanitizer,
-    private location:   Location
+    private sanitizer: DomSanitizer,
+    private location: Location
   ) {}
 
   ngOnInit(): void {
     this.route.paramMap.subscribe(params => {
       const categoriaId = params.get('id');
+      console.log('[DEBUG] Categoria ID:', categoriaId);
       if (categoriaId) {
         this.carregarProdutosPorCategoriaId(categoriaId);
       }
@@ -82,6 +87,7 @@ export class ProductsPage implements OnInit {
 
     this.route.queryParams.subscribe(params => {
       const nome = params['nome'];
+      console.log('[DEBUG] Nome de pesquisa (queryParam):', nome);
       if (nome) {
         this.nomeCategoria = `Resultados para "${nome}"`;
         this.termoPesquisa = nome;
@@ -101,19 +107,33 @@ export class ProductsPage implements OnInit {
   abrirPesquisa(): void {
     this.pesquisaAberta = true;
   }
+
   fecharPesquisa(): void {
     this.pesquisaAberta = false;
-    this.termoPesquisa  = '';
-    this.aplicarFiltro();
-  }
-  onPesquisar(): void {
+    this.termoPesquisa = '';
     this.aplicarFiltro();
   }
 
-  toggleFiltro():  void { this.filtroMenuAberto  = !this.filtroMenuAberto; }
-  fecharFiltro():  void { this.filtroMenuAberto  = false; }
-  toggleOrdenar(): void { this.ordenarMenuAberto = !this.ordenarMenuAberto; }
-  fecharOrdenar(): void { this.ordenarMenuAberto = false; }
+  onPesquisar(): void {
+    console.log('[DEBUG] Termo de pesquisa:', this.termoPesquisa);
+    this.aplicarFiltro();
+  }
+
+  toggleFiltro(): void {
+    this.filtroMenuAberto = !this.filtroMenuAberto;
+  }
+
+  fecharFiltro(): void {
+    this.filtroMenuAberto = false;
+  }
+
+  toggleOrdenar(): void {
+    this.ordenarMenuAberto = !this.ordenarMenuAberto;
+  }
+
+  fecharOrdenar(): void {
+    this.ordenarMenuAberto = false;
+  }
 
   toggleMarca(marca: string): void {
     const idx = this.filtroMarcas.indexOf(marca);
@@ -122,33 +142,37 @@ export class ProductsPage implements OnInit {
     } else {
       this.filtroMarcas.push(marca);
     }
+    console.log('[DEBUG] Marcas filtradas:', this.filtroMarcas);
     this.aplicarFiltro();
   }
 
   setPrecoRapido(min: number, max: number | null): void {
     this.filtroPrecoMin = min;
     this.filtroPrecoMax = max;
+    console.log(`[DEBUG] Filtro de preço: Min = ${min}, Max = ${max}`);
     this.aplicarFiltro();
   }
 
   limparFiltro(): void {
-    this.filtroMarcas    = [];
-    this.filtroPrecoMin  = null;
-    this.filtroPrecoMax  = null;
+    this.filtroMarcas = [];
+    this.filtroPrecoMin = null;
+    this.filtroPrecoMax = null;
     this.filtroAvaliacao = null;
+    console.log('[DEBUG] Filtros limpos');
     this.aplicarFiltro();
   }
 
   aplicarFiltro(): void {
     const termo = this.termoPesquisa?.toLowerCase().trim() ?? '';
+    console.log('[DEBUG] Aplicar filtros. Termo:', termo);
 
     this.filteredProducts = this.allProducts.filter(prod => {
-      const nomeOk = this.route.snapshot.queryParamMap.has('nome') 
+      const nomeOk = this.route.snapshot.queryParamMap.has('nome')
         ? prod.name.toLowerCase().includes(termo)
         : true;
 
       const marcaOk = this.filtroMarcas.length === 0 ||
-                      this.filtroMarcas.includes(prod.marca ?? prod.brand ?? '');
+        this.filtroMarcas.includes(prod.marca ?? prod.brand ?? '');
 
       const precoOk =
         (!this.filtroPrecoMin || prod.price >= this.filtroPrecoMin) &&
@@ -160,12 +184,14 @@ export class ProductsPage implements OnInit {
       return nomeOk && marcaOk && precoOk && avaliacaoOk;
     });
 
+    console.log('[DEBUG] Produtos filtrados (length):', this.filteredProducts.length);
+    console.log('[DEBUG] Produtos filtrados (lista):', this.filteredProducts);
     this.ordenarProdutos(this.selectedOrder);
   }
 
-
   ordenarProdutos(criterio: string): void {
     this.selectedOrder = criterio;
+    console.log('[DEBUG] Ordenar por:', criterio);
 
     switch (criterio) {
       case 'preco-asc':
@@ -175,21 +201,13 @@ export class ProductsPage implements OnInit {
         this.filteredProducts.sort((a, b) => b.price - a.price);
         break;
       case 'melhor-avaliacao':
-        this.filteredProducts.sort((a, b) =>
-          (b.avaliacao ?? 0) - (a.avaliacao ?? 0)
-        );
+        this.filteredProducts.sort((a, b) => (b.avaliacao ?? 0) - (a.avaliacao ?? 0));
         break;
       case 'mais-vendidos':
-        this.filteredProducts.sort((a, b) =>
-          (b.vendas ?? 0) - (a.vendas ?? 0)
-        );
+        this.filteredProducts.sort((a, b) => (b.vendas ?? 0) - (a.vendas ?? 0));
         break;
       case 'melhor-desconto':
-        this.filteredProducts.sort((a, b) =>
-          (b.desconto ?? 0) - (a.desconto ?? 0)
-        );
-        break;
-      default:
+        this.filteredProducts.sort((a, b) => (b.desconto ?? 0) - (a.desconto ?? 0));
         break;
     }
 
@@ -199,71 +217,66 @@ export class ProductsPage implements OnInit {
   }
 
   private processarProdutos(produtos: any[]): void {
-    this.allProducts      = [];
+    console.log('[DEBUG] Produtos recebidos da API:', produtos);
+    this.allProducts = [];
     const temp: Product[] = [];
 
-    let carregadas = 0;
-    const total    = produtos.length;
-
-    if (total === 0) {
+    if (produtos.length === 0) {
+      console.warn('[DEBUG] Nenhum produto encontrado');
       this.filteredProducts = [];
       return;
     }
 
     produtos.forEach((p: any) => {
       const prod: Product = {
-        id:         p.id,
-        name:       p.nome ?? p.name ?? '',
-        price:      Number(p.preco ?? p.price),
-        oldPrice:   p.preco_antigo ?? p.oldPrice ?? null,
-        description:p.descricao ?? p.description,
-        stock:      p.stock,
-        destaque:   p.destaque,
-        marca:      p.marca ?? p.brand,
-        brand:      p.brand,
-        avaliacao:  p.avaliacao,
-        vendas:     p.vendas,
-        desconto:   p.desconto,
+        id: p.id,
+        name: p.nome ?? p.name ?? '',
+        price: Number(p.preco ?? p.price),
+        oldPrice: p.preco_antigo ?? p.oldPrice ?? null,
+        description: p.descricao ?? p.description,
+        stock: p.stock,
+        destaque: p.destaque,
+        marca: p.marca ?? p.brand,
+        brand: p.brand,
+        avaliacao: p.avaliacao,
+        vendas: p.vendas,
+        desconto: p.desconto,
         categoryId: p.categoryId,
         categoryid: p.categoryid ?? p.categoryId,
-        image:      ''
+        image: 'assets/images/no_image.jpg'
       };
+
+      temp.push(prod);
 
       this.apiService.getImageBlob(ApiEndpoints.PRODUTOS, p.id).subscribe({
         next: (blob: Blob) => {
           prod.image = URL.createObjectURL(blob);
         },
         error: () => {
-          prod.image = this.sanitizer.bypassSecurityTrustUrl('assets/images/no_image.jpg') as string;
-        },
-        complete: () => {
-          temp.push(prod);
-          carregadas++;
-          if (carregadas === total) {
-            this.allProducts = temp;
-            this.marcasDisponiveis = Array.from(
-              new Set(
-                this.allProducts
-                  .map(item => item.marca ?? item.brand)
-                  .filter((m): m is string => !!m)
-              )
-            );
-            this.currentPage = 1;
-            this.aplicarFiltro();
-          }
+          console.warn(`[DEBUG] Erro ao carregar imagem para produto ${p.id} — usando imagem default`);
         }
       });
     });
+
+    this.allProducts = temp;
+    this.marcasDisponiveis = Array.from(
+      new Set(this.allProducts.map(p => p.marca ?? p.brand).filter((m): m is string => !!m))
+    );
+    console.log('[DEBUG] Marcas disponíveis:', this.marcasDisponiveis);
+    this.currentPage = 1;
+    this.aplicarFiltro();
   }
 
-  carregarProdutosPorCategoriaId(id: string): void {
-    this.apiService.get(ApiEndpoints.CATEGORIAS).subscribe((categorias: Category[]) => {
-      const categoria = categorias.find((c: Category) => String(c.id) === String(id));
 
+  carregarProdutosPorCategoriaId(id: string): void {
+    console.log('[DEBUG] Carregar produtos por categoria ID:', id);
+    this.apiService.get(ApiEndpoints.CATEGORIAS).subscribe((categorias: Category[]) => {
+      const categoria = categorias.find(c => String(c.id) === String(id));
       if (!categoria) {
-        this.nomeCategoria    = 'Categoria não encontrada';
-        this.termoPesquisa    = '';
-        this.allProducts      = [];
+        console.warn('[DEBUG] Categoria não encontrada:', id);
+        this.nomeCategoria = 'Categoria não encontrada';
+        this.termoPesquisa = '';
+        this.allProducts = [];
         this.filteredProducts = [];
         return;
       }
@@ -272,7 +285,7 @@ export class ProductsPage implements OnInit {
       this.termoPesquisa = categoria.nome;
 
       this.apiService.get(ApiEndpoints.PRODUTOS).subscribe((produtos: any[]) => {
-        const filtrados = produtos.filter((p: any) => {
+        const filtrados = produtos.filter(p => {
           const catId = p.categoryId ?? p.categoryid ?? p.categoria_id;
           return catId != null && String(catId) === String(id);
         });
@@ -282,8 +295,9 @@ export class ProductsPage implements OnInit {
   }
 
   carregarProdutosPorNome(nome: string): void {
+    console.log('[DEBUG] Carregar produtos por nome:', nome);
     this.apiService.get(ApiEndpoints.PRODUTOS).subscribe((produtos: any[]) => {
-      const filtrados = produtos.filter((p: any) =>
+      const filtrados = produtos.filter(p =>
         (p.nome ?? p.name)?.toLowerCase().includes(nome.toLowerCase())
       );
       this.processarProdutos(filtrados);
@@ -291,6 +305,7 @@ export class ProductsPage implements OnInit {
   }
 
   carregarTodosOsProdutos(): void {
+    console.log('[DEBUG] Carregar todos os produtos');
     this.apiService.get(ApiEndpoints.PRODUTOS).subscribe((produtos: any[]) => {
       this.processarProdutos(produtos);
     });
@@ -318,21 +333,11 @@ export class ProductsPage implements OnInit {
     }
 
     pages.push(1);
-
-    if (current > 3) {
-      pages.push('...');
+    if (current > 3) pages.push('...');
+    for (let i = Math.max(2, current - 1); i <= Math.min(total - 1, current + 1); i++) {
+      pages.push(i);
     }
-
-    const start = Math.max(2, current - 1);
-    const end = Math.min(total - 1, current + 1);
-    for (let num = start; num <= end; num++) {
-      pages.push(num);
-    }
-
-    if (current < total - 2) {
-      pages.push('...');
-    }
-
+    if (current < total - 2) pages.push('...');
     pages.push(total);
 
     return pages;
@@ -356,5 +361,11 @@ export class ProductsPage implements OnInit {
     if (this.currentPage < this.totalPages) {
       this.currentPage++;
     }
+  }
+
+  @ViewChild('searchBar') searchBar!: SearchHeaderComponent;
+  
+  collapseSearchBar() {
+    this.searchBar.collapseSearch();
   }
 }

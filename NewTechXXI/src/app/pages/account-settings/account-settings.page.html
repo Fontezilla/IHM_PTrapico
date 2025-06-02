@@ -1,5 +1,4 @@
 <ion-content class="profile-content">
-
   <!-- Header personalizado -->
   <div class="profile-header">
     <div class="avatar">
@@ -19,8 +18,12 @@
       [ngClass]="{'logout-option-text': item === 'Terminar Sessão'}"
       class="profile-list-item">
       <span>{{ item }}</span>
-      <ion-icon name="chevron-forward-outline"></ion-icon>
+      <ion-icon 
+        [name]="item === 'Terminar Sessão' ? 'log-out-outline' : 'chevron-forward-outline'"
+        [style.--color]="item === 'Terminar Sessão' ? 'red' : 'var(--ion-color-danger)'">
+      </ion-icon>
+
+
     </div>
   </div>
-
 </ion-content>

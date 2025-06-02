@@ -1,63 +1,66 @@
-<div class="search-header-container">
-  <div class="search-row">
-
-    <!-- Avatar ou seta de retorno -->
-    <div *ngIf="!modoVoltar" class="avatar">NT</div>
-    <ion-icon *ngIf="modoVoltar"
-              name="arrow-back-outline"
-              class="back-icon"
-              (click)="voltar.emit()">
-    </ion-icon>
-
-    <!-- Caixa de pesquisa -->
-    <div class="search-box-wrapper">
-      <div class="search-box">
-        <ion-icon name="search-outline" class="search-icon"></ion-icon>
-        <input
-        type="text"
-        placeholder="Pesquisar..."
-        [(ngModel)]="termo"
-        (ngModelChange)="termoChange.emit($event); onSearchChange()"
-        (focus)="expandSearch()"
-        (keyup.enter)="onSubmit()" />
-      </div>
-
+<ion-header>
+  <div class="search-header-container">
+    <div class="search-row">
+  
+      <!-- Avatar ou seta de retorno -->
+      <div *ngIf="!modoVoltar" class="avatar">NT</div>
       <ion-icon
-        *ngIf="isExpanded"
-        name="close-outline"
-        class="close-icon"
-        (click)="collapseSearch()">
+        *ngIf="modoVoltar"
+        name="arrow-back-outline"
+        class="back-icon"
+        (click)="voltar.emit()">
       </ion-icon>
-    </div>
-
-  </div>
-
-  <!-- Overlay com categorias e histórico -->
-  <div class="search-overlay" *ngIf="isExpanded">
-
-    <!-- Sugestões de categorias -->
-    <div class="category-scroll" *ngIf="suggestedCategories.length > 0">
-      <h4>Categorias que te podem interessar</h4>
-      <div class="category-scroll-tags">
-        <span class="tag"
-              *ngFor="let cat of suggestedCategories"
-              (click)="onSelectCategory(cat)">
-          {{ cat.nome }}
-        </span>
+  
+      <!-- Caixa de pesquisa -->
+      <div class="search-box-wrapper">
+        <div class="search-box">
+          <ion-icon name="search-outline" class="search-icon"></ion-icon>
+          <input
+            type="text"
+            placeholder="Pesquisar..."
+            [(ngModel)]="termo"
+            (ngModelChange)="termoChange.emit($event); onSearchChange()"
+            (focus)="expandSearch()"
+            (keyup.enter)="onSubmit()" />
+        </div>
+  
+        <ion-icon
+          *ngIf="isExpanded"
+          name="close-outline"
+          class="close-icon"
+          (click)="collapseSearch()">
+        </ion-icon>
       </div>
+  
     </div>
-
-    <!-- Histórico de pesquisa -->
-    <div class="search-history" *ngIf="searchHistory.length > 0">
-      <h4>Histórico de pesquisa</h4>
-      <div class="history-scroll">
-        <span class="tag"
-              *ngFor="let term of searchHistory"
-              (click)="onSelectHistory(term)">
-          {{ term }}
-        </span>
+  
+    <!-- Overlay com categorias e histórico -->
+    <div class="search-overlay" *ngIf="isExpanded">
+  
+      <!-- Sugestões de categorias -->
+      <div class="category-scroll" *ngIf="suggestedCategories.length > 0">
+        <h4>Categorias que te podem interessar</h4>
+        <div class="category-scroll-tags">
+          <span class="tag"
+                *ngFor="let cat of suggestedCategories"
+                (click)="onSelectCategory(cat)">
+            {{ cat.nome }}
+          </span>
+        </div>
       </div>
+  
+      <!-- Histórico de pesquisa -->
+      <div class="search-history" *ngIf="searchHistory.length > 0">
+        <h4>Histórico de pesquisa</h4>
+        <div class="history-scroll">
+          <span class="tag"
+                *ngFor="let term of searchHistory"
+                (click)="onSelectHistory(term)">
+            {{ term }}
+          </span>
+        </div>
+      </div>
+  
     </div>
-
   </div>
-</div>
+</ion-header>

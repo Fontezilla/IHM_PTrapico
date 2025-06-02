@@ -1,46 +1,20 @@
-<ion-content class="produtos-content">
-
-  <!-- Header com seta para voltar e barra de pesquisa -->
-  <app-search-header
-    [modoVoltar]="true"
-    [(termo)]="termoPesquisa"
-    (voltar)="voltar()">
-  </app-search-header>
-
-  <div class="products-container">
+<ion-content class="page-content">
+  <ion-header translucent>
+    <app-search-header 
+      #searchBar
+      [modoVoltar]="true"
+      [(termo)]="termoPesquisa"
+      (voltar)="voltar()"
+      (expandedChange)="searchExpanded = $event">
+    </app-search-header>
+  </ion-header>
+  
+  <ion-content>
     <div class="header-gap"></div>
-
-    <div class="pesquisa-overlay" *ngIf="pesquisaAberta">
-      <input
-        type="text"
-        class="pesquisa-input"
-        placeholder="Pesquisar..."
-        [(ngModel)]="termoPesquisa"
-        (input)="onPesquisar()"
-        autofocus
-        [attr.aria-label]="'Campo de pesquisa de produtos'" />
-      <ion-icon
-        name="close-outline"
-        class="pesquisa-fechar"
-        (click)="fecharPesquisa()">
-      </ion-icon>
-    </div>
-
-    <!-- Botões de Filtrar e Ordenar -->
-    <div class="produto-filtros">
-      <button
-        class="filtro-btn"
-        [ngClass]="{ 'ativo': filtroMenuAberto }"
-        (click)="toggleFiltro()">
-        <ion-icon name="options-outline"></ion-icon> FILTRAR
-      </button>
-
-      <button
-        class="filtro-btn"
-        [ngClass]="{ 'ativo': ordenarMenuAberto }"
-        (click)="toggleOrdenar()">
-        <ion-icon name="swap-vertical-outline"></ion-icon> ORDENAR
-      </button>
+    <div
+      class="global-backdrop"
+      *ngIf="searchExpanded"
+      (click)="collapseSearchBar()">
     </div>
 
     <hr class="divider" />
@@ -49,7 +23,6 @@
       Resultados para <span>"{{ termoPesquisa }}"</span>
     </div>
     
-    <!-- Backdrop e Popover de Ordenação -->
     <div class="ordenar-backdrop" *ngIf="ordenarMenuAberto" (click)="fecharOrdenar()"></div>
     <div class="ordenar-popover" *ngIf="ordenarMenuAberto">
       <div class="ordenar-header">
@@ -147,7 +120,7 @@
       <div
         class="produto-card"
         *ngFor="let product of pagedProducts"
-        [routerLink]="['/tabs/menu/product', product.id]">
+        [routerLink]="['/product-details', product.id]">
         <img
           [src]="product.image"
           [alt]="product.name"
@@ -209,5 +182,5 @@
         <ion-icon slot="icon-only" name="chevron-forward-outline"></ion-icon>
       </ion-button>
     </div>
-  </div>
+  </ion-content>
 </ion-content>
