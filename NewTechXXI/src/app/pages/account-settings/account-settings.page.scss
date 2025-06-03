@@ -31,6 +31,7 @@
 
 /* Saudação */
 .profile-header > div:not(.avatar) {
+  padding-top: env(safe-area-inset-top);
   color: var(--ion-color-primary-contrast);
   font-size: 1.1rem;
   font-weight: 600;

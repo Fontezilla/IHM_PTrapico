@@ -132,3 +132,8 @@ ion-card.custom-card ion-card-content {
   background: rgba(0, 0, 0, 0.28);
   z-index: 900;
 }
+
+.custom-header {
+  padding-top: env(safe-area-inset-top);
+  padding-top: max(16px, env(safe-area-inset-top));
+}
