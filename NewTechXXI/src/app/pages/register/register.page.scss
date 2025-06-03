@@ -1,0 +1,179 @@
+:host,
+ion-content,
+.register-content {
+  --ion-background-color: var(--ion-color-background_light);
+  background: var(--ion-color-background_light);
+  color: var(--ion-color-dark);
+  min-height: 100vh;
+  font-family: 'Montserrat', Arial, sans-serif;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 0 24px;
+  box-sizing: border-box;
+}
+
+ion-content {
+  width: 100%;
+}
+
+/* Logo no topo à esquerda */
+.top-bar {
+  display: flex;
+  align-items: flex-start;
+  margin: 40px 0 20px;
+}
+
+.circle-avatar {
+  width: 56px;
+  height: 56px;
+  background-color: var(--ion-color-primary);
+  color: var(--ion-color-primary-contrast);
+  border-radius: 50%;
+  font-weight: bold;
+  font-size: 1.7rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  letter-spacing: 1px;
+}
+
+/* Título grande e centrado - ABAIXADO */
+.register-title {
+  text-align: center;
+  font-size: 3.5rem;
+  font-weight: 600;
+  color: var(--ion-color-dark);
+  margin-bottom: 38px;
+  margin-top: 40px; 
+  font-family: 'Montserrat', Arial, sans-serif;
+  letter-spacing: 0.5px;
+}
+
+/* Formulário centrado */
+form {
+  width: 100%;
+  max-width: 440px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  flex: 1 0 auto;
+  justify-content: center;
+  min-height: 60vh;
+  padding-bottom: 140px;
+}
+
+/* Campos com o mesmo estilo do login */
+.custom-item {
+  display: flex;
+  align-items: center;
+  min-height: 52px;
+  --min-height: 52px;
+  --padding-top: 0;
+  --padding-bottom: 0;
+  --inner-padding-start: 0;
+  --inner-padding-end: 0;
+  border: 1.5px solid var(--ion-color-light);
+  border-radius: var(--border-radius-global);
+  --background: var(--ion-color-background_light);
+  margin-bottom: 0;
+  margin-left: 0;
+  margin-right: 0;
+  --padding-start: 0;
+  --padding-end: 0;
+}
+
+.custom-input {
+  width: 100%;
+  text-align: center;
+  font-size: 1.1rem;
+  --padding-start: 0;
+  --padding-end: 0;
+  color: var(--ion-color-dark);
+  --background: var(--ion-color-background_light);
+  --placeholder-color: var(--ion-color-medium);
+  font-family: 'Montserrat', Arial, sans-serif;
+}
+
+/* Centraliza texto e placeholder */
+.custom-input .native-input,
+.custom-input input,
+.custom-input::placeholder {
+  text-align: center !important;
+}
+
+/* Botões fixos no fundo */
+.btn-group {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 20px;
+  padding: 0 24px;
+  background-color: var(--ion-color-background_light);
+  box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.05);
+  border-top: 1px solid var(--ion-color-light);
+  padding-top: 20px;
+  padding-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+  max-width: 440px;
+  margin: 0 auto;
+  box-sizing: border-box;
+}
+
+.btn-register,
+.btn-back {
+  font-weight: 600;
+  font-size: 1.15rem;
+  height: 52px;
+  width: 100%;
+  --border-radius: var(--border-radius-global);
+  font-family: 'Montserrat', Arial, sans-serif;
+  letter-spacing: 0.5px;
+}
+
+.btn-register {
+  --background: var(--ion-color-primary);
+  --color: var(--ion-color-primary-contrast);
+}
+
+/* Botão voltar - SEM RETÂNGULO, COM BORDER RADIUS */
+.btn-back {
+  background: transparent; /* <- Remove fundo sólido */
+  --background: transparent;
+  --color: var(--ion-color-primary);
+  border: 1.5px solid var(--ion-color-primary);
+  border-radius: var(--border-radius-global); /* <- Border radius aplicado */
+  --border-radius: var(--border-radius-global);
+  transition: all 0.3s ease; /* <- Transição suave */
+}
+
+.btn-back:hover {
+  background: var(--ion-color-primary);
+  --background: var(--ion-color-primary);
+  --color: var(--ion-color-primary-contrast);
+}
+
+/* Responsividade */
+@media (max-width: 300px) {
+  .register-title {
+    font-size: 2.8rem;
+    margin-top: 30px; 
+  }
+  form {
+    max-width: 95vw;
+    gap: 16px;
+    padding-bottom: 120px;
+  }
+  .top-bar {
+    margin: 30px 0 15px;
+  }
+  .btn-group {
+    max-width: 95vw;
+    padding: 20px 16px;
+    bottom: 10px;
+  }
+}

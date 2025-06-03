@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-finish',
@@ -8,9 +9,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class FinishPage implements OnInit {
 
-  constructor() { }
+  constructor(
+    private router: Router
+  ) { }
 
   ngOnInit() {
   }
 
+  continuarComprando(): void {
+    this.router.navigateByUrl('/tabs/home');
+  }
 }

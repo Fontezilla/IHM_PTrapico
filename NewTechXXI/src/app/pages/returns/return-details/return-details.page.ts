@@ -1,9 +1,10 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router } from '@angular/router';
 import { ApiService } from 'src/app/services/api/api.service';
 import { ApiEndpoints } from 'src/app/services/api/api-endpoints.enum';
 import { NavController } from '@ionic/angular';
+import { ReturnService } from 'src/app/services/returns-service/returns-service.service';
 
 @Component({
   selector: 'app-return-details',
@@ -13,7 +14,6 @@ import { NavController } from '@ionic/angular';
 })
 export class ReturnDetailsPage implements OnInit {
   devolucaoForm: FormGroup;
-  productId: number | null = null;
   product: any = null;
   fotoPreview: string | null = null;
   fotoFaturaPreview: string | null = null;
@@ -36,9 +36,9 @@ export class ReturnDetailsPage implements OnInit {
   constructor(
     private fb: FormBuilder,
     private router: Router,
-    private route: ActivatedRoute,
     private apiService: ApiService,
     private navCtrl: NavController,
+    private returnService: ReturnService
   ) {
     this.devolucaoForm = this.fb.group({
       foto: [null, Validators.required],
@@ -47,25 +47,19 @@ export class ReturnDetailsPage implements OnInit {
   }
 
   ngOnInit() {
-    this.productId = Number(this.route.snapshot.paramMap.get('id'));
-    if (this.productId) {
-      this.apiService.get(`${ApiEndpoints.PRODUTOS}/${this.productId}`).subscribe({
-        next: (product) => {
-          this.product = product;
-        },
-        error: (error) => {
-          console.error('Erro ao carregar produto:', error);
-          this.erroGeral = 'Erro ao carregar detalhes do produto.';
-        }
-      });
+    const draft = this.returnService.getDraft();
+    if (draft) {
+      this.product = draft;
+    } else {
+      this.erroGeral = 'Erro: produto não selecionado para devolução.';
     }
   }
 
   abrirFileInput(tipo: 'produto' | 'fatura') {
-    if (tipo === 'produto' && this.fileInputProduto) {
-      this.fileInputProduto.nativeElement.click();
-    } else if (tipo === 'fatura' && this.fileInputFatura) {
-      this.fileInputFatura.nativeElement.click();
+    if (tipo === 'produto') {
+      this.fileInputProduto?.nativeElement?.click();
+    } else if (tipo === 'fatura') {
+      this.fileInputFatura?.nativeElement?.click();
     }
   }
 
@@ -95,31 +89,37 @@ export class ReturnDetailsPage implements OnInit {
 
   enviarPedido() {
     const motivoFinal = this.motivoSelecionado === 'Outros' ? this.motivoOutro : this.motivoSelecionado;
+
     if (!motivoFinal || !this.devolucaoForm.value.foto) {
       this.erroGeral = 'Por favor, preencha todos os campos obrigatórios.';
       return;
     }
 
-    if (this.devolucaoForm.valid) {
-      const formData = new FormData();
-      formData.append('encomenda_produto_id', this.productId?.toString() || '');
-      formData.append('motivo', motivoFinal);
-      formData.append('imagem_url', this.devolucaoForm.value.foto);
-      if (this.devolucaoForm.value.fotoFatura) {
-        formData.append('fatura_url', this.devolucaoForm.value.fotoFatura);
-      }
-
-      this.apiService.post(ApiEndpoints.DEVOLUCOES, formData).subscribe({
-        next: (response) => {
-          console.log('Pedido de devolução enviado com sucesso:', response);
-          this.router.navigate(['return-success']);
-        },
-        error: (error) => {
-          console.error('Erro ao enviar pedido de devolução:', error);
-          this.erroGeral = 'Erro ao enviar pedido de devolução.';
-        }
-      });
+    const draft = this.returnService.getDraft();
+    if (!draft) {
+      this.erroGeral = 'Erro interno: Produto não definido.';
+      return;
     }
+
+    const formData = new FormData();
+    formData.append('produto_id', draft.produto_id.toString());
+    formData.append('motivo', motivoFinal);
+    formData.append('imagem_url', this.devolucaoForm.value.foto);
+    if (this.devolucaoForm.value.fotoFatura) {
+      formData.append('fatura_url', this.devolucaoForm.value.fotoFatura);
+    }
+
+    this.apiService.post(ApiEndpoints.DEVOLUCOES, formData).subscribe({
+      next: (response) => {
+        console.log('Devolução enviada:', response);
+        this.returnService.clearDraft();
+        this.router.navigate(['/return-success']);
+      },
+      error: (error) => {
+        console.error('Erro ao enviar devolução:', error);
+        this.erroGeral = 'Erro ao enviar o pedido de devolução.';
+      }
+    });
   }
 
   voltar() {

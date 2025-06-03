@@ -37,12 +37,13 @@ export class AccountSettingsPage  implements OnInit {
     this.userName = user?.nome || 'Utilizador';
   }
 
-  abrirNotificacoes() {
-    this.router.navigate(['/notificacoes']);
-  }
-
-  navigateToWorkingOnIt() {
-    this.router.navigate(['/working-on-it']);
+  async abrirNotificacoes() {
+    const alert = await this.alertCtrl.create({
+      header: "Notificações",
+      message: "Funcionalidade de serviços não implementada nesta versão.",
+      buttons: ['OK']
+    });
+    await alert.present();
   }
 
   async logout() {

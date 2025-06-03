@@ -4,6 +4,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { ApiService } from 'src/app/services/api/api.service';
 import { ApiEndpoints } from 'src/app/services/api/api-endpoints.enum';
 import { Storage } from '@ionic/storage-angular';
+import { AlertController } from '@ionic/angular'; 
 
 @Component({
   selector: 'app-cart',
@@ -20,7 +21,8 @@ export class CartPage implements OnInit {
     private router: Router,
     private apiService: ApiService,
     private sanitizer: DomSanitizer,
-    private storage: Storage
+    private storage: Storage,
+    private alertController: AlertController 
   ) {}
 
   ngOnInit() {}
@@ -106,17 +108,46 @@ export class CartPage implements OnInit {
         this.atualizarTotal();
       });
     } else {
-      this.removeItem(item);
+      // Chamar confirmação em vez de remover diretamente
+      this.confirmRemoveItem(item);
     }
   }
 
-  removeItem(item: any) {
-    this.apiService.delete(ApiEndpoints.CARRINHO_PRODUTOS, item.id).subscribe(() => {
-      this.cartItems = this.cartItems.filter(p => p.id !== item.id);
-      this.isEmpty = this.cartItems.length === 0;
-      this.atualizarTotal();
-    });
-  }
+ // Método de confirmação antes de remover
+async confirmRemoveItem(item: any) {
+  const alert = await this.alertController.create({
+    header: 'Remover produto',
+    message: `Tens a certeza que queres remover "${item.nome}" do carrinho?`,
+    buttons: [
+      {
+        text: 'Cancelar',
+        role: 'cancel',
+        cssClass: 'alert-button-cancel',
+        handler: () => {
+          console.log('Remoção cancelada');
+        }
+      },
+      {
+        text: 'Remover',
+        cssClass: 'alert-button-confirm',
+        handler: () => {
+          this.removeItem(item);
+        }
+      }
+    ]
+  });
+
+  await alert.present();
+}
+
+removeItem(item: any) {
+  this.apiService.delete(ApiEndpoints.CARRINHO_PRODUTOS, item.id).subscribe(() => {
+    this.cartItems = this.cartItems.filter(p => p.id !== item.id);
+    this.isEmpty = this.cartItems.length === 0;
+    this.atualizarTotal();
+  });
+}
+
 
   comprar() {
     if (!this.isEmpty) {

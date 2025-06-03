@@ -27,18 +27,23 @@ export class ConnectionSettingsPage implements OnInit {
   }
 
   async testarLigacao() {
+    console.log('URL inserida:', this.apiUrl); // debug aqui
+
     if (!this.apiUrl || !this.apiUrl.startsWith('http')) {
       alert('Por favor insere uma URL válida (ex: http://192.168.1.23:3000)');
       return;
     }
 
     try {
-      await this.http.get(`${this.apiUrl}/ping`).toPromise();
-      alert('Ligação bem-sucedida!');
+      const resposta = await this.http.get(`${this.apiUrl}/ping`, {responseType: 'text'}).toPromise();
+      console.log('Resposta recebida:', resposta);
+      alert(`Ligação bem-sucedida: ${this.apiUrl}`);
     } catch (error) {
-      alert('Erro na ligação à API.');
+      console.error('Erro detalhado:', error);
+      alert(`Erro na ligação à API: ${this.apiUrl || error}`);
     }
   }
+
 
   async guardarLigacao() {
     if (!this.apiUrl || !this.apiUrl.startsWith('http')) {

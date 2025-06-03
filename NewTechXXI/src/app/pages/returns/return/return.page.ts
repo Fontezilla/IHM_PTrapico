@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { ApiService } from 'src/app/services/api/api.service';
 import { ApiEndpoints } from 'src/app/services/api/api-endpoints.enum';
 import { Storage } from '@ionic/storage-angular';
+import { ReturnService } from 'src/app/services/returns-service/returns-service.service';
+import { Router } from '@angular/router';
+import { NavController } from '@ionic/angular';
 
 @Component({
   selector: 'app-return',
@@ -10,25 +13,47 @@ import { Storage } from '@ionic/storage-angular';
   standalone: false,
 })
 export class ReturnPage implements OnInit {
-  recentProducts: any[] = [];         // Lista de produtos comprados recentemente
-  selectedProduct: any = null;        // Produto selecionado para devolução
-  utilizadorId: number = 0;           // ID do utilizador autenticado
+  recentProducts: any[] = [];
+  selectedProduct: any = null;
+  utilizadorId: number = 0;
 
   constructor(
     private api: ApiService,
-    private storage: Storage
+    private storage: Storage,
+    private returnService: ReturnService,
+    private router: Router,
+    private navCtrl: NavController
   ) {}
 
   async ngOnInit() {
-    await this.api.ensureReady();                        // Garante que a base URL foi carregada
-    this.utilizadorId = await this.storage.get('userId'); // Busca o ID do utilizador autenticado
-    this.carregarProdutosRecentes();
+    const raw = await this.storage.get('utilizador');
+    const utilizador = typeof raw === 'string' ? JSON.parse(raw) : raw;
+
+    if (utilizador?.id) {
+      this.utilizadorId = utilizador.id;
+      this.carregarProdutosRecentes();
+    } else {
+      console.error('ID do utilizador não encontrado no storage.');
+    }
   }
 
   carregarProdutosRecentes() {
     this.api.get(`${ApiEndpoints.ENCOMENDAS}/encomendas-recentes/${this.utilizadorId}`)
       .subscribe((produtos: any[]) => {
         this.recentProducts = produtos;
+
+        this.recentProducts.forEach((p) => {
+          this.api.getImageBlob(ApiEndpoints.PRODUTOS, p.produto_id).subscribe({
+            next: (blob: Blob) => {
+              p.image = URL.createObjectURL(blob);
+            },
+            error: () => {
+              p.image = 'assets/images/no_image.jpg';
+            }
+          });
+        });
+      }, (erro) => {
+        console.error('Erro ao carregar produtos recentes:', erro);
       });
   }
 
@@ -37,12 +62,19 @@ export class ReturnPage implements OnInit {
   }
 
   proceedToDetails() {
-    // Aqui podes redirecionar para a próxima página ou guardar o produto selecionado
-    console.log('Produto selecionado para devolução:', this.selectedProduct);
+    if (!this.selectedProduct) return;
+
+    this.returnService.setDraft({
+      produto_id: this.selectedProduct.produto_id,
+      motivo: '',
+      imagemBase64: '',
+      faturaBase64: ''
+    });
+
+    this.router.navigate(['/return-details']);
   }
 
   voltar() {
-    // Lógica para voltar à página anterior
-    window.history.back();
+    this.navCtrl.back();
   }
 }

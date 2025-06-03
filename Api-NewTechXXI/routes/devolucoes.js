@@ -1,6 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const db = require('../db');
+const multer = require('multer');
+const upload = multer(); // armazena ficheiros em memória
 
 // GET todas as devoluções
 router.get('/', async (req, res) => {
@@ -23,22 +25,45 @@ router.get('/:id', async (req, res) => {
   }
 });
 
-// POST nova devolução
-router.post('/', async (req, res) => {
-  const { encomenda_produto_id, motivo, imagem_url } = req.body;
+// POST nova devolução (com imagem e fatura como ficheiros)
+router.post('/', upload.fields([
+  { name: 'imagem_url' },
+  { name: 'fatura_url' }
+]), async (req, res) => {
   try {
+    // DEBUG: Mostra o que está a chegar do frontend
+    console.log('[DEBUG] req.body:', req.body);
+    console.log('[DEBUG] req.files:', req.files);
+
+    const { motivo, produto_id } = req.body;
+
+    const imagemBuffer = req.files?.imagem_url?.[0]?.buffer || null;
+    const faturaBuffer = req.files?.fatura_url?.[0]?.buffer || null;
+
+    if (!motivo || !produto_id || !imagemBuffer) {
+      console.warn('[WARN] Campos obrigatórios em falta.');
+      return res.status(400).json({ erro: 'Campos obrigatórios em falta.' });
+    }
+
     const result = await db.query(
-      `INSERT INTO devolucoes (encomenda_produto_id, motivo, imagem_url)
-       VALUES ($1, $2, $3) RETURNING *`,
-      [encomenda_produto_id, motivo, imagem_url]
+      `INSERT INTO devolucoes (
+         motivo,
+         produto_id,
+         imagem,
+         fatura
+       ) VALUES ($1, $2, $3, $4)
+       RETURNING *`,
+      [motivo, produto_id, imagemBuffer, faturaBuffer]
     );
+
     res.status(201).json(result.rows[0]);
   } catch (err) {
+    console.error('[ERRO DEVOLUÇÃO]', err);
     res.status(500).json({ erro: err.message });
   }
 });
 
-// PUT atualizar estado ou dados da devolução
+// PUT atualizar estado ou data_aprovacao
 router.put('/:id', async (req, res) => {
   const { estado, data_aprovacao } = req.body;
   try {

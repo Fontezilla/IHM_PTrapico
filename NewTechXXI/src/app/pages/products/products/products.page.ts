@@ -255,7 +255,7 @@ export class ProductsPage implements OnInit {
           prod.image = URL.createObjectURL(blob);
         },
         error: () => {
-          console.warn(`[DEBUG] Erro ao carregar imagem para produto ${p.id} — usando imagem default`);
+          prod.image = 'assets/images/no_image.jpg';
         }
       });
     });

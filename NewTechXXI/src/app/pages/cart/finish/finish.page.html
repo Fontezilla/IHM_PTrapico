@@ -1,13 +1,22 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>finish</ion-title>
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">finish</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content class="finish-content">
+  <div class="finish-body">
+    <ion-icon name="checkmark-circle-outline" class="finish-icon"></ion-icon>
+    <div class="finish-title">Compra finalizada com sucesso!</div>
+    <div class="finish-desc">Obrigado por comprar conosco!</div>
+  </div>
 </ion-content>
+
+<ion-footer>
+  <div class="fixed-bottom">
+    <ion-button expand="block" class="success-btn" (click)="continuarComprando()">
+      Continuar a comprar
+    </ion-button>
+  </div>
+</ion-footer>

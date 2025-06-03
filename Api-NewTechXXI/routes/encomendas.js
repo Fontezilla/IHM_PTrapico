@@ -12,6 +12,40 @@ router.get('/', async (req, res) => {
   }
 });
 
+// GET produtos de encomendas recentes de um utilizador (últimos 15 dias)
+router.get('/encomendas-recentes/:utilizadorId', async (req, res) => {
+  const utilizadorId = req.params.utilizadorId;
+
+  try {
+    // Encomendas do utilizador nos últimos 15 dias
+    const encomendasQuery = `
+      SELECT * FROM encomendas
+      WHERE utilizador_id = $1
+        AND data_encomenda >= CURRENT_DATE - INTERVAL '15 days'
+    `;
+    const encomendasResult = await db.query(encomendasQuery, [utilizadorId]);
+    const encomendas = encomendasResult.rows;
+
+    if (encomendas.length === 0) return res.json([]);
+
+    const encomendaIds = encomendas.map(e => e.id);
+
+    const produtosQuery = `
+      SELECT ep.produto_id, ep.quantidade, ep.preco_unitario,
+             p.descricao AS nome, p.preco, p.imagem
+      FROM encomenda_produtos ep
+      JOIN produtos p ON ep.produto_id = p.id
+      WHERE ep.encomenda_id = ANY($1::int[])
+    `;
+    const produtosResult = await db.query(produtosQuery, [encomendaIds]);
+
+    res.json(produtosResult.rows);
+  } catch (err) {
+    console.error("Erro ao buscar encomendas recentes:", err);
+    res.status(500).json({ erro: err.message });
+  }
+});
+
 // GET encomenda por ID
 router.get('/:id', async (req, res) => {
   try {
@@ -22,45 +56,6 @@ router.get('/:id', async (req, res) => {
     res.status(500).json({ erro: err.message });
   }
 });
-
-// GET produtos de encomendas recentes de um utilizador (últimos 15 dias)
-router.get('/encomendas-recentes/:utilizadorId', async (req, res) => {
-  const utilizadorId = req.params.utilizadorId;
-
-  try {
-    // Encomendas do utilizador nos últimos 15 dias
-    const encomendasQuery = `
-      SELECT * FROM encomendas
-      WHERE utilizador_id = $1
-        AND data >= CURRENT_DATE - INTERVAL '15 days'
-    `;
-    const encomendasResult = await db.query(encomendasQuery, [utilizadorId]);
-
-    const encomendas = encomendasResult.rows;
-
-    if (encomendas.length === 0) {
-      return res.json([]); // Sem compras recentes
-    }
-
-    // Obter IDs das encomendas
-    const encomendaIds = encomendas.map(e => e.id);
-
-    // Buscar os produtos dessas encomendas com JOIN ao produto
-    const produtosQuery = `
-      SELECT ep.produto_id, ep.quantidade, ep.preco_unitario,
-             p.descricao AS nome, p.preco, p.imagem
-      FROM encomenda_produtos ep
-      JOIN produtos p ON ep.produto_id = p.id
-      WHERE ep.encomenda_id = ANY($1)
-    `;
-    const produtosResult = await db.query(produtosQuery, [encomendaIds]);
-
-    res.json(produtosResult.rows);
-  } catch (err) {
-    res.status(500).json({ erro: err.message });
-  }
-});
-
 
 // POST criar nova encomenda
 router.post('/', async (req, res) => {

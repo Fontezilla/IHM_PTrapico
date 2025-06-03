@@ -5,6 +5,11 @@ const config: CapacitorConfig = {
   appName: 'NewTechXXI',
   webDir: 'www',
 
+  server: {
+    cleartext: true,
+    androidScheme: 'http',
+  },
+
   plugins: {
     SplashScreen: {
       launchShowDuration: 2000,
@@ -13,6 +18,7 @@ const config: CapacitorConfig = {
       splashFullScreen: true,
       splashImmersive: true
     }
+    
   }
 };
 

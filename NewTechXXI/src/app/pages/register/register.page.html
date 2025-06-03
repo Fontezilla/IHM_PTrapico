@@ -1,13 +1,60 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>register</ion-title>
-  </ion-toolbar>
-</ion-header>
-
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">register</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content [fullscreen]="true" class="register-content">
+  <div class="top-bar">
+    <div class="circle-avatar">NT</div>
+  </div>
+  <h1 class="register-title">Registar</h1>
+  <form (ngSubmit)="onSubmit()">
+    <ion-item class="custom-item" lines="none">
+      <ion-input
+        [(ngModel)]="nome"
+        name="nome"
+        placeholder="Nome Completo"
+        required
+        class="custom-input center-input"
+      ></ion-input>
+    </ion-item>
+    <ion-item class="custom-item" lines="none">
+      <ion-input
+        [(ngModel)]="email"
+        name="email"
+        type="email"
+        placeholder="Endereço de E-mail"
+        required
+        class="custom-input center-input"
+      ></ion-input>
+    </ion-item>
+    <ion-item class="custom-item" lines="none">
+      <ion-input
+        [(ngModel)]="telefone"
+        name="telefone"
+        type="tel"
+        placeholder="Número de telemóvel"
+        required
+        class="custom-input center-input"
+      ></ion-input>
+    </ion-item>
+    <ion-item class="custom-item" lines="none">
+      <ion-input
+        [(ngModel)]="password"
+        name="password"
+        type="password"
+        placeholder="Palavra-passe"
+        required
+        class="custom-input center-input"
+      ></ion-input>
+    </ion-item>
+    <div class="btn-group">
+      <ion-button
+        expand="block"
+        type="submit"
+        [disabled]="!nome || !email || !telefone || !password"
+        class="btn-register"
+      >
+        Registar
+      </ion-button>
+      <ion-button expand="block" fill="outline" (click)="goBack()" class="btn-back">
+        Voltar
+      </ion-button>
+    </div>
+  </form>
 </ion-content>
