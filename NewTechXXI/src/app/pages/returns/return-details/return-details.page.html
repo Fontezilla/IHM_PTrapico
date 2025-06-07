@@ -9,7 +9,6 @@
   <div *ngIf="product" class="produto-nome-topo">{{ product.name }}</div>
 
   <form [formGroup]="devolucaoForm" (ngSubmit)="enviarPedido()" class="devolucao-form">
-    <div class="erro-geral" *ngIf="erroGeral">{{ erroGeral }}</div>
 
     <div class="motivo-section">
       <div class="motivo-dropdown-wrapper">
@@ -46,6 +45,8 @@
         <input #fileInputFatura type="file" accept="image/*" (change)="onFotoFaturaChange($event)" class="devolucao-file-fatura" style="display:none;" />
       </div>
     </label>
+
+    <div class="erro-geral" *ngIf="erroGeral">{{ erroGeral }}</div>
 
     <button type="submit" class="devolucao-btn" [ngClass]="{'ativo': (motivoSelecionado && (motivoSelecionado !== 'Outros' || motivoOutro)) && devolucaoForm.value.foto && devolucaoForm.value.fotoFatura}">
       Enviar Pedido

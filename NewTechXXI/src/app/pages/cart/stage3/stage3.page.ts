@@ -3,28 +3,23 @@ import { Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
 import { CheckoutService } from 'src/app/services/checkout-service/checkout-service.service';
 import { NavController } from '@ionic/angular';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-stage3',
   templateUrl: './stage3.page.html',
   styleUrls: ['./stage3.page.scss'],
-  standalone: false,
+  standalone: false
 })
 export class Stage3Page {
   total: number = 0;
   selectedPayment: string = '';
   showCardForm: boolean = false;
-  isStepValid: boolean = false;
-  clickCount: number = 0;
-
-  cartao = {
-    nomeTitular: '',
-    numeroCartao: '',
-    validade: '',
-    cvv: ''
-  };
+  formCartao!: FormGroup;
+  isContinueEnabled: boolean = false;
 
   constructor(
+    private fb: FormBuilder,
     private router: Router,
     private alertController: AlertController,
     private checkoutService: CheckoutService,
@@ -35,59 +30,54 @@ export class Stage3Page {
     this.total = this.checkoutService.getTotal();
     this.selectedPayment = '';
     this.showCardForm = false;
-    this.isStepValid = false;
-    this.clickCount = 0;
-    this.cartao = {
-      nomeTitular: '',
-      numeroCartao: '',
-      validade: '',
-      cvv: ''
-    };
+    this.isContinueEnabled = false;
+
+    this.formCartao = this.fb.group({
+      nomeTitular: ['', [ Validators.required, Validators.pattern(/^[A-Za-zÀ-ÿ\s]+$/) ]],
+      numeroCartao: ['', [Validators.required, Validators.pattern(/^\d{16}$/)]],
+      validade: ['', [Validators.required, Validators.pattern(/^\d{2}\/\d{2}$/)]],
+      cvv: ['', [Validators.required, Validators.pattern(/^\d{3}$/)]],
+    });
   }
 
   selectPayment(metodo: string) {
     this.selectedPayment = metodo;
-    this.isStepValid = true;
+    this.showCardForm = false;
+    this.isContinueEnabled = true;
   }
 
   continuar() {
-    this.clickCount++;
-
     if (this.selectedPayment === 'cartao') {
-      if (this.clickCount === 1) {
+      if (!this.showCardForm) {
         this.showCardForm = true;
         return;
       }
 
-      if (this.clickCount === 2) {
+      if (this.formCartao.valid) {
         this.checkoutService.setPagamento({
           metodo: this.selectedPayment,
-          dados: this.stringifyCartao()
-
+          dados: this.stringifyCartao(),
         });
         this.router.navigate(['/stage4']);
-        return;
+      } else {
+        this.mostrarAlerta('Erro', 'Preencha todos os dados do cartão corretamente.');
       }
+      return;
     }
 
-    if (this.clickCount === 1) {
-      this.mostrarAlerta('Pagamento', 'Funcionalidade de pagamento com este método ainda não está implementada.');
-      this.clickCount = 0;
-    }
+    this.mostrarAlerta('Pagamento', 'Funcionalidade de pagamento com este método ainda não está implementada.');
   }
 
   formatExpiryDate() {
-    if (this.cartao.validade.length === 2 && !this.cartao.validade.includes('/')) {
-      this.cartao.validade = this.cartao.validade + '/';
+    const valor = this.formCartao.get('validade')?.value;
+    if (valor.length === 2 && !valor.includes('/')) {
+      this.formCartao.patchValue({ validade: valor + '/' });
     }
   }
 
-  checkStepValidity() {
-    this.isStepValid =
-      !!this.cartao.nomeTitular &&
-      !!this.cartao.numeroCartao &&
-      !!this.cartao.validade &&
-      !!this.cartao.cvv;
+  stringifyCartao(): string {
+    const { nomeTitular, numeroCartao, validade, cvv } = this.formCartao.value;
+    return `${nomeTitular};${numeroCartao};${validade};${cvv}`;
   }
 
   async mostrarAlerta(titulo: string, mensagem: string) {
@@ -97,11 +87,6 @@ export class Stage3Page {
       buttons: ['OK'],
     });
     await alert.present();
-  }
-
-  stringifyCartao(): string {
-    const { nomeTitular, numeroCartao, validade, cvv } = this.cartao;
-    return `${nomeTitular};${numeroCartao};${validade};${cvv}`;
   }
 
   voltar() {

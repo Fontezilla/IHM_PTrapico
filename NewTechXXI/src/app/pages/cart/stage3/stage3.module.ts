@@ -8,12 +8,15 @@ import { Stage3PageRoutingModule } from './stage3-routing.module';
 
 import { Stage3Page } from './stage3.page';
 
+import { ReactiveFormsModule } from '@angular/forms';
+
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    Stage3PageRoutingModule
+    Stage3PageRoutingModule,
+    ReactiveFormsModule,
   ],
   declarations: [Stage3Page]
 })

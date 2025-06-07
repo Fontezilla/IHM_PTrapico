@@ -42,72 +42,100 @@
   </div>
 
   <!-- Formulário do cartão de crédito -->
-  <div *ngIf="showCardForm">
-    <h2 class="etapa3-title">Cartão de Crédito</h2>
-    <div class="etapa3-card-form">
-      <div class="etapa3-input-group">
+<form [formGroup]="formCartao" *ngIf="showCardForm">
+  <h2 class="etapa3-title">Cartão de Crédito</h2>
+  <div class="etapa3-card-form">
+
+    <!-- Nome do Titular -->
+    <div class="etapa3-input-group">
+      <ion-item lines="none">
         <ion-input
           label="Nome do Titular"
           labelPlacement="floating"
           placeholder="Insira o nome como está no cartão"
-          [(ngModel)]="cartao.nomeTitular"
-          (ionInput)="checkStepValidity()"
+          formControlName="nomeTitular"
           class="etapa3-input"
           fill="outline"
-          inputmode="text"
-          required>
+          inputmode="text">
         </ion-input>
-        <ion-icon name="person-outline" class="etapa3-input-icon"></ion-icon>
-      </div>
-      <div class="etapa3-input-group">
+        <ion-icon name="person-outline" class="etapa3-input-icon" slot="end"></ion-icon>
+      </ion-item>
+      <ion-text color="danger" class="etapa3-error" *ngIf="formCartao.get('nomeTitular')?.touched && formCartao.get('nomeTitular')?.invalid">
+        <ng-container *ngIf="formCartao.get('nomeTitular')?.errors?.['required']">
+          Nome é obrigatório
+        </ng-container>
+        <ng-container *ngIf="formCartao.get('nomeTitular')?.errors?.['pattern']">
+          Apenas letras e espaços são permitidos
+        </ng-container>
+      </ion-text>
+    </div>
+
+    <!-- Número do Cartão -->
+    <div class="etapa3-input-group">
+      <ion-item lines="none">
         <ion-input
           label="Número do Cartão"
           labelPlacement="floating"
           type="tel"
           inputmode="numeric"
           placeholder="0000 0000 0000 0000"
-          [(ngModel)]="cartao.numeroCartao"
-          (ionInput)="checkStepValidity()"
+          formControlName="numeroCartao"
           class="etapa3-input"
           fill="outline"
-          maxlength="19"
-          required>
+          maxlength="19">
         </ion-input>
-        <ion-icon name="card-outline" class="etapa3-input-icon"></ion-icon>
-      </div>
-      <div class="etapa3-input-row">
-        <div class="etapa3-input-group etapa3-input-half">
+        <ion-icon name="card-outline" class="etapa3-input-icon" slot="end"></ion-icon>
+      </ion-item>
+      <ion-text color="danger" class="etapa3-error" *ngIf="formCartao.get('numeroCartao')?.touched && formCartao.get('numeroCartao')?.invalid">
+        Número inválido (16 dígitos)
+      </ion-text>
+    </div>
+
+    <!-- Validade e CVV -->
+    <div class="etapa3-input-row">
+      <!-- Validade -->
+      <div class="etapa3-input-group etapa3-input-half">
+        <ion-item lines="none">
           <ion-input
             label="Validade (MM/AA)"
             labelPlacement="floating"
             placeholder="MM/AA"
-            [(ngModel)]="cartao.validade"
-            (ionInput)="formatExpiryDate(); checkStepValidity()"
+            formControlName="validade"
+            (ionInput)="formatExpiryDate()"
             class="etapa3-input"
             fill="outline"
             inputmode="numeric"
-            maxlength="5"
-            required>
+            maxlength="5">
           </ion-input>
-        </div>
-        <div class="etapa3-input-group etapa3-input-half">
-            <ion-input
+        </ion-item>
+        <ion-text color="danger" class="etapa3-error" *ngIf="formCartao.get('validade')?.touched && formCartao.get('validade')?.invalid">
+          Formato: MM/AA
+        </ion-text>
+      </div>
+
+      <!-- CVV -->
+      <div class="etapa3-input-group etapa3-input-half">
+        <ion-item lines="none">
+          <ion-input
             label="CVV"
             labelPlacement="floating"
             type="password"
             inputmode="numeric"
             placeholder="000"
-            [(ngModel)]="cartao.cvv"
-            (ionInput)="checkStepValidity()"
+            formControlName="cvv"
             class="etapa3-input"
             fill="outline"
-            maxlength="3"
-            required>
+            maxlength="3">
           </ion-input>
-        </div>
+        </ion-item>
+        <ion-text color="danger" class="etapa3-error" *ngIf="formCartao.get('cvv')?.touched && formCartao.get('cvv')?.invalid">
+          CVV inválido (3 dígitos)
+        </ion-text>
       </div>
     </div>
   </div>
+</form>
+
 </ion-content>
 
 <!-- Footer fixo com total e botão -->
@@ -119,7 +147,7 @@
     expand="block"
     class="etapa3-footer-btn"
     (click)="continuar()"
-    [disabled]="!isStepValid">
+    [disabled]="!isContinueEnabled || (selectedPayment === 'cartao' && showCardForm && !formCartao.valid)">
     Continuar
   </ion-button>
 </div>
