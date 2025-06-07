@@ -13,8 +13,11 @@ import { NavController } from '@ionic/angular';
   standalone: false,
 })
 export class ReturnPage implements OnInit {
+  // Lista de produtos recentes do utilizador
   recentProducts: any[] = [];
+  // Produto selecionado para devolução
   selectedProduct: any = null;
+  // ID do utilizador atual
   utilizadorId: number = 0;
 
   constructor(
@@ -25,7 +28,9 @@ export class ReturnPage implements OnInit {
     private navCtrl: NavController
   ) {}
 
+  // Inicialização do componente
   async ngOnInit() {
+    // Obtenção dos dados do utilizador do storage
     const raw = await this.storage.get('utilizador');
     const utilizador = typeof raw === 'string' ? JSON.parse(raw) : raw;
 
@@ -37,6 +42,7 @@ export class ReturnPage implements OnInit {
     }
   }
 
+  // Método para carregar os produtos recentes do utilizador
   carregarProdutosRecentes() {
     this.api.get(`${ApiEndpoints.ENCOMENDAS}/encomendas-recentes/${this.utilizadorId}`)
       .subscribe((produtos: any[]) => {
@@ -51,9 +57,9 @@ export class ReturnPage implements OnInit {
           }
         }
 
-        // Buscar nome e imagem
+        // Buscar nome e imagem de cada produto
         unicos.forEach((p) => {
-          // Nome do produto
+          // Obtenção do nome do produto
           this.api.get(`${ApiEndpoints.PRODUTOS}/${p.produto_id}`).subscribe({
             next: (produtoCompleto: any) => {
               console.log('📦 Produto carregado:', produtoCompleto);
@@ -64,7 +70,7 @@ export class ReturnPage implements OnInit {
             }
           });
 
-          // Imagem do produto
+          // Obtenção da imagem do produto
           this.api.getImageBlob(ApiEndpoints.PRODUTOS, p.produto_id).subscribe({
             next: (blob: Blob) => {
               p.image = URL.createObjectURL(blob);
@@ -81,6 +87,7 @@ export class ReturnPage implements OnInit {
       });
   }
 
+  // Método para selecionar/desselecionar um produto
   selectProduct(prod: any) {
     // Alterna entre selecionar e desselecionar
     if (this.selectedProduct?.produto_id === prod.produto_id) {
@@ -90,9 +97,11 @@ export class ReturnPage implements OnInit {
     }
   }
 
+  // Método para avançar para a página de detalhes da devolução
   proceedToDetails() {
     if (!this.selectedProduct) return;
 
+    // Inicialização do rascunho da devolução
     this.returnService.setDraft({
       produto_id: this.selectedProduct.produto_id,
       motivo: '',
@@ -103,6 +112,7 @@ export class ReturnPage implements OnInit {
     this.router.navigate(['/return-details']);
   }
 
+  // Método para voltar à página anterior
   voltar() {
     this.navCtrl.back();
   }

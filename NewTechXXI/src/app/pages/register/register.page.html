@@ -1,10 +1,14 @@
+<!-- Conteúdo principal da página de registo -->
 <ion-content [fullscreen]="true" class="register-content">
+  <!-- Barra superior com logo -->
   <div class="top-bar">
     <div class="circle-avatar">NT</div>
   </div>
   <h1 class="register-title">Registar</h1>
 
+  <!-- Formulário de registo -->
   <form [formGroup]="formRegister" (ngSubmit)="onSubmit()">
+    <!-- Campo de nome completo -->
     <ion-item class="custom-item" lines="none">
       <ion-input
         formControlName="nome"
@@ -12,12 +16,14 @@
         class="custom-input center-input"
       ></ion-input>
     </ion-item>
+    <!-- Mensagens de erro para o campo nome -->
     <ion-text color="danger" *ngIf="formRegister.get('nome')?.touched && formRegister.get('nome')?.invalid">
       <div *ngIf="formRegister.get('nome')?.errors?.['required']">Nome é obrigatório.</div>
       <div *ngIf="formRegister.get('nome')?.errors?.['minlength']">Mínimo 2 letras.</div>
       <div *ngIf="formRegister.get('nome')?.errors?.['pattern']">Apenas letras e espaços.</div>
     </ion-text>
 
+    <!-- Campo de email -->
     <ion-item class="custom-item" lines="none">
       <ion-input
         formControlName="email"
@@ -26,11 +32,13 @@
         class="custom-input center-input"
       ></ion-input>
     </ion-item>
+    <!-- Mensagens de erro para o campo email -->
     <ion-text color="danger" *ngIf="formRegister.get('email')?.touched && formRegister.get('email')?.invalid">
       <div *ngIf="formRegister.get('email')?.errors?.['required']">Email é obrigatório.</div>
       <div *ngIf="formRegister.get('email')?.errors?.['email']">Formato inválido.</div>
     </ion-text>
 
+    <!-- Campo de telefone -->
     <ion-item class="custom-item" lines="none">
       <ion-input
         formControlName="telefone"
@@ -39,11 +47,13 @@
         class="custom-input center-input"
       ></ion-input>
     </ion-item>
+    <!-- Mensagens de erro para o campo telefone -->
     <ion-text color="danger" *ngIf="formRegister.get('telefone')?.touched && formRegister.get('telefone')?.invalid">
       <div *ngIf="formRegister.get('telefone')?.errors?.['required']">Telefone é obrigatório.</div>
       <div *ngIf="formRegister.get('telefone')?.errors?.['pattern']">Formato inválido.</div>
     </ion-text>
 
+    <!-- Campo de palavra-passe -->
     <ion-item class="custom-item" lines="none">
       <ion-input
         [type]="showPassword ? 'text' : 'password'"
@@ -51,6 +61,7 @@
         placeholder="Palavra-passe"
         class="custom-input center-input"
       ></ion-input>
+      <!-- Ícone para mostrar/ocultar palavra-passe -->
       <ion-icon
         slot="end"
         class="password-toggle-icon"
@@ -58,12 +69,15 @@
         (click)="togglePasswordVisibility()"
       ></ion-icon>
     </ion-item>
+    <!-- Mensagens de erro para o campo palavra-passe -->
     <ion-text color="danger" *ngIf="formRegister.get('password')?.touched && formRegister.get('password')?.invalid">
       <div *ngIf="formRegister.get('password')?.errors?.['required']">Palavra-passe é obrigatória.</div>
       <div *ngIf="formRegister.get('password')?.errors?.['minlength']">Mínimo 6 caracteres.</div>
     </ion-text>
 
+    <!-- Grupo de botões -->
     <div class="btn-group">
+      <!-- Botão de registo -->
       <ion-button
         expand="block"
         type="submit"
@@ -72,6 +86,7 @@
       >
         Registar
       </ion-button>
+      <!-- Botão de voltar -->
       <ion-button expand="block" fill="outline" (click)="goBack()" class="btn-back">
         Voltar
       </ion-button>

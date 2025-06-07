@@ -1,38 +1,39 @@
+/* Variáveis de cores do tema */
 :host {
-  --ion-color-primary: #007a4d;
-  --ion-color-primary-contrast: #fff;
-  --ion-background-color: #fff;
-  --ion-text-color: #333;
+  --ion-color-primary: #007a4d; // Cor primária do tema
+  --ion-color-primary-contrast: #fff; // Cor de contraste para o primário
+  --ion-background-color: #fff; // Cor de fundo
+  --ion-text-color: #333; // Cor do texto
 }
 
-/* Header fixo com logo central */
+/* Estilos do cabeçalho fixo com logo central */
 .etapa2-loja-header {
-  --background: var(--ion-color-primary);
-  --color: var(--ion-color-primary-contrast);
-  min-height: 70px;
+  --background: var(--ion-color-primary); // Cor de fundo do cabeçalho
+  --color: var(--ion-color-primary-contrast); // Cor do texto
+  min-height: 70px; // Altura mínima do cabeçalho
   display: flex;
   align-items: center;
   position: relative;
 }
 
 .etapa2-loja-back-icon {
-  color: var(--ion-color-primary-contrast);
-  font-size: 1.7rem;
+  color: var(--ion-color-primary-contrast); // Cor do ícone de voltar
+  font-size: 1.7rem; // Tamanho do ícone
 }
 
 .etapa2-loja-logo {
-  position: absolute;
+  position: absolute; // Posicionamento absoluto para centralizar
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
 }
 
 .etapa2-loja-logo-circle {
-  width: 45px;
+  width: 45px; // Dimensões do círculo do logo
   height: 45px;
-  background: var(--ion-color-primary-contrast);
-  color: var(--ion-color-primary);
-  border-radius: 50%;
+  background: var(--ion-color-primary-contrast); // Cor de fundo do círculo
+  color: var(--ion-color-primary); // Cor do texto
+  border-radius: 50%; // Forma circular
   display: flex;
   align-items: center;
   justify-content: center;
@@ -40,26 +41,26 @@
   font-weight: bold;
 }
 
-/* Conteúdo principal */
+/* Estilos do conteúdo principal */
 .etapa2-loja-content {
-  --background: var(--ion-background-color);
-  min-height: 100vh;
-  padding-bottom: 80px; /* Ajuste conforme a altura do rodapé */
+  --background: var(--ion-background-color); // Cor de fundo do conteúdo
+  min-height: 100vh; // Altura mínima igual à viewport
+  padding-bottom: 80px; // Espaço para o footer
   font-family: var(--font-family, 'Poppins', sans-serif);
   box-sizing: border-box;
 }
 
-/* Passos do checkout */
+/* Estilos dos passos do checkout */
 .etapa2-loja-steps {
   display: flex;
   justify-content: center;
   align-items: center;
   margin: 25px 0 15px 0;
-  gap: 50px;
+  gap: 50px; // Espaçamento entre os passos
 }
 
 .etapa2-loja-step {
-  width: 45px;
+  width: 45px; // Dimensões do círculo do passo
   height: 45px;
   border: 2px solid #ccc;
   border-radius: 50%;
@@ -70,22 +71,22 @@
   font-weight: 600;
   font-size: 1.3rem;
   background: #fff;
-  transition: all 0.3s;
+  transition: all 0.3s; // Animação suave
 }
 
 .etapa2-loja-step.active {
-  color: var(--ion-color-primary);
+  color: var(--ion-color-primary); // Cor do passo ativo
   border-color: var(--ion-color-primary);
 }
 
-/* Linha divisória */
+/* Estilos da linha divisória */
 .etapa2-loja-divider {
   border-bottom: 2px solid var(--ion-color-primary);
   width: 100%;
   margin: 0 0 25px 0;
 }
 
-/* Título */
+/* Estilos do título */
 .etapa2-loja-title {
   color: var(--ion-text-color);
   font-size: 1.6rem;
@@ -94,16 +95,16 @@
   text-align: left;
 }
 
-/* Barra de pesquisa */
+/* Estilos da barra de pesquisa */
 .etapa2-loja-search {
   position: relative;
   margin: 0 20px 25px 20px;
 }
 
 ion-input.etapa2-loja-input {
-  --background: #f5f5f5;
-  --color: var(--ion-text-color);
-  --placeholder-color: #888;
+  --background: #f5f5f5; // Cor de fundo do input
+  --color: var(--ion-text-color); // Cor do texto
+  --placeholder-color: #888; // Cor do placeholder
   --padding-start: 16px;
   --padding-end: 50px;
   --border-radius: 8px;
@@ -114,16 +115,16 @@ ion-input.etapa2-loja-input {
 }
 
 .etapa2-loja-search-icon {
-  position: absolute;
+  position: absolute; // Posicionamento absoluto do ícone
   right: 16px;
   top: 50%;
   transform: translateY(-50%);
   color: #999;
   font-size: 1.3rem;
-  pointer-events: none;
+  pointer-events: none; // Desativa interações com o ícone
 }
 
-/* Lista de cidades */
+/* Estilos da lista de lojas */
 .etapa2-loja-cities {
   margin: 0 20px;
 }
@@ -138,11 +139,11 @@ ion-input.etapa2-loja-input {
   align-items: center;
   justify-content: space-between;
   cursor: pointer;
-  transition: border-color 0.2s, box-shadow 0.2s;
+  transition: border-color 0.2s, box-shadow 0.2s; // Animação suave
 }
 
 .etapa2-loja-city-option.selected {
-  background: var(--ion-color-primary);
+  background: var(--ion-color-primary); // Estilo da opção selecionada
   border-color: #006844;
   box-shadow: 0 2px 6px rgba(0,0,0,0.1);
 }
@@ -150,11 +151,11 @@ ion-input.etapa2-loja-input {
 .etapa2-loja-city-option.selected .etapa2-loja-city-name,
 .etapa2-loja-city-option.selected .etapa2-loja-city-address,
 .etapa2-loja-city-option.selected .etapa2-loja-city-icon {
-  color: var(--ion-color-primary-contrast);
+  color: var(--ion-color-primary-contrast); // Cor do texto na opção selecionada
 }
 
 .etapa2-loja-city-option:not(.selected):hover {
-  border-color: var(--ion-color-primary);
+  border-color: var(--ion-color-primary); // Efeito hover
 }
 
 .etapa2-loja-city-info { flex: 1; }
@@ -179,9 +180,9 @@ ion-input.etapa2-loja-input {
   margin-left: 16px;
 }
 
-/* Footer fixo com total e botão */
+/* Estilos do footer fixo */
 .etapa2-loja-footer-bar {
-  position: fixed;
+  position: fixed; // Posicionamento fixo na parte inferior
   left: 0;
   right: 0;
   bottom: 0;

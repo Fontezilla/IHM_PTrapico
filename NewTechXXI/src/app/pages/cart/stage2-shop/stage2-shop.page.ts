@@ -14,7 +14,7 @@ export class Stage2ShopPage implements OnInit {
   searchText: string = '';
   selectedCity: string | null = null;
 
-  // Lista de lojas (simulada)
+  // Lista de lojas disponíveis com suas informações
   cities = [
     { name: 'Lisboa', address: 'Rua Augusta, 100 - Centro Histórico', region: 'Grande Lisboa' },
     { name: 'Porto', address: 'Rua de Santa Catarina, 200 - Centro', region: 'Grande Porto' },
@@ -45,7 +45,7 @@ export class Stage2ShopPage implements OnInit {
     this.total = this.checkoutService.getTotal();
   }
 
-  // Filtro em tempo real pela cidade
+  // Filtra a lista de lojas com base no texto de pesquisa
   filterCities() {
     const term = this.searchText.trim().toLowerCase();
     if (!term) {
@@ -58,19 +58,19 @@ export class Stage2ShopPage implements OnInit {
     }
   }
 
-  // Quando seleciona uma loja
+  // Seleciona uma loja e guarda a sua morada
   selectCity(city: any) {
     this.selectedCity = city.name;
     this.checkoutService.setLojaMorada(`${city.name} - ${city.address}`);
   }
 
-  // Valida e continua para a etapa seguinte
+  // Valida e avança para a próxima etapa do checkout
   continuar() {
     if (!this.selectedCity) return;
     this.router.navigateByUrl('/stage3');
   }
 
-  // Voltar à etapa anterior
+  // Volta para a etapa anterior
   voltar() {
     this.navCtrl.back();
   }

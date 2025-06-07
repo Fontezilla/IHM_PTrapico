@@ -44,7 +44,6 @@ export class ConnectionSettingsPage implements OnInit {
     }
   }
 
-
   async guardarLigacao() {
     if (!this.apiUrl || !this.apiUrl.startsWith('http')) {
       alert('Por favor insere uma URL válida antes de guardar.');

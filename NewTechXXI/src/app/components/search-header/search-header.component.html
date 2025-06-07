@@ -1,5 +1,8 @@
+<!-- Cabeçalho da página -->
 <ion-header>
+  <!-- Container principal do cabeçalho de pesquisa -->
   <div class="search-header-container">
+    <!-- Linha superior com avatar/seta e caixa de pesquisa -->
     <div class="search-row">
   
       <!-- Avatar ou seta de retorno -->
@@ -11,8 +14,9 @@
         (click)="voltar.emit()">
       </ion-icon>
   
-      <!-- Caixa de pesquisa -->
+      <!-- Container da caixa de pesquisa -->
       <div class="search-box-wrapper">
+        <!-- Caixa de pesquisa com ícone e input -->
         <div class="search-box">
           <ion-icon name="search-outline" class="search-icon"></ion-icon>
           <input
@@ -24,6 +28,7 @@
             (keyup.enter)="onSubmit()" />
         </div>
   
+        <!-- Ícone para fechar a pesquisa -->
         <ion-icon
           *ngIf="isExpanded"
           name="close-outline"
@@ -34,10 +39,10 @@
   
     </div>
   
-    <!-- Overlay com categorias e histórico -->
+    <!-- Overlay com categorias e histórico (visível quando expandido) -->
     <div class="search-overlay" *ngIf="isExpanded">
   
-      <!-- Sugestões de categorias -->
+      <!-- Secção de sugestões de categorias -->
       <div class="category-scroll" *ngIf="suggestedCategories.length > 0">
         <h4>Categorias que te podem interessar</h4>
         <div class="category-scroll-tags">
@@ -49,7 +54,7 @@
         </div>
       </div>
   
-      <!-- Histórico de pesquisa -->
+      <!-- Secção de histórico de pesquisa -->
       <div class="search-history" *ngIf="searchHistory.length > 0">
         <h4>Histórico de pesquisa</h4>
         <div class="history-scroll">

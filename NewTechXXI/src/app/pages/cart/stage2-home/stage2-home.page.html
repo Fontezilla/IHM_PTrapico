@@ -1,3 +1,4 @@
+<!-- Cabeçalho da página com botão de voltar e logo -->
 <ion-header>
   <ion-toolbar class="stage2-header">
     <ion-buttons slot="start">
@@ -11,7 +12,9 @@
   </ion-toolbar>
 </ion-header>
 
+<!-- Conteúdo principal da página -->
 <ion-content class="stage2-content">
+  <!-- Indicador de progresso do checkout -->
   <div class="stage2-steps">
     <div class="stage2-step">1</div>
     <div class="stage2-step active">2</div>
@@ -22,9 +25,9 @@
 
   <h2 class="stage2-title">Morada</h2>
 
-  <!-- aqui dentro ficam todos os campos + moradas registadas -->
+  <!-- Formulário de morada com validação -->
   <div class="stage2-form" [formGroup]="formMorada">
-    <!-- Rua -->
+    <!-- Campo de entrada para a rua -->
     <div class="stage2-input-group">
       <ion-input
         label="Rua"
@@ -39,7 +42,7 @@
       </ion-text>
     </div>
 
-    <!-- Código Postal -->
+    <!-- Campo de entrada para o código postal -->
     <div class="stage2-input-group">
       <ion-input
         label="Código Postal"
@@ -54,7 +57,7 @@
       </ion-text>
     </div>
 
-    <!-- Cidade -->
+    <!-- Campo de entrada para a cidade -->
     <div class="stage2-input-group">
       <ion-input
         label="Cidade"
@@ -69,7 +72,7 @@
       </ion-text>
     </div>
 
-    <!-- País -->
+    <!-- Campo de entrada para o país -->
     <div class="stage2-input-group">
       <ion-input
         label="País"
@@ -84,10 +87,11 @@
       </ion-text>
     </div>
 
-    <!-- Moradas Registadas imediatamente após o último campo -->
+    <!-- Lista de moradas registadas -->
     <div class="etapa2-loja-cities" *ngIf="savedAddresses.length > 0">
       <hr class="divider" />
       <h3 class="stage2-subtitle">Moradas Registadas</h3>
+      <!-- Iteração sobre as moradas registadas -->
       <div
         *ngFor="let address of savedAddresses"
         class="etapa2-loja-city-option"
@@ -106,7 +110,7 @@
   </div>
 </ion-content>
 
-<!-- Footer fixo -->
+<!-- Barra de rodapé fixa com total e botão de continuar -->
 <div class="stage2-footer-bar">
   <div class="stage2-footer-total">
     €{{ total | number:'1.2-2' }}

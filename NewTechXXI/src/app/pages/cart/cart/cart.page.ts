@@ -13,10 +13,14 @@ import { AlertController } from '@ionic/angular';
   standalone: false,
 })
 export class CartPage implements OnInit {
+  // Lista de itens no carrinho
   cartItems: any[] = [];
+  // Total do valor do carrinho
   total: number = 0;
+  // Indica se o carrinho está vazio
   isEmpty: boolean = true;
 
+  // Injecção de dependências necessárias
   constructor(
     private router: Router,
     private apiService: ApiService,
@@ -25,12 +29,15 @@ export class CartPage implements OnInit {
     private alertController: AlertController
   ) {}
 
+  // Método do ciclo de vida do Angular, chamado na inicialização
   ngOnInit() {}
 
+  // Método chamado sempre que a página vai ser apresentada
   async ionViewWillEnter() {
     await this.inicializarCarrinhoDoUtilizador();
   }
 
+  // Inicializa o carrinho do utilizador, criando um novo se não existir
   async inicializarCarrinhoDoUtilizador() {
     await this.storage.create();
 
@@ -43,6 +50,7 @@ export class CartPage implements OnInit {
     this.apiService.get(`carrinhos/utilizador/${userId}`).subscribe({
       next: (carrinhos) => {
         if (!carrinhos || carrinhos.length === 0) {
+          // Cria um novo carrinho se não existir
           this.apiService.post('/carrinhos', { utilizador_id: userId }).subscribe({
             next: async (novoCarrinho) => {
               await this.storage.set('carrinho_id', novoCarrinho.id);
@@ -50,6 +58,7 @@ export class CartPage implements OnInit {
             }
           });
         } else {
+          // Usa o carrinho existente
           const carrinho = carrinhos[0];
           this.storage.set('carrinho_id', carrinho.id);
           this.carregarCarrinho(carrinho.id);
@@ -58,11 +67,13 @@ export class CartPage implements OnInit {
     });
   }
 
+  // Carrega os produtos do carrinho a partir do ID
   carregarCarrinho(carrinhoId: number) {
     this.apiService.get(`${ApiEndpoints.CARRINHO_PRODUTOS}/detalhes/${carrinhoId}`).subscribe(produtos => {
       this.cartItems = produtos;
       this.isEmpty = produtos.length === 0;
 
+      // Para cada produto, carrega a imagem correspondente
       this.cartItems.forEach(prod => {
         this.apiService.getImageBlob(ApiEndpoints.PRODUTOS, prod.produto_id).subscribe({
           next: blob => {
@@ -84,6 +95,7 @@ export class CartPage implements OnInit {
     });
   }
 
+  // Adiciona um produto ao carrinho ou atualiza a quantidade se já existir
   async adicionarProdutoAoCarrinho(produtoId: number, quantidade: number = 1) {
     const carrinhoId = await this.storage.get('carrinho_id');
     if (!carrinhoId) {
@@ -94,12 +106,14 @@ export class CartPage implements OnInit {
     const produtoExistente = this.cartItems.find(item => item.produto_id === produtoId);
 
     if (produtoExistente) {
+      // Atualiza a quantidade do produto existente
       const novaQuantidade = produtoExistente.quantidade + quantidade;
       this.apiService.put(`${ApiEndpoints.CARRINHO_PRODUTOS}/${produtoExistente.id}`, { quantidade: novaQuantidade }).subscribe(() => {
         produtoExistente.quantidade = novaQuantidade;
         this.atualizarTotal();
       });
     } else {
+      // Adiciona um novo produto ao carrinho
       this.apiService.post(`${ApiEndpoints.CARRINHO_PRODUTOS}`, {
         carrinho_id: carrinhoId,
         produto_id: produtoId,
@@ -110,6 +124,7 @@ export class CartPage implements OnInit {
     }
   }
 
+  // Atualiza o valor total do carrinho
   atualizarTotal() {
     this.total = this.cartItems.reduce((sum, item) => {
       const preco = Number(item.preco);
@@ -118,6 +133,7 @@ export class CartPage implements OnInit {
     }, 0);
   }
 
+  // Aumenta a quantidade de um item no carrinho
   increaseQuantity(item: any) {
     const novoItem = { quantidade: item.quantidade + 1 };
     this.apiService.put(`${ApiEndpoints.CARRINHO_PRODUTOS}/${item.id}`, novoItem).subscribe(() => {
@@ -126,6 +142,7 @@ export class CartPage implements OnInit {
     });
   }
 
+  // Diminui a quantidade de um item ou pede confirmação para remover
   decreaseQuantity(item: any) {
     if (item.quantidade > 1) {
       const novoItem = { quantidade: item.quantidade - 1 };
@@ -138,6 +155,7 @@ export class CartPage implements OnInit {
     }
   }
 
+  // Mostra um alerta a pedir confirmação para remover um item do carrinho
   async confirmRemoveItem(item: any) {
     const alert = await this.alertController.create({
       header: 'Remover produto',
@@ -164,6 +182,7 @@ export class CartPage implements OnInit {
     await alert.present();
   }
 
+  // Remove um item do carrinho
   removeItem(item: any) {
     this.apiService.delete(ApiEndpoints.CARRINHO_PRODUTOS, item.id).subscribe(() => {
       this.cartItems = this.cartItems.filter(p => p.id !== item.id);
@@ -172,12 +191,14 @@ export class CartPage implements OnInit {
     });
   }
 
+  // Navega para a página de checkout se o carrinho não estiver vazio
   comprar() {
     if (!this.isEmpty) {
       this.router.navigate(['/stage1']);
     }
   }
 
+  // Obtém o total de itens no carrinho
   obterTotalDeItens(): number {
     return this.cartItems.reduce((total, item) => {
       const quantidade = Number(item.quantidade);

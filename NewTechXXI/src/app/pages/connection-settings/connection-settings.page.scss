@@ -1,3 +1,4 @@
+// Estilos para o conteúdo principal centralizado
 ion-content.content-center {
   --background: #ffffff;
   display: flex;
@@ -6,12 +7,14 @@ ion-content.content-center {
   height: 100%;
 }
 
+// Estilos para o container central
 .center-wrapper {
   display: flex;
   justify-content: center;
   width: 100%;
 }
 
+// Estilos para o card personalizado
 .custom-card {
   width: 90%;
   max-width: 420px;
@@ -22,6 +25,7 @@ ion-content.content-center {
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
 }
 
+// Estilos para o campo de entrada personalizado
 .custom-input {
   --border-color: var(--ion-color-primary);
   --highlight-color-focused: var(--ion-color-primary);
@@ -30,16 +34,19 @@ ion-content.content-center {
   border-radius: 8px;
 }
 
+// Estilos para o label do campo de entrada
 .custom-input ion-label {
   color: var(--ion-color-primary);
   font-weight: 500;
 }
 
+// Estilos para o input do campo de entrada
 .custom-input ion-input {
   font-size: 16px;
   color: #333;
 }
 
+// Estilos para o grupo de botões
 .button-group {
   display: flex;
   flex-direction: row;
@@ -49,6 +56,7 @@ ion-content.content-center {
   width: 100%;
 }
 
+// Estilos para os botões do grupo
 .button-group ion-button {
   flex: 1;
   min-width: 0;

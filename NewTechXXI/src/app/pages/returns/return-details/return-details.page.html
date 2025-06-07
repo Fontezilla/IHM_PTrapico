@@ -1,3 +1,4 @@
+<!-- Cabeçalho da página de detalhes da devolução -->
 <ion-header>
   <div class="devolucao-header">
     <ion-icon name="arrow-back-outline" class="back-icon" (click)="voltar()"></ion-icon>
@@ -5,27 +6,35 @@
   </div>
 </ion-header>
 
+<!-- Conteúdo principal da página -->
 <ion-content class="devolucao-detalhe-content">
+  <!-- Nome do produto selecionado -->
   <div *ngIf="product" class="produto-nome-topo">{{ product.name }}</div>
 
+  <!-- Formulário de devolução -->
   <form [formGroup]="devolucaoForm" (ngSubmit)="enviarPedido()" class="devolucao-form">
 
+    <!-- Secção de seleção do motivo da devolução -->
     <div class="motivo-section">
+      <!-- Dropdown de motivos predefinidos -->
       <div class="motivo-dropdown-wrapper">
         <button type="button" class="motivo-dropdown-btn" (click)="mostrarDropdown = !mostrarDropdown">
           <span *ngIf="!motivoSelecionado">Motivo da Devolução</span>
           <span *ngIf="motivoSelecionado">{{ motivoSelecionado }}</span>
           <ion-icon name="chevron-down-outline" class="dropdown-icon"></ion-icon>
         </button>
+        <!-- Lista de motivos disponíveis -->
         <div class="motivo-dropdown-list" *ngIf="mostrarDropdown">
           <div class="motivo-dropdown-item" *ngFor="let motivo of motivosPredefinidos" (click)="motivoSelecionado = motivo; mostrarDropdown = false; devolucaoForm.patchValue({ motivo: motivo }); motivoOutro = ''">
             {{ motivo }}
           </div>
         </div>
       </div>
+      <!-- Campo de texto para motivo personalizado -->
       <input *ngIf="motivoSelecionado === 'Outros'" type="text" class="motivo-descricao-input" placeholder="Descreva o motivo" [(ngModel)]="motivoOutro" [ngModelOptions]="{standalone: true}" name="motivoOutro" required />
     </div>
 
+    <!-- Campo para upload da foto do produto -->
     <label class="devolucao-label">
       <div class="devolucao-card">
         <img *ngIf="fotoPreview" [src]="fotoPreview" class="foto-preview" />
@@ -36,6 +45,7 @@
       </div>
     </label>
 
+    <!-- Campo para upload da foto da fatura -->
     <label class="devolucao-label">
       <div class="devolucao-card">
         <img *ngIf="fotoFaturaPreview" [src]="fotoFaturaPreview" class="foto-preview" />
@@ -46,8 +56,10 @@
       </div>
     </label>
 
+    <!-- Mensagem de erro geral -->
     <div class="erro-geral" *ngIf="erroGeral">{{ erroGeral }}</div>
 
+    <!-- Botão de envio do pedido -->
     <button type="submit" class="devolucao-btn" [ngClass]="{'ativo': (motivoSelecionado && (motivoSelecionado !== 'Outros' || motivoOutro)) && devolucaoForm.value.foto && devolucaoForm.value.fotoFatura}">
       Enviar Pedido
     </button>

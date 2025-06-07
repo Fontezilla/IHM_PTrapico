@@ -1,15 +1,16 @@
-/* Centraliza a imagem do produto */
+/* Estilos para o container da imagem do produto */
 .imagem-wrapper {
   display: flex;
   justify-content: center;
   padding: 12px 0;
 }
 
+/* Espaçamento para o cabeçalho */
 .header-gap{
   padding-top: 50px;
 }
 
-/* Define tamanho e estilo da imagem do produto */
+/* Estilos para a imagem do produto */
 .imagem-wrapper img {
   width: 75%;
   max-height: 300px;
@@ -18,7 +19,7 @@
   border-radius: var(--border-radius-global);
 }
 
-/* Estilo geral dos ion-cards */
+/* Estilos gerais para os cards */
 ion-card {
   --background: var(--ion-color-background_light);
   --color: var(--ion-color-dark);
@@ -27,12 +28,12 @@ ion-card {
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
 }
 
-/* Cabeçalho do card de detalhes do produto */
+/* Estilos para o cabeçalho do card de detalhes */
 .card-detalhes ion-card-header {
   padding-bottom: 0;
 }
 
-/* Título do produto */
+/* Estilos para o título do produto */
 .card-detalhes ion-card-title {
   color: var(--ion-color-dark);
   font-size: 1.5rem;
@@ -40,7 +41,7 @@ ion-card {
   margin-bottom: 8px;
 }
 
-/* Conteúdo do card de detalhes */
+/* Estilos para o conteúdo do card de detalhes */
 .card-detalhes ion-card-content {
   padding-top: 12px;
   padding-bottom: 16px;
@@ -48,7 +49,7 @@ ion-card {
   z-index: 1;
 }
 
-/* Títulos das seções "Descrição" e "Características" */
+/* Estilos para os títulos das seções */
 .card-detalhes ion-card-content h2 {
   margin-top: 16px;
   margin-bottom: 8px;
@@ -57,7 +58,7 @@ ion-card {
   font-weight: 600;
 }
 
-/* Parágrafos de descrição e características */
+/* Estilos para os parágrafos de descrição e características */
 .card-detalhes ion-card-content p {
   margin-bottom: 12px;
   color: var(--ion-color-medium);
@@ -65,11 +66,12 @@ ion-card {
   line-height: 1.4;
 }
 
-/* Estilo do card de avaliações */
+/* Estilos para o card de avaliações */
 .card-avaliacoes ion-card-header {
   padding-bottom: 0;
 }
 
+/* Estilos para o título do card de avaliações */
 .card-avaliacoes ion-card-title {
   color: var(--ion-color-dark);
   font-size: 1.3rem;
@@ -77,24 +79,26 @@ ion-card {
   margin-bottom: 8px;
 }
 
+/* Estilos para o conteúdo do card de avaliações */
 .card-avaliacoes ion-card-content {
   padding-top: 12px;
   padding-bottom: 16px;
 }
 
-/* Linha divisória entre seções */
+/* Estilos para a linha divisória */
 .divider {
   border: none;
   border-top: 1px solid var(--ion-color-light-tint);
   margin: 10px 0 16px 0;
 }
 
-/* Resumo da média de avaliações */
+/* Estilos para o resumo das avaliações */
 .rating-summary {
   text-align: center;
   margin-bottom: 16px;
 }
 
+/* Estilos para a média das avaliações */
 .rating-summary .average-rating {
   font-size: 2rem;
   font-weight: 700;
@@ -102,18 +106,20 @@ ion-card {
   margin-bottom: 4px;
 }
 
+/* Estilos para as estrelas de avaliação */
 .rating-summary .stars {
   color: var(--ion-color-warning);
   font-size: 1.5rem;
   margin-bottom: 4px;
 }
 
+/* Estilos para o total de avaliações */
 .rating-summary .total-reviews {
   color: var(--ion-color-medium);
   font-size: 0.9rem;
 }
 
-/* Área com rolagem para as avaliações */
+/* Estilos para a área de rolagem das avaliações */
 .reviews-scrollbox {
   max-height: 350px;
   overflow-y: auto;
@@ -121,7 +127,7 @@ ion-card {
   padding-right: 4px;
 }
 
-/* Scrollbar personalizada */
+/* Estilos para a barra de rolagem */
 .reviews-scrollbox::-webkit-scrollbar {
   width: 6px;
 }
@@ -133,7 +139,7 @@ ion-card {
   background: transparent;
 }
 
-/* Estilo individual de cada avaliação */
+/* Estilos para cada item de avaliação */
 .review-item {
   background: #fff;
   margin: 8px 0;
@@ -142,7 +148,7 @@ ion-card {
   padding: 12px;
 }
 
-/* Cabeçalho da avaliação (nome + estrelas + data) */
+/* Estilos para o cabeçalho da avaliação */
 .review-header {
   display: flex;
   justify-content: space-between;
@@ -150,30 +156,34 @@ ion-card {
   margin-bottom: 4px;
 }
 
+/* Estilos para os metadados da avaliação */
 .review-meta {
   display: flex;
   flex-direction: column;
   gap: 2px;
 }
 
+/* Estilos para o nome do avaliador */
 .reviewer-name {
   font-weight: 600;
   color: var(--ion-color-dark);
   font-size: 1rem;
 }
 
+/* Estilos para a data da avaliação */
 .review-date {
   color: var(--ion-color-medium);
   font-size: 0.85rem;
 }
 
+/* Estilos para as estrelas da avaliação */
 .review-stars ion-icon {
   color: var(--ion-color-warning);
   font-size: 1.1rem;
   margin-left: 2px;
 }
 
-/* Texto da avaliação */
+/* Estilos para o conteúdo da avaliação */
 .review-content {
   margin-top: 8px;
   color: var(--ion-color-medium);
@@ -181,7 +191,7 @@ ion-card {
   line-height: 1.4;
 }
 
-/* Botão "Escrever Avaliação" com borda */
+/* Estilos para o botão de escrever avaliação */
 .card-avaliacoes ion-button[fill="outline"] {
   --border-color: var(--ion-color-primary);
   --border-radius: var(--border-radius-global);
@@ -193,29 +203,31 @@ ion-card {
   width: 100%;
 }
 
+/* Estilos para o ícone do botão de escrever avaliação */
 .card-avaliacoes ion-button[fill="outline"] ion-icon {
   font-size: 1.2rem;
   color: var(--ion-color-primary);
 }
 
-/* Hover do botão "Escrever Avaliação" */
+/* Estilos para o hover do botão de escrever avaliação */
 .card-avaliacoes ion-button[fill="outline"]:hover {
   --background: var(--ion-color-primary);
   --color: var(--ion-color-primary-contrast);
 }
 
-/* Rodapé com preço e botão */
+/* Estilos para a barra de rodapé */
 .footer-bar {
   border-top: 2px solid var(--ion-color-primary);
 }
 
+/* Estilos para a toolbar do rodapé */
 .footer-bar ion-toolbar {
   --padding-top: 6px;
   --padding-bottom: 6px;
   --background: var(--ion-color-background_light); 
 }
 
-/* Preço destacado no rodapé */
+/* Estilos para o preço no rodapé */
 .footer-price {
   color: var(--ion-color-success);
   font-size: 1.4rem;
@@ -225,7 +237,7 @@ ion-card {
   padding-left: 16px;
 }
 
-/* Botão "Adicionar" no rodapé */
+/* Estilos para o botão de adicionar ao carrinho */
 .footer-bar ion-button {
   --background: var(--ion-color-primary);
   --background-activated: var(--ion-color-primary-shade);
@@ -240,11 +252,13 @@ ion-card {
   --padding-end: 12px;
 }
 
+/* Estilos para o ícone do botão de adicionar ao carrinho */
 .footer-bar ion-button ion-icon {
   font-size: 1.2rem;
   color: var(--ion-color-background_light);
 }
 
+/* Estilos para o texto do botão de adicionar ao carrinho */
 .footer-bar ion-button::part(native) {
   color: var(--ion-color-background_light) !important; 
 }

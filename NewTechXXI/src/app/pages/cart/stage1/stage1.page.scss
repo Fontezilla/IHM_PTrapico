@@ -1,4 +1,4 @@
-/* Header */
+/* Header - cabeçalho da página */
 .stage1-header {
   --background: var(--ion-color-primary);
   --color: var(--ion-color-primary-contrast);
@@ -7,16 +7,19 @@
   align-items: center;
   position: relative;
 }
+// Ícone de voltar
 .stage1-back-icon {
   color: var(--ion-color-primary-contrast);
   font-size: 1.7rem;
 }
+// Logótipo centralizado
 .stage1-logo {
   position: absolute;
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
 }
+// Círculo do logótipo
 .stage1-logo-circle {
   width: 45px;
   height: 45px;
@@ -30,7 +33,7 @@
   font-weight: bold;
 }
 
-/* Conteúdo */
+/* Conteúdo principal */
 .stage1-content {
   --ion-background-color: var(--ion-color-background_light);
   padding: 0;
@@ -38,7 +41,7 @@
   font-family: var(--font-family, 'Poppins', sans-serif);
 }
 
-/* Passos */
+/* Passos do checkout */
 .stage1-steps {
   display: flex;
   justify-content: center;
@@ -60,19 +63,20 @@
   background: var(--ion-color-background_light);
   transition: all 0.3s;
 }
+// Passo ativo
 .stage1-step.active {
   color: var(--ion-color-primary);
   border-color: var(--ion-color-primary);
 }
 
-/* Linha divisória */
+/* Linha divisória entre os passos e o conteúdo */
 .stage1-divider {
   border-bottom: 2px solid var(--ion-color-primary);
   width: 100%;
   margin-bottom: 25px;
 }
 
-/* Título */
+/* Título da secção */
 .stage1-title {
   color: #333;
   font-size: 1.6rem;
@@ -100,26 +104,30 @@
   cursor: pointer;
   transition: all 0.3s;
 }
+// Opção selecionada
 .stage1-delivery-option.selected {
   background: var(--ion-color-primary);
   border-color: var(--ion-color-primary);
   color: var(--ion-color-primary-contrast);
 }
+// Ícone das opções de entrega
 .stage1-delivery-icon {
   font-size: 1.8rem;
   color: #666;
 }
+// Cor dos ícones/texto quando selecionado
 .stage1-delivery-option.selected .stage1-delivery-icon,
 .stage1-delivery-option.selected .stage1-delivery-text {
   color: var(--ion-color-primary-contrast);
 }
+// Texto das opções de entrega
 .stage1-delivery-text {
   color: #333;
   font-size: 1.15rem;
   font-weight: 500;
 }
 
-/* Footer fixo */
+/* Footer fixo com total e botão */
 .stage1-footer-bar {
   position: fixed;
   left: 0;

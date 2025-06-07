@@ -1,3 +1,4 @@
+<!-- Componente de cabeçalho de pesquisa -->
 <app-search-header 
   #searchBar
   [modoVoltar]="true"
@@ -6,173 +7,182 @@
   (expandedChange)="searchExpanded = $event">
 </app-search-header>
 
+<!-- Conteúdo principal da página de produtos -->
 <ion-content class="page-content">
 
   <div class="header-gap"></div>
   
+  <!-- Backdrop para fechar a pesquisa quando expandida -->
+  <div
+    class="global-backdrop"
+    *ngIf="searchExpanded"
+    (click)="collapseSearchBar()">
+  </div>
+
+  <!-- Botões de filtro e ordenação -->
+  <div class="produto-filtros">
+    <button class="filtro-btn" (click)="abrirOrdenar()">
+      <ion-icon name="funnel-outline"></ion-icon>
+      Ordenar
+    </button>
+    <button class="filtro-btn" (click)="abrirFiltro()">
+      <ion-icon name="options-outline"></ion-icon>
+      Filtrar
+    </button>
+  </div>
+
+  <hr class="divider" />
+
+  <!-- Rótulo de resultados da pesquisa -->
+  <div class="search-label">
+    Resultados para <span>"{{ termoPesquisa }}"</span>
+  </div>
+  
+  <!-- Popover de ordenação -->
+  <div class="ordenar-backdrop" *ngIf="ordenarMenuAberto" (click)="fecharOrdenar()"></div>
+  <div class="ordenar-popover" *ngIf="ordenarMenuAberto">
+    <div class="ordenar-header">
+      <span>Ordenar por</span>
+      <ion-icon name="close-outline" class="close-popover" (click)="fecharOrdenar()"></ion-icon>
+    </div>
+    <div class="ordenar-options">
+      <label
+        class="ordenar-option"
+        *ngFor="let op of opcoesOrdenacao">
+        <input
+          type="radio"
+          name="ordenar"
+          [value]="op.value"
+          [checked]="selectedOrder === op.value"
+          (change)="ordenarProdutos(op.value)" 
+          [attr.aria-label]="'Ordenar por ' + op.label" />
+        {{ op.label }}
+      </label>
+    </div>
+  </div>
+
+  <!-- Popover de filtro -->
+  <div class="filtro-backdrop" *ngIf="filtroMenuAberto" (click)="fecharFiltro()"></div>
+  <div class="filtro-popover" *ngIf="filtroMenuAberto">
+    <div class="filtro-header">
+      <span>Filtrar</span>
+      <ion-icon name="close-outline" class="close-popover" (click)="fecharFiltro()"></ion-icon>
+    </div>
+    <div class="filtro-options">
+      <div class="filtro-section">
+        <div class="filtro-label">Marca</div>
+        <div class="filtro-checkboxes dropdown">
+          <label *ngFor="let marca of marcasDisponiveis; let i = index" [style.marginBottom.px]="6 + i * 2">
+            <input
+              type="checkbox"
+              [checked]="filtroMarcas.includes(marca)"
+              (change)="toggleMarca(marca)"
+              [attr.aria-label]="'Filtrar marca ' + marca" />
+            {{ marca }}
+          </label>
+        </div>
+      </div>
+
+      <div class="filtro-section">
+        <div class="filtro-label">Preço</div>
+        <div class="filtro-preco-rapido">
+          <button class="preco-btn" (click)="setPrecoRapido(0, 250)">Até 250€</button>
+          <button class="preco-btn" (click)="setPrecoRapido(250, 500)">250€ - 500€</button>
+          <button class="preco-btn" (click)="setPrecoRapido(500, 1000)">500€ - 1000€</button>
+          <button class="preco-btn" (click)="setPrecoRapido(1000, null)">Mais de 1000€</button>
+        </div>
+      </div>
+
+      <div class="filtro-section">
+        <div class="filtro-label">Avaliação mínima</div>
+        <div class="filtro-avaliacao-checkboxes">
+          <label *ngFor="let star of [1,2,3,4,5]">
+            <input
+              type="checkbox"
+              [checked]="filtroAvaliacao === star"
+              (change)="filtroAvaliacao = filtroAvaliacao === star ? null : star"
+              [attr.aria-label]="star + ' estrela' + (star > 1 ? 's' : '')" />
+            <span class="star-group">
+              <ion-icon *ngFor="let s of [1,2,3,4,5]" [name]="star >= s ? 'star' : 'star-outline'"></ion-icon>
+            </span>
+          </label>
+        </div>
+      </div>
+
+      <div class="filtro-actions">
+        <button class="filtro-aplicar" (click)="aplicarFiltro()">Aplicar</button>
+        <button class="filtro-limpar"  (click)="limparFiltro()">Limpar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Grade de produtos -->
+  <div class="produtos-grid">
     <div
-      class="global-backdrop"
-      *ngIf="searchExpanded"
-      (click)="collapseSearchBar()">
+      class="produto-card"
+      *ngFor="let product of pagedProducts"
+      [routerLink]="['/product-details', product.id]">
+      <img
+        [src]="product.image"
+        [alt]="product.name"
+        loading="lazy"
+        class="produto-img" />
+      <div class="produto-preco">
+        {{ product.price | currency:'EUR' }}
+      </div>
+      <div class="produto-nome">
+        {{ product.name }}
+      </div>
     </div>
+  </div>
 
-    <div class="produto-filtros">
-      <button class="filtro-btn" (click)="abrirOrdenar()">
-        <ion-icon name="funnel-outline"></ion-icon>
-        Ordenar
-      </button>
-      <button class="filtro-btn" (click)="abrirFiltro()">
-        <ion-icon name="options-outline"></ion-icon>
-        Filtrar
-      </button>
-    </div>
-
-    <hr class="divider" />
-
-    <div class="search-label">
-      Resultados para <span>"{{ termoPesquisa }}"</span>
-    </div>
+  <!-- Mensagem de sem resultados -->
+  <div class="sem-produtos" *ngIf="filteredProducts.length === 0">
+    <ion-icon name="search-circle-outline" class="sem-produtos-icon"></ion-icon>
+    <h3>Sem resultados</h3>
+    <p>Não encontrámos nenhum produto.</p>
+  </div>
+  
+  <!-- Paginação -->
+  <div class="paginacao-container" *ngIf="totalPages > 1">
     
-    <div class="ordenar-backdrop" *ngIf="ordenarMenuAberto" (click)="fecharOrdenar()"></div>
-    <div class="ordenar-popover" *ngIf="ordenarMenuAberto">
-      <div class="ordenar-header">
-        <span>Ordenar por</span>
-        <ion-icon name="close-outline" class="close-popover" (click)="fecharOrdenar()"></ion-icon>
-      </div>
-      <div class="ordenar-options">
-        <label
-          class="ordenar-option"
-          *ngFor="let op of opcoesOrdenacao">
-          <input
-            type="radio"
-            name="ordenar"
-            [value]="op.value"
-            [checked]="selectedOrder === op.value"
-            (change)="ordenarProdutos(op.value)" 
-            [attr.aria-label]="'Ordenar por ' + op.label" />
-          {{ op.label }}
-        </label>
-      </div>
+    <ion-button
+      fill="outline"
+      size="small"
+      (click)="prevPage()"
+      [disabled]="currentPage === 1"
+      aria-label="Página anterior">
+      <ion-icon slot="icon-only" name="chevron-back-outline"></ion-icon>
+    </ion-button>
+
+    <div class="pagination-items">
+      <ng-container *ngFor="let item of pagesForDisplay">
+        <span
+          *ngIf="item === '...'"
+          class="pagination-ellipsis"
+          aria-hidden="true">
+          &hellip;
+        </span>
+
+        <ion-button
+          *ngIf="item !== '...'"
+          fill="outline"
+          size="small"
+          [color]="item === currentPage ? 'primary' : 'medium'"
+          (click)="goToPage(item)"
+          [attr.aria-label]="'Ir para página ' + item">
+          {{ item }}
+        </ion-button>
+      </ng-container>
     </div>
 
-    <div class="filtro-backdrop" *ngIf="filtroMenuAberto" (click)="fecharFiltro()"></div>
-    <div class="filtro-popover" *ngIf="filtroMenuAberto">
-      <div class="filtro-header">
-        <span>Filtrar</span>
-        <ion-icon name="close-outline" class="close-popover" (click)="fecharFiltro()"></ion-icon>
-      </div>
-      <div class="filtro-options">
-        <div class="filtro-section">
-          <div class="filtro-label">Marca</div>
-          <div class="filtro-checkboxes dropdown">
-            <label *ngFor="let marca of marcasDisponiveis; let i = index" [style.marginBottom.px]="6 + i * 2">
-              <input
-                type="checkbox"
-                [checked]="filtroMarcas.includes(marca)"
-                (change)="toggleMarca(marca)"
-                [attr.aria-label]="'Filtrar marca ' + marca" />
-              {{ marca }}
-            </label>
-          </div>
-        </div>
-
-        <div class="filtro-section">
-          <div class="filtro-label">Preço</div>
-          <div class="filtro-preco-rapido">
-            <button class="preco-btn" (click)="setPrecoRapido(0, 250)">Até 250€</button>
-            <button class="preco-btn" (click)="setPrecoRapido(250, 500)">250€ - 500€</button>
-            <button class="preco-btn" (click)="setPrecoRapido(500, 1000)">500€ - 1000€</button>
-            <button class="preco-btn" (click)="setPrecoRapido(1000, null)">Mais de 1000€</button>
-          </div>
-        </div>
-
-        <div class="filtro-section">
-          <div class="filtro-label">Avaliação mínima</div>
-          <div class="filtro-avaliacao-checkboxes">
-            <label *ngFor="let star of [1,2,3,4,5]">
-              <input
-                type="checkbox"
-                [checked]="filtroAvaliacao === star"
-                (change)="filtroAvaliacao = filtroAvaliacao === star ? null : star"
-                [attr.aria-label]="star + ' estrela' + (star > 1 ? 's' : '')" />
-              <span class="star-group">
-                <ion-icon *ngFor="let s of [1,2,3,4,5]" [name]="star >= s ? 'star' : 'star-outline'"></ion-icon>
-              </span>
-            </label>
-          </div>
-        </div>
-
-        <div class="filtro-actions">
-          <button class="filtro-aplicar" (click)="aplicarFiltro()">Aplicar</button>
-          <button class="filtro-limpar"  (click)="limparFiltro()">Limpar</button>
-        </div>
-      </div>
-    </div>
-
-    <div class="produtos-grid">
-      <div
-        class="produto-card"
-        *ngFor="let product of pagedProducts"
-        [routerLink]="['/product-details', product.id]">
-        <img
-          [src]="product.image"
-          [alt]="product.name"
-          loading="lazy"
-          class="produto-img" />
-        <div class="produto-preco">
-          {{ product.price | currency:'EUR' }}
-        </div>
-        <div class="produto-nome">
-          {{ product.name }}
-        </div>
-      </div>
-    </div>
-
-    <div class="sem-produtos" *ngIf="filteredProducts.length === 0">
-      <ion-icon name="search-circle-outline" class="sem-produtos-icon"></ion-icon>
-      <h3>Sem resultados</h3>
-      <p>Não encontrámos nenhum produto.</p>
-    </div>
-    
-    <div class="paginacao-container" *ngIf="totalPages > 1">
-      
-      <ion-button
-        fill="outline"
-        size="small"
-        (click)="prevPage()"
-        [disabled]="currentPage === 1"
-        aria-label="Página anterior">
-        <ion-icon slot="icon-only" name="chevron-back-outline"></ion-icon>
-      </ion-button>
-
-      <div class="pagination-items">
-        <ng-container *ngFor="let item of pagesForDisplay">
-          <span
-            *ngIf="item === '...'"
-            class="pagination-ellipsis"
-            aria-hidden="true">
-            &hellip;
-          </span>
-
-          <ion-button
-            *ngIf="item !== '...'"
-            fill="outline"
-            size="small"
-            [color]="item === currentPage ? 'primary' : 'medium'"
-            (click)="goToPage(item)"
-            [attr.aria-label]="'Ir para página ' + item">
-            {{ item }}
-          </ion-button>
-        </ng-container>
-      </div>
-
-      <ion-button
-        fill="outline"
-        size="small"
-        (click)="nextPage()"
-        [disabled]="currentPage === totalPages"
-        aria-label="Próxima página">
-        <ion-icon slot="icon-only" name="chevron-forward-outline"></ion-icon>
-      </ion-button>
-    </div>
+    <ion-button
+      fill="outline"
+      size="small"
+      (click)="nextPage()"
+      [disabled]="currentPage === totalPages"
+      aria-label="Próxima página">
+      <ion-icon slot="icon-only" name="chevron-forward-outline"></ion-icon>
+    </ion-button>
+  </div>
 </ion-content>

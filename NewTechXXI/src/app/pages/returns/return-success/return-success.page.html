@@ -1,19 +1,26 @@
+<!-- Cabeçalho da página de sucesso da devolução -->
 <ion-header>
   <ion-toolbar color="primary">
     <ion-title>Devolução</ion-title>
   </ion-toolbar>
 </ion-header>
 
+<!-- Conteúdo principal da página -->
 <ion-content class="success-content">
   <div class="success-body">
+    <!-- Ícone animado de sucesso -->
     <ion-icon name="refresh-circle-outline" class="success-icon animate-pop"></ion-icon>
+    <!-- Título da mensagem de sucesso -->
     <div class="success-title">Pedido de Devolução <br> enviado.</div>
+    <!-- Descrição do status do pedido -->
     <div class="success-desc">Notificaremos quando for analisada.</div>
   </div>
 </ion-content>
 
+<!-- Rodapé da página com botão de ação -->
 <ion-footer>
   <div class="fixed-bottom">
+    <!-- Botão para voltar à loja -->
     <ion-button expand="block" class="success-btn" (click)="voltarParaLoja()">
       Voltar à loja
     </ion-button>

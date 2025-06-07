@@ -1,3 +1,4 @@
+<!-- Cabeçalho da página com botão de voltar e logo -->
 <ion-header>
   <ion-toolbar class="etapa4-header">
     <ion-buttons slot="start">
@@ -11,7 +12,9 @@
   </ion-toolbar>
 </ion-header>
 
+<!-- Conteúdo principal da página -->
 <ion-content class="etapa4-content">
+  <!-- Indicador visual dos passos do checkout -->
   <div class="etapa4-steps">
     <div class="etapa4-step">1</div>
     <div class="etapa4-step">2</div>
@@ -22,7 +25,7 @@
 
   <h2 class="etapa4-title">Confirmação</h2>
 
-  <!-- Lista de produtos -->
+  <!-- Lista de produtos no carrinho -->
   <div *ngIf="produtos.length > 0" class="cart-items">
     <div *ngFor="let item of produtos" class="cart-item-card">
       <div class="cart-item">
@@ -36,9 +39,9 @@
     </div>
   </div>
 
-  <!-- Resumo -->
+  <!-- Resumo da entrega e pagamento -->
   <div class="etapa4-summary">
-    <!-- Título com botão toggle -->
+    <!-- Secção do local de entrega com toggle -->
     <div class="etapa4-summary-item" [class.expanded]="showDeliveryDetails" (click)="toggleDelivery()">
       <span class="etapa4-summary-label">Local da Entrega</span>
       <div class="etapa4-summary-value">
@@ -46,7 +49,7 @@
       </div>
     </div>
 
-    <!-- Conteúdo expandido -->
+    <!-- Detalhes do local de entrega -->
     <div class="etapa4-details" [class.expanded]="showDeliveryDetails">
       <div class="etapa4-details-content" *ngIf="showDeliveryDetails">
         <!-- Caso seja entrega em casa, mostrar campos da morada -->
@@ -57,7 +60,6 @@
           <p><strong>País:</strong> {{ morada.pais }}</p>
         </div>
 
-
         <!-- Caso seja entrega na loja -->
         <div *ngIf="localEntrega !== 'Entrega em casa'">
           <p><strong>Morada:</strong> {{ localEntrega }}</p>
@@ -65,6 +67,7 @@
       </div>
     </div>
 
+    <!-- Secção do método de pagamento com toggle -->
     <div class="etapa4-summary-item" [class.expanded]="showPaymentDetails" (click)="togglePayment()">
       <span class="etapa4-summary-label">Método de Pagamento</span>
       <div class="etapa4-summary-value">
@@ -85,7 +88,7 @@
   </div>
 </ion-content>
 
-<!-- Footer -->
+<!-- Barra fixa inferior com total e botão de concluir -->
 <div class="etapa4-footer-bar">
   <div class="etapa4-footer-total">
     €{{ total | number:'1.2-2' }}

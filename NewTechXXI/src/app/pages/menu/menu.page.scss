@@ -1,18 +1,22 @@
+// Estilos para o componente de cabeçalho com pesquisa
 app-search-header {
   display: block;
   height: 72px;
 }
 
+// Estilos para o conteúdo principal do menu
 .menu-content {
   --ion-background-color: #fff;
   padding-bottom: 70px;
   position: relative;
 }
 
+// Estilos para o corpo do conteúdo do menu
 .menu-body-content {
   padding-top: 0;
 }
 
+// Estilos para o container das abas
 .tab-container {
   display: flex;
   width: 100%;
@@ -23,7 +27,7 @@ app-search-header {
   z-index: 11;
 }
 
-// Estilo de cada botão de tab
+// Estilos para cada botão de aba
 .tab {
   flex: 1;
   text-align: center;
@@ -38,13 +42,13 @@ app-search-header {
   transition: color 0.15s, background 0.15s;
 }
 
-// Estilo da tab ativa (Produtos ou Serviços)
+// Estilos para a aba ativa
 .tab.active {
   background: #e5e6e9;
   font-weight: 700;
 }
 
-// Verde para Produtos
+// Estilos específicos para a aba de Produtos quando ativa
 .tab.active:first-child {
   color: #42744c;
 }
@@ -59,7 +63,7 @@ app-search-header {
   background-color: #42744c;
 }
 
-// Azul para Serviços
+// Estilos específicos para a aba de Serviços quando ativa
 .tab.active:last-child {
   color: #7b98fa;
 }
@@ -74,17 +78,19 @@ app-search-header {
   background-color: #7b98fa;
 }
 
+// Remover indicador de aba quando não está ativa
 .tab:not(.active)::after {
   display: none;
 }
 
-// Lista de categorias/serviços
+// Estilos para a lista de categorias/serviços
 .category-list {
   width: 100%;
   background: #fff;
   z-index: 1;
 }
 
+// Estilos para cada item da categoria/serviço
 .category-item {
   display: flex;
   justify-content: space-between;
@@ -97,10 +103,12 @@ app-search-header {
   transition: background 0.12s;
 }
 
+// Efeito de clique nos itens
 .category-item:active {
   background: #f3f6f3;
 }
 
+// Estilos para o ícone de seta
 .chevron {
   color: #616161;
   font-size: 1.55rem;
@@ -110,6 +118,7 @@ app-search-header {
   font-weight: 600;
 }
 
+// Estilos para a lista principal
 .list {
   padding-top: 60px;
 }

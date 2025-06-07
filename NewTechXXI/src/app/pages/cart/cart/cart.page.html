@@ -1,48 +1,50 @@
+<!-- Conteúdo principal da página de carrinho -->
 <ion-content class="page-content">
-  <!-- Header simulado com divs -->
+  <!-- Cabeçalho simulado com divs -->
   <div class="custom-header">
-
     <div class="fake-header"></div>
-
     <div class="after-fake">
       <div class="header-container">
         <div class="header-row">
-          <div class="avatar">NT</div>
+          <div class="avatar">NT</div> <!-- Avatar fictício -->
           <div class="header-center">
-            <div class="header-title">Carrinho</div>
-            <ion-icon name="cart-outline" class="cart-icon"></ion-icon>
+            <div class="header-title">Carrinho</div> <!-- Título do cabeçalho -->
+            <ion-icon name="cart-outline" class="cart-icon"></ion-icon> <!-- Ícone do carrinho -->
           </div>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- Contador de itens -->
+  <!-- Contador de itens no carrinho -->
   <div class="cart-count">O meu carrinho ({{ obterTotalDeItens() }} artigos)</div>
 
   <hr class="divider" />
 
-  <!-- Lista de produtos -->
+  <!-- Lista de produtos no carrinho -->
   <div *ngIf="!isEmpty" class="cart-items">
     <div *ngFor="let item of cartItems" class="cart-item-card">
       <div class="cart-item">
-        <img [src]="item.imagem" [alt]="item.nome" class="cart-item-img" />
+        <img [src]="item.imagem" [alt]="item.nome" class="cart-item-img" /> <!-- Imagem do produto -->
         <div class="cart-item-details">
           <div class="cart-item-header">
-            <h3>{{ item.nome }}</h3>
+            <h3>{{ item.nome }}</h3> <!-- Nome do produto -->
           </div>
-          <p>€{{ item.preco | number:'1.2-2' }}</p>
+          <p>€{{ item.preco | number:'1.2-2' }}</p> <!-- Preço do produto -->
           <div class="quantity-controls">
+            <!-- Botão para diminuir quantidade -->
             <button (click)="decreaseQuantity(item)" [attr.aria-label]="'Diminuir quantidade de ' + item.nome">
               <ion-icon name="remove-outline"></ion-icon>
             </button>
             <div class="quantity-display">
-              <span>{{ item.quantidade }}</span>
+              <span>{{ item.quantidade }}</span> <!-- Quantidade do produto -->
             </div>
+            <!-- Botão para aumentar quantidade -->
             <button (click)="increaseQuantity(item)" [attr.aria-label]="'Aumentar quantidade de ' + item.nome">
               <ion-icon name="add-outline"></ion-icon>
             </button>
             <div class="vertical-divider"></div>
+            <!-- Ícone para remover o produto do carrinho -->
             <ion-icon
               name="trash-outline"
               class="trash-inline-icon"
@@ -55,7 +57,7 @@
     </div>
   </div>
 
-  <!-- Carrinho vazio -->
+  <!-- Mensagem de carrinho vazio -->
   <div class="cart-empty-wrapper">
     <div *ngIf="isEmpty" class="cart-empty-box">
       <ion-icon name="basket-outline" class="cart-empty-icon"></ion-icon>
@@ -65,7 +67,7 @@
   </div>
 </ion-content>
 
-<!-- Barra inferior -->
+<!-- Barra inferior com total e botão de compra -->
 <div *ngIf="!isEmpty" class="cart-footer-bar">
   <div class="cart-footer-total">
     <span class="cart-footer-total-value">€{{ total | number:'1.2-2' }}</span>
@@ -75,7 +77,7 @@
   </ion-button>
 </div>
 
-<!-- Bottom tabs  -->
+<!-- Barra de navegação inferior (tabs) -->
 <ion-tab-bar slot="bottom" class="bottom-tabs">
   <ion-tab-button tab="home" routerLink="/tabs/home">
     <ion-icon name="home-outline"></ion-icon>

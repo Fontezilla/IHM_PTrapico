@@ -1,3 +1,4 @@
+// Estilos base para o host, conteúdo e container principal
 :host,
 ion-content,
 .register-content {
@@ -14,18 +15,20 @@ ion-content,
   overflow-y: hidden; // impede scroll indesejado
 }
 
+// Configuração do conteúdo para evitar scroll
 ion-content {
   width: 100%;
   --overflow: hidden; // evita scroll ao mostrar mensagens de erro
 }
 
-/* Logo no topo à esquerda */
+/* Estilo da barra superior com logo */
 .top-bar {
   display: flex;
   align-items: flex-start;
   margin: 40px 0 20px;
 }
 
+// Estilo do avatar circular com as iniciais
 .circle-avatar {
   width: 56px;
   height: 56px;
@@ -40,7 +43,7 @@ ion-content {
   letter-spacing: 1px;
 }
 
-/* Título */
+/* Estilo do título da página */
 .register-title {
   text-align: center;
   font-size: 3.5rem;
@@ -52,7 +55,7 @@ ion-content {
   letter-spacing: 0.5px;
 }
 
-/* Formulário centrado */
+/* Estilo do formulário centralizado */
 form {
   width: 100%;
   max-width: 440px;
@@ -66,6 +69,7 @@ form {
   padding-bottom: 140px;
 }
 
+// Estilo dos itens do formulário
 .custom-item {
   display: flex;
   align-items: center;
@@ -85,7 +89,7 @@ form {
   --padding-end: 0;
 }
 
-/* INPUT CENTRALIZADO */
+/* Estilo dos inputs centralizados */
 .custom-input {
   width: 100%;
   text-align: center;
@@ -98,14 +102,14 @@ form {
   font-family: 'Montserrat', Arial, sans-serif;
 }
 
-/* Centraliza texto e placeholder */
+/* Centralização do texto e placeholder */
 .custom-input .native-input,
 .custom-input input,
 .custom-input::placeholder {
   text-align: center !important;
 }
 
-/* Mensagens de erro */
+/* Estilo das mensagens de erro */
 ion-text {
   margin-top: -15px; 
   margin-bottom: 10px;
@@ -115,7 +119,7 @@ ion-text {
   color: var(--ion-color-danger);
 }
 
-/* Botões fixos no fundo */
+/* Estilo do grupo de botões fixos no fundo */
 .btn-group {
   position: fixed;
   left: 0;
@@ -136,6 +140,7 @@ ion-text {
   box-sizing: border-box;
 }
 
+// Estilo dos botões de registo e voltar
 .btn-register,
 .btn-back {
   font-weight: 600;
@@ -147,12 +152,13 @@ ion-text {
   letter-spacing: 0.5px;
 }
 
+// Estilo específico do botão de registo
 .btn-register {
   --background: var(--ion-color-primary);
   --color: var(--ion-color-primary-contrast);
 }
 
-/* Botão voltar */
+/* Estilo do botão voltar */
 .btn-back {
   background: transparent;
   --background: transparent;
@@ -163,13 +169,14 @@ ion-text {
   transition: all 0.3s ease;
 }
 
+// Efeito hover no botão voltar
 .btn-back:hover {
   background: var(--ion-color-primary);
   --background: var(--ion-color-primary);
   --color: var(--ion-color-primary-contrast);
 }
 
-/* Responsividade */
+/* Estilos responsivos para ecrãs pequenos */
 @media (max-width: 300px) {
   .register-title {
     font-size: 2.8rem;

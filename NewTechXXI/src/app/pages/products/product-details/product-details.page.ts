@@ -8,6 +8,7 @@ import { ApiEndpoints } from 'src/app/services/api/api-endpoints.enum';
 import { SearchHeaderComponent } from 'src/app/components/search-header/search-header.component';
 import { AlertController } from '@ionic/angular';
 
+// Interface que define a estrutura de uma avaliação
 interface Review {
   id: number;
   produto_id: number;
@@ -19,6 +20,7 @@ interface Review {
   [key: string]: any;
 }
 
+// Interface que define a estrutura de um produto
 interface Product {
   id: number;
   nome?: string;
@@ -41,6 +43,7 @@ interface Product {
   [key: string]: any;
 }
 
+// Decorador que define este componente como uma página de detalhes do produto
 @Component({
   selector: 'app-product-details',
   templateUrl: './product-details.page.html',
@@ -48,12 +51,13 @@ interface Product {
   standalone: false
 })
 export class ProductDetailsPage implements OnInit {
-  product: Product | null = null;
-  productId!: number;
-  carrinhoId: number | null = null;
-  utilizadorId!: number;
-  searchExpanded: boolean = false;
+  product: Product | null = null; // Produto atual
+  productId!: number; // ID do produto
+  carrinhoId: number | null = null; // ID do carrinho
+  utilizadorId!: number; // ID do utilizador
+  searchExpanded: boolean = false; // Estado da barra de pesquisa
 
+  // Construtor que injeta os serviços necessários
   constructor(
     private route: ActivatedRoute,
     private navCtrl: NavController,
@@ -64,6 +68,7 @@ export class ProductDetailsPage implements OnInit {
     private alertCtrl: AlertController
   ) {}
 
+  // Método chamado quando o componente é inicializado
   async ngOnInit() {
     const rawId = this.route.snapshot.paramMap.get('id');
     if (!rawId) {
@@ -87,11 +92,12 @@ export class ProductDetailsPage implements OnInit {
       await this.apiService.ensureReady();
     }
 
-    await this.initCarrinho(); // ✅ Agora está no sítio certo
+    await this.initCarrinho(); // Inicializa o carrinho
 
-    this.loadProduct();
+    this.loadProduct(); // Carrega os dados do produto
   }
 
+  // Método para mostrar uma mensagem toast
   private async showToast(message: string, color: 'success' | 'warning' | 'danger', buttons?: any[]) {
     const toast = await this.toastCtrl.create({
       message,
@@ -102,6 +108,7 @@ export class ProductDetailsPage implements OnInit {
     await toast.present();
   }
 
+  // Método para inicializar o carrinho do utilizador
   private initCarrinho(): Promise<void> {
     console.log('initCarrinho chamado com utilizadorId:', this.utilizadorId);
     return new Promise<void>((resolve) => {
@@ -112,7 +119,7 @@ export class ProductDetailsPage implements OnInit {
             if (res && res.length > 0) {
               this.carrinhoId = res[0].id;
 
-              // 👉 guardar no storage
+              // Guarda o ID do carrinho no storage
               await this.storage.set('carrinho_id', this.carrinhoId);
 
               resolve();
@@ -122,7 +129,7 @@ export class ProductDetailsPage implements OnInit {
                 async (novoCarrinho: any) => {
                   this.carrinhoId = novoCarrinho.id;
 
-                  // 👉 guardar no storage
+                  // Guarda o ID do carrinho no storage
                   await this.storage.set('carrinho_id', this.carrinhoId);
 
                   resolve();
@@ -144,7 +151,7 @@ export class ProductDetailsPage implements OnInit {
     });
   }
 
-
+  // Método para carregar os dados do produto
   private loadProduct() {
     this.apiService.get(`${ApiEndpoints.PRODUTOS}/${this.productId}`).subscribe(
       (res: any) => {
@@ -169,6 +176,7 @@ export class ProductDetailsPage implements OnInit {
           image: ''
         };
 
+        // Carrega a imagem do produto
         this.apiService.getImageBlob(ApiEndpoints.PRODUTOS, this.productId).subscribe({
           next: (blob: Blob) => {
             this.product!.image = URL.createObjectURL(blob);
@@ -178,6 +186,7 @@ export class ProductDetailsPage implements OnInit {
           }
         });
 
+        // Carrega o nome da categoria
         const catId = this.product!.categoryId;
         if (catId != null) {
           this.apiService.get(`${ApiEndpoints.CATEGORIAS}/${catId}`).subscribe(
@@ -188,6 +197,7 @@ export class ProductDetailsPage implements OnInit {
           );
         }
 
+        // Carrega as avaliações do produto
         this.apiService
           .get(`${ApiEndpoints.AVALIACOES}?produto_id=${this.productId}`)
           .subscribe(
@@ -211,10 +221,12 @@ export class ProductDetailsPage implements OnInit {
     );
   }
 
+  // Método para voltar à página anterior
   voltar() {
     this.navCtrl.back();
   }
 
+  // Método para adicionar o produto ao carrinho
   async adicionarAoCarrinho() {
     if (!this.carrinhoId) {
       await this.showToast('Carrinho não disponível no momento.', 'warning');
@@ -249,7 +261,6 @@ export class ProductDetailsPage implements OnInit {
             produto_id: this.productId,
             quantidade: 1
           };
-
           this.apiService.post(ApiEndpoints.CARRINHO_PRODUTOS, payload).subscribe(
             async () => {
               await this.showToast('Produto adicionado ao carrinho.', 'success', [
@@ -262,38 +273,37 @@ export class ProductDetailsPage implements OnInit {
               ]);
             },
             async (err) => {
-              console.error('Erro ao adicionar ao carrinho:', err.error || err);
-              await this.showToast('Não foi possível adicionar ao carrinho.', 'danger');
+              console.error('Erro ao adicionar produto ao carrinho:', err.error || err);
+              await this.showToast('Não foi possível adicionar o produto ao carrinho.', 'danger');
             }
           );
         }
       },
       async (err) => {
-        console.error('Erro ao verificar produto no carrinho:', err.error || err);
-        await this.showToast('Erro ao verificar produto no carrinho.', 'danger');
+        console.error('Erro ao verificar produtos no carrinho:', err.error || err);
+        await this.showToast('Não foi possível verificar os produtos no carrinho.', 'danger');
       }
     );
   }
 
+  // Método para calcular a média das avaliações
   getAverageRating(): number {
-    const reviews = this.product?.reviews ?? [];
-    if (!reviews.length) return 0;
-    const soma = reviews.map(r => r.rating).reduce((acc, curr) => acc + curr, 0);
-    return soma / reviews.length;
+    if (!this.product?.reviews || this.product.reviews.length === 0) {
+      return 0;
+    }
+    const sum = this.product.reviews.reduce((acc, review) => acc + review.rating, 0);
+    return sum / this.product.reviews.length;
   }
 
+  // Método para escrever uma avaliação
   async escreverAvaliacao() {
-    const alert = await this.alertCtrl.create({
-      header: 'Avaliação',
-      message: 'Funcionalidade de serviços não implementada nesta versão.',
-      buttons: ['OK']
-    });
-    await alert.present();
+    // Implementação pendente
   }
 
+  // Referência ao componente de pesquisa
   @ViewChild('searchBar') searchBar!: SearchHeaderComponent;
 
+  // Método para colapsar a barra de pesquisa
   collapseSearchBar() {
-    this.searchBar.collapseSearch();
   }
 }

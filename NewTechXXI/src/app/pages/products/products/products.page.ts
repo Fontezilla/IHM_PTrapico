@@ -266,9 +266,9 @@ export class ProductsPage implements OnInit {
     );
     console.log('[DEBUG] Marcas disponíveis:', this.marcasDisponiveis);
     this.currentPage = 1;
+    this.filteredProducts = [...this.allProducts];
     this.aplicarFiltro();
   }
-
 
   carregarProdutosPorCategoriaId(id: string): void {
     console.log('[DEBUG] Carregar produtos por categoria ID:', id);

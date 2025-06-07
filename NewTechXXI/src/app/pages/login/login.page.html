@@ -1,19 +1,19 @@
+<!-- Conteúdo principal da página de login -->
 <ion-content [fullscreen]="true" class="login-content">
-  <!-- Topo com avatar -->
+  <!-- Barra superior com avatar -->
   <div class="top-bar">
     <div class="circle-avatar">NT</div>
   </div>
 
-  <!-- Bloco central de login -->
+  <!-- Container principal do formulário de login -->
   <div class="login-wrapper">
-
-    <!-- Título e subtítulo -->
+    <!-- Cabeçalho do formulário -->
     <h1 class="login-title">Login</h1>
     <p class="login-subtitle">Acede à tua conta para continuar</p>
 
     <!-- Formulário de autenticação -->
     <form (ngSubmit)="onSubmit()">
-      <!-- Campo e-mail ou telefone -->
+      <!-- Campo para e-mail ou telefone -->
       <ion-item class="custom-item" lines="none">
         <ion-input
           [(ngModel)]="emailOuTelefone"
@@ -24,7 +24,7 @@
         </ion-input>
       </ion-item>
 
-      <!-- Campo palavra-passe -->
+      <!-- Campo para palavra-passe -->
       <ion-item class="custom-item" lines="none">
         <ion-input
           [(ngModel)]="password"
@@ -34,6 +34,7 @@
           required
           class="custom-input center-input">
         </ion-input>
+        <!-- Botão para alternar visibilidade da palavra-passe -->
         <ion-icon
           [name]="showPassword ? 'eye-off-outline' : 'eye-outline'"
           slot="end"
@@ -42,12 +43,12 @@
         </ion-icon>
       </ion-item>
 
-      <!-- Link recuperar senha -->
+      <!-- Link para recuperação de palavra-passe -->
       <ion-text class="forgot-password" (click)="esqueciSenha()">
         Esqueceu a Palavra-passe?
       </ion-text>
 
-      <!-- Botão Entrar -->
+      <!-- Botão de submissão do formulário -->
       <ion-button
         expand="block"
         type="submit"
@@ -56,17 +57,17 @@
         ENTRAR
       </ion-button>
     </form>
-
   </div>
 
-  <!-- Secção de registo -->
+  <!-- Secção de registo e login social -->
   <div class="signup-info">
     <h2 class="signup-title">Ainda não tens conta?</h2>
     <hr class="signup-divider" />
 
+    <!-- Opções de login social -->
     <div class="social-label">Entrar com:</div>
     <div class="social-login">
-      <!-- Google Login -->
+      <!-- Botão de login com Google -->
       <img
         src="../../../assets/icon/google.png"
         alt="Entrar com Google"
@@ -75,7 +76,7 @@
         role="button"
         aria-label="Entrar com Google" />
 
-      <!-- Facebook Login -->
+      <!-- Botão de login com Facebook -->
       <img
         src="../../../assets/icon/facebook.png"
         alt="Entrar com Facebook"
@@ -85,8 +86,7 @@
         aria-label="Entrar com Facebook" />
     </div>
 
-
-    <!-- Botão Registar -->
+    <!-- Botão para registo de nova conta -->
     <ion-button
       expand="block"
       fill="outline"
