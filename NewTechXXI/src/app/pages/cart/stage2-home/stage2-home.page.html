@@ -5,8 +5,6 @@
         <ion-icon name="arrow-back-outline" class="stage2-back-icon"></ion-icon>
       </ion-button>
     </ion-buttons>
-
-    <!-- Logotipo NT centrado -->
     <div class="stage2-logo">
       <div class="stage2-logo-circle">NT</div>
     </div>
@@ -14,107 +12,111 @@
 </ion-header>
 
 <ion-content class="stage2-content">
-  <!-- Passos do checkout (1 a 4), com o passo 2 ativo -->
   <div class="stage2-steps">
     <div class="stage2-step">1</div>
     <div class="stage2-step active">2</div>
     <div class="stage2-step">3</div>
     <div class="stage2-step">4</div>
   </div>
-
   <div class="stage2-divider"></div>
 
   <h2 class="stage2-title">Morada</h2>
 
-  <!-- Formulário para introduzir nova morada -->
-  <div class="stage2-form">
+  <!-- aqui dentro ficam todos os campos + moradas registadas -->
+  <div class="stage2-form" [formGroup]="formMorada">
+    <!-- Rua -->
     <div class="stage2-input-group">
-      <ion-input 
+      <ion-input
         label="Rua"
         labelPlacement="floating"
-        placeholder="Ex: Rua das Flores, 123" 
-        [(ngModel)]="morada.rua"
-        (ionInput)="checkFormValidity()"
+        placeholder="Ex: Rua das Flores, 123"
+        formControlName="rua"
         class="stage2-input"
-        required>
-      </ion-input>
+      ></ion-input>
+      <ion-text color="danger"
+        *ngIf="formMorada.get('rua')?.touched && formMorada.get('rua')?.invalid">
+        <div *ngIf="formMorada.get('rua')?.errors?.['required']">Rua é obrigatória.</div>
+      </ion-text>
     </div>
 
+    <!-- Código Postal -->
     <div class="stage2-input-group">
-      <ion-input 
+      <ion-input
         label="Código Postal"
         labelPlacement="floating"
-        placeholder="Ex: 1000-001" 
-        [(ngModel)]="morada.codigoPostal"
-        (ionInput)="checkFormValidity()"
+        placeholder="Ex: 1000-001"
+        formControlName="codigoPostal"
         class="stage2-input"
-        required>
-      </ion-input>
+      ></ion-input>
+      <ion-text color="danger"
+        *ngIf="formMorada.get('codigoPostal')?.touched && formMorada.get('codigoPostal')?.invalid">
+        <div *ngIf="formMorada.get('codigoPostal')?.errors?.['required']">Código Postal é obrigatório.</div>
+      </ion-text>
     </div>
 
+    <!-- Cidade -->
     <div class="stage2-input-group">
-      <ion-input 
+      <ion-input
         label="Cidade"
         labelPlacement="floating"
-        placeholder="Ex: Lisboa" 
-        [(ngModel)]="morada.cidade"
-        (ionInput)="checkFormValidity()"
+        placeholder="Ex: Lisboa"
+        formControlName="cidade"
         class="stage2-input"
-        required>
-      </ion-input>
+      ></ion-input>
+      <ion-text color="danger"
+        *ngIf="formMorada.get('cidade')?.touched && formMorada.get('cidade')?.invalid">
+        <div *ngIf="formMorada.get('cidade')?.errors?.['required']">Cidade é obrigatória.</div>
+      </ion-text>
     </div>
 
+    <!-- País -->
     <div class="stage2-input-group">
-      <ion-input 
+      <ion-input
         label="País"
         labelPlacement="floating"
-        placeholder="Ex: Portugal" 
-        [(ngModel)]="morada.pais"
-        (ionInput)="checkFormValidity()"
+        placeholder="Ex: Portugal"
+        formControlName="pais"
         class="stage2-input"
-        required>
-      </ion-input>
+      ></ion-input>
+      <ion-text color="danger"
+        *ngIf="formMorada.get('pais')?.touched && formMorada.get('pais')?.invalid">
+        <div *ngIf="formMorada.get('pais')?.errors?.['required']">País é obrigatório.</div>
+      </ion-text>
     </div>
 
-    
-
+    <!-- Moradas Registadas imediatamente após o último campo -->
     <div class="etapa2-loja-cities" *ngIf="savedAddresses.length > 0">
-
       <hr class="divider" />
-
       <h3 class="stage2-subtitle">Moradas Registadas</h3>
-
-      <div 
+      <div
         *ngFor="let address of savedAddresses"
         class="etapa2-loja-city-option"
         [class.selected]="selectedAddressId === address.id"
-        (click)="selectAddress(address.id)">
-        
+        (click)="selectAddress(address.id)"
+      >
         <div class="etapa2-loja-city-info">
           <h3 class="etapa2-loja-city-name">{{ address.rua }}</h3>
           <p class="etapa2-loja-city-address">
-            {{ address.codigo_postal }} - {{ address.cidade }}, {{ address.pais }}
+            {{ address.codigo_postal }} – {{ address.cidade }}, {{ address.pais }}
           </p>
         </div>
-
         <ion-icon name="location-outline" class="etapa2-loja-city-icon"></ion-icon>
       </div>
     </div>
   </div>
 </ion-content>
 
-<!-- Barra fixa com total e botão continuar -->
+<!-- Footer fixo -->
 <div class="stage2-footer-bar">
   <div class="stage2-footer-total">
     €{{ total | number:'1.2-2' }}
   </div>
-
-  <!-- Botão só fica ativo quando o formulário estiver válido -->
-  <ion-button 
-    expand="block" 
-    class="stage2-footer-btn" 
+  <ion-button
+    expand="block"
+    class="stage2-footer-btn"
     (click)="continuar()"
-    [disabled]="!isFormValid">
+    [disabled]="!isFormValid"
+  >
     Continuar
   </ion-button>
 </div>
