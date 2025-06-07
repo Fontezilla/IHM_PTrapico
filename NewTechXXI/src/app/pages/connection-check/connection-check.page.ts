@@ -33,7 +33,7 @@ export class ConnectionCheckPage implements OnInit {
       error: () => {
         setTimeout(() => {
           this.router.navigateByUrl('/connection-settings', { replaceUrl: true });
-        }, 2000);
+        }, 250);
       }
     });
   }

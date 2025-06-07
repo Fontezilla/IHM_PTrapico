@@ -28,27 +28,9 @@
       <div class="cart-item">
         <img [src]="item.imagem || 'assets/images/no_image.jpg'" alt="Produto" class="cart-item-img" />
         <div class="cart-item-details">
-          <div class="cart-item-header">
-            <h3>{{ item.descricao }}</h3>
-          </div>
-          <p>€{{ item.precoUnitario | number:'1.2-2' }}</p>
-          <div class="quantity-controls">
-            <button (click)="decreaseQuantity(item)">
-              <ion-icon name="remove-outline"></ion-icon>
-            </button>
-            <div class="quantity-display">
-              <span>{{ item.quantidade }}</span>
-            </div>
-            <button (click)="increaseQuantity(item)">
-              <ion-icon name="add-outline"></ion-icon>
-            </button>
-            <div class="vertical-divider"></div>
-            <ion-icon
-              name="trash-outline"
-              class="trash-inline-icon"
-              (click)="removeItem(item)">
-            </ion-icon>
-          </div>
+          <ion-text class="text-bold">{{ item.nome }}</ion-text>
+          <ion-text class="text">Preço Unitário: {{ item.precoUnitario | number:'1.2-2' }}€</ion-text>
+          <ion-text class="text">Quantidade: {{ item.quantidade }}</ion-text>
         </div>
       </div>
     </div>

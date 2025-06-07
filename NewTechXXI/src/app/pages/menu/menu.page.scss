@@ -1,3 +1,8 @@
+app-search-header {
+  display: block;
+  height: 72px;
+}
+
 .menu-content {
   --ion-background-color: #fff;
   padding-bottom: 70px;
@@ -5,18 +10,20 @@
 }
 
 .menu-body-content {
-  margin-top: 60px;
+  padding-top: 0;
 }
 
-/* Tabs Produtos/Serviços */
 .tab-container {
   display: flex;
   width: 100%;
   border-bottom: 2px solid #e0e0e0;
+  background-color: var(--ion-background-color);
+  position: sticky;
+  top: 60px;
   z-index: 11;
-  position: relative;
 }
 
+// Estilo de cada botão de tab
 .tab {
   flex: 1;
   text-align: center;
@@ -31,12 +38,13 @@
   transition: color 0.15s, background 0.15s;
 }
 
+// Estilo da tab ativa (Produtos ou Serviços)
 .tab.active {
   background: #e5e6e9;
   font-weight: 700;
 }
 
-/* Produtos ativo: verde */
+// Verde para Produtos
 .tab.active:first-child {
   color: #42744c;
 }
@@ -51,7 +59,7 @@
   background-color: #42744c;
 }
 
-/* Serviços ativo: azul */
+// Azul para Serviços
 .tab.active:last-child {
   color: #7b98fa;
 }
@@ -70,7 +78,7 @@
   display: none;
 }
 
-/* Lista de categorias/serviços */
+// Lista de categorias/serviços
 .category-list {
   width: 100%;
   background: #fff;
@@ -100,4 +108,8 @@
   display: flex;
   align-items: center;
   font-weight: 600;
+}
+
+.list {
+  padding-top: 60px;
 }

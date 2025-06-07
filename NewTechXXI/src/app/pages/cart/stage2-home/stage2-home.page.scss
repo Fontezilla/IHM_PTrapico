@@ -85,7 +85,7 @@
   font-size: 1.2rem;
   font-weight: 600;
   color: var(--ion-color-medium);
-  text-align: left;
+  text-align: center;
   letter-spacing: 0.5px;
 }
 
@@ -196,4 +196,10 @@
   justify-content: center;
   text-transform: none;
   --border-radius: 0;
+}
+
+.divider {
+  border: none;
+  border-top: 1px solid var(--ion-color-light-tint);
+  margin: 10px 0 16px 0;
 }

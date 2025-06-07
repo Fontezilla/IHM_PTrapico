@@ -4,13 +4,13 @@
     <span class="return-title">Devoluções</span>
   </div>
 
-  <!-- Apenas a seção de produtos recentes -->
-  <div class="recent-section">
+  <!-- Produtos comprados recentemente -->
+  <div class="recent-section" *ngIf="recentProducts.length > 0; else noProducts">
     <h2>Artigos Comprados Recentemente</h2>
     <div class="recent-products">
       <div class="recent-card" 
            *ngFor="let product of recentProducts"
-           [class.selected]="selectedProduct?.id === product.id"
+           [class.selected]="selectedProduct?.produto_id === product.produto_id"
            (click)="selectProduct(product)">
         <img [src]="product.image" [alt]="product.name" class="recent-img" />
         <div class="recent-info">
@@ -20,6 +20,12 @@
       </div>
     </div>
   </div>
+
+  <ng-template #noProducts>
+    <div class="recent-section">
+      <p>Não foram encontrados produtos recentes.</p>
+    </div>
+  </ng-template>
 
   <!-- Botão Seguinte -->
   <div *ngIf="selectedProduct" class="seguinte-bar">

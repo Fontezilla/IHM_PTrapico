@@ -1,16 +1,14 @@
-<ion-content class="page-content">
-  <ion-header translucent>
-    <app-search-header
-      #searchBar
-      [modoVoltar]="true"
-      (voltar)="voltar()"
-      (expandedChange)="searchExpanded = $event">
-    </app-search-header>
-  </ion-header>
-  
-  <ion-content>
-    <div class="header-gap"></div>
+<app-search-header
+  #searchBar
+  [modoVoltar]="true"
+  (voltar)="voltar()"
+  (expandedChange)="searchExpanded = $event">
+</app-search-header>
 
+<ion-content class="page-content">
+
+  <div class="header-gap"></div>
+  
     <div
       class="global-backdrop"
       *ngIf="searchExpanded"
@@ -25,7 +23,6 @@
           <ion-card-title>{{ product!.name || product!.nome }}</ion-card-title>
         </ion-card-header>
 
-        <!-- wrapper → permite centralizar e limitar a 75 % -->
         <div class="imagem-wrapper" *ngIf="product!.image">
           <img
             [src]="product!.image"
@@ -87,8 +84,19 @@
             Este produto ainda não possui avaliações.
           </div>
 
-          <ion-button expand="block" fill="outline" (click)="escreverAvaliacao()">
-            <ion-icon slot="start" name="create-outline"></ion-icon>
+          <!-- Botão corrigido: branco com texto/borda primária -->
+          <ion-button
+            expand="block"
+            fill="outline"
+            (click)="escreverAvaliacao()"
+            style="
+              --background: white;
+              --color: var(--ion-color-primary);
+              --border-color: var(--ion-color-primary);
+              --box-shadow: none;
+              font-weight: 600;
+            ">
+            <ion-icon slot="start" name="create-outline" style="color: var(--ion-color-primary);"></ion-icon>
             Escrever Avaliação
           </ion-button>
         </ion-card-content>
@@ -101,7 +109,6 @@
         <ion-button (click)="voltar()">Voltar</ion-button>
       </div>
     </ng-template>
-  </ion-content>
 </ion-content>
 
 <!-- RODAPÉ -->

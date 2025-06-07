@@ -6,6 +6,7 @@ import { Observable, forkJoin } from 'rxjs';
 export interface ProdutoCarrinho {
   id: number;
   produtoId: number;
+  nome: string;
   quantidade: number;
   precoUnitario: number;
 }

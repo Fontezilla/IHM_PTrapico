@@ -1,16 +1,15 @@
+<app-search-header 
+  #searchBar
+  [modoVoltar]="true"
+  [(termo)]="termoPesquisa"
+  (voltar)="voltar()"
+  (expandedChange)="searchExpanded = $event">
+</app-search-header>
+
 <ion-content class="page-content">
-  <ion-header translucent>
-    <app-search-header 
-      #searchBar
-      [modoVoltar]="true"
-      [(termo)]="termoPesquisa"
-      (voltar)="voltar()"
-      (expandedChange)="searchExpanded = $event">
-    </app-search-header>
-  </ion-header>
+
+  <div class="header-gap"></div>
   
-  <ion-content>
-    <div class="header-gap"></div>
     <div
       class="global-backdrop"
       *ngIf="searchExpanded"
@@ -176,5 +175,4 @@
         <ion-icon slot="icon-only" name="chevron-forward-outline"></ion-icon>
       </ion-button>
     </div>
-  </ion-content>
 </ion-content>

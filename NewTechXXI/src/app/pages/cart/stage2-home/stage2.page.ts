@@ -4,7 +4,7 @@ import { ApiService } from 'src/app/services/api/api.service';
 import { ApiEndpoints } from 'src/app/services/api/api-endpoints.enum';
 import { Storage } from '@ionic/storage-angular';
 import { CheckoutService } from 'src/app/services/checkout-service/checkout-service.service';
-import { NavController, ToastController } from '@ionic/angular';
+import { NavController, AlertController } from '@ionic/angular';
 
 @Component({
   selector: 'app-stage2-home',
@@ -32,7 +32,7 @@ export class Stage2HomePage implements OnInit {
     private api: ApiService,
     private storage: Storage,
     private checkoutService: CheckoutService,
-    private toastController: ToastController,
+    private alertController: AlertController,
     private navCtrl: NavController
   ) {}
 
@@ -41,12 +41,11 @@ export class Stage2HomePage implements OnInit {
     this.total = this.checkoutService.getTotal();
   }
 
-  // Busca o utilizador do storage e as moradas associadas
+  // Inicializa utilizador e moradas guardadas
   async inicializarUtilizadorEMoradas() {
     await this.storage.create();
     const rawUser = await this.storage.get('utilizador');
     if (!rawUser) {
-      // Proteção: se não houver login válido, redireciona
       this.router.navigateByUrl('/login');
       return;
     }
@@ -57,7 +56,6 @@ export class Stage2HomePage implements OnInit {
     this.api.get(`${ApiEndpoints.MORADAS}/utilizador/${this.utilizadorId}`).subscribe({
       next: (moradas) => {
         this.savedAddresses = moradas || [];
-        console.log('Moradas recebidas:', moradas);
       },
       error: () => {
         this.savedAddresses = [];
@@ -65,22 +63,41 @@ export class Stage2HomePage implements OnInit {
     });
   }
 
-  // Atualiza flag do formulário válido
-  checkFormValidity() {
+  // Verifica validade do formulário e conflito
+  async checkFormValidity() {
     const { rua, codigoPostal, cidade, pais } = this.morada;
-    this.isFormValid = !!(rua && codigoPostal && cidade && pais);
+    const hasManualInput = !!(rua || codigoPostal || cidade || pais);
+
+    if (this.selectedAddressId !== null && hasManualInput) {
+      await this.presentAlert('Já selecionaste uma morada guardada e preenches-te campos manualmente. Vamos limpar os dois para continuares.');
+      this.resetInputs(); // só após fechar o alerta
+      return;
+    }
+
+    this.isFormValid =
+      this.selectedAddressId !== null ||
+      !!(rua && codigoPostal && cidade && pais);
   }
 
-  // Selecionar morada existente
+
+  // Seleciona ou desseleciona morada guardada
   selectAddress(id: number) {
-    this.selectedAddressId = id;
-    this.isFormValid = true;
+    if (this.selectedAddressId === id) {
+      // Desseleciona se clicar de novo
+      this.selectedAddressId = null;
+    } else {
+      this.selectedAddressId = id;
+    }
+
+    this.checkFormValidity();
   }
 
-  // Submeter morada nova ou usar morada existente
+  // Avança para etapa seguinte com morada válida
   async continuar() {
-    if (!this.selectedAddressId && !this.isFormValid) {
-      this.presentToast('Seleciona ou introduz uma morada.', 'warning');
+    const { rua, codigoPostal, cidade, pais } = this.morada;
+
+    if (!this.selectedAddressId && !(rua && codigoPostal && cidade && pais)) {
+      this.presentAlert('Seleciona ou introduz uma morada.');
       return;
     }
 
@@ -90,52 +107,59 @@ export class Stage2HomePage implements OnInit {
       return;
     }
 
-    // Verificar duplicado com comparação padronizada
+    // Verificar duplicado
     const normalizar = (str: string) => str.trim().toLowerCase();
     const existe = this.savedAddresses.some(addr =>
-      normalizar(addr.rua) === normalizar(this.morada.rua) &&
-      normalizar(addr.codigo_postal) === normalizar(this.morada.codigoPostal) &&
-      normalizar(addr.cidade) === normalizar(this.morada.cidade) &&
-      normalizar(addr.pais) === normalizar(this.morada.pais)
+      normalizar(addr.rua) === normalizar(rua) &&
+      normalizar(addr.codigo_postal) === normalizar(codigoPostal) &&
+      normalizar(addr.cidade) === normalizar(cidade) &&
+      normalizar(addr.pais) === normalizar(pais)
     );
 
     if (existe) {
-      this.presentToast('Morada já existente. Seleciona-a abaixo ou introduz outra.', 'warning');
+      this.presentAlert('Morada já existente. Seleciona-a abaixo ou introduz outra.');
+      this.resetInputs();
       return;
     }
 
     // Submeter nova morada
     const payload = {
       utilizador_id: this.utilizadorId,
-      rua: this.morada.rua,
-      cidade: this.morada.cidade,
-      codigo_postal: this.morada.codigoPostal,
-      pais: this.morada.pais
+      rua,
+      cidade,
+      codigo_postal: codigoPostal,
+      pais
     };
 
     this.api.post(ApiEndpoints.MORADAS, payload).subscribe({
       next: (novaMorada) => {
         this.checkoutService.setMoradaId(novaMorada.id);
-        this.presentToast('Morada registada com sucesso!', 'success');
         this.router.navigateByUrl('/stage3');
       },
       error: () => {
-        this.presentToast('Erro ao criar morada. Tenta novamente.', 'danger');
+        this.presentAlert('Erro ao criar morada. Tenta novamente.');
       }
     });
   }
 
-  // Toast reutilizável
-  async presentToast(msg: string, color: 'success' | 'warning' | 'danger') {
-    const toast = await this.toastController.create({
-      message: msg,
-      duration: 2500,
-      color: color
-    });
-    await toast.present();
+  // Reset a inputs e morada selecionada
+  resetInputs() {
+    this.morada = { rua: '', codigoPostal: '', cidade: '', pais: '' };
+    this.selectedAddressId = null;
+    this.isFormValid = false;
   }
 
-  // Voltar para a etapa anterior
+  // Mostra alerta com mensagem de erro
+  async presentAlert(msg: string) {
+    const alert = await this.alertController.create({
+      header: 'Atenção',
+      message: msg,
+      buttons: ['OK']
+    });
+    await alert.present();
+  }
+
+  // Voltar para etapa anterior
   goBack() {
     this.navCtrl.back();
   }

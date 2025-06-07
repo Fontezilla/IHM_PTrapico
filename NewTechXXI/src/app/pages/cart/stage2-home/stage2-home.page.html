@@ -76,11 +76,16 @@
       </ion-input>
     </div>
 
-    <h3 class="stage2-subtitle">Escolhe uma morada guardada</h3>
+    
 
     <div class="etapa2-loja-cities" *ngIf="savedAddresses.length > 0">
+
+      <hr class="divider" />
+
+      <h3 class="stage2-subtitle">Moradas Registadas</h3>
+
       <div 
-        *ngFor="let address of savedAddresses" 
+        *ngFor="let address of savedAddresses"
         class="etapa2-loja-city-option"
         [class.selected]="selectedAddressId === address.id"
         (click)="selectAddress(address.id)">

@@ -47,9 +47,17 @@ export class AccountSettingsPage  implements OnInit {
   }
 
   async logout() {
+    await this.storage.create();
+
+    const apiUrl = await this.storage.get('apiUrl');
+
     await this.storage.clear();
-    this.router.navigate(['/login'], { replaceUrl: true });
+    if (apiUrl) {
+      await this.storage.set('apiUrl', apiUrl);
+    }
+    this.router.navigate(['/connection-check'], { replaceUrl: true });
   }
+
 
   async mostrarAlerta(titulo: string, mensagem: string) {
     const alert = await this.alertCtrl.create({

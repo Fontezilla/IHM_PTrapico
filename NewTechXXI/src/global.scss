@@ -110,10 +110,6 @@ ion-card.custom-card ion-card-content {
   color: white;
 }
 
-.header-gap {
-  height: 80px;
-}
-
 .page-content {
   --ion-background-color: var(--ion-color-background_light);
   font-family: var(--font-family);
@@ -133,7 +129,18 @@ ion-card.custom-card ion-card-content {
   z-index: 900;
 }
 
-.custom-header {
-  padding-top: env(safe-area-inset-top);
-  padding-top: max(16px, env(safe-area-inset-top));
+.fake-header {
+  height: 24px; 
+  background-color: var(--ion-color-primary);
+  width: 100%;
+  position: fixed;
+  top: 0;
+  z-index: 9;
+}
+
+.after-fake {
+  position: sticky;
+  top: 24px;
+  background-color: var(--ion-background-color);
+  z-index: 9;
 }

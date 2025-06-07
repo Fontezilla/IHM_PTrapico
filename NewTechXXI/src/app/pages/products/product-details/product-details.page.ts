@@ -1,12 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NavController, ToastController } from '@ionic/angular';
 import { Storage } from '@ionic/storage-angular';
 import { DomSanitizer } from '@angular/platform-browser';
 import { ApiService } from 'src/app/services/api/api.service';
 import { ApiEndpoints } from 'src/app/services/api/api-endpoints.enum';
-import { ViewChild } from '@angular/core';
 import { SearchHeaderComponent } from 'src/app/components/search-header/search-header.component';
+import { AlertController } from '@ionic/angular';
 
 interface Review {
   id: number;
@@ -60,7 +60,8 @@ export class ProductDetailsPage implements OnInit {
     private apiService: ApiService,
     private toastCtrl: ToastController,
     private storage: Storage,
-    private sanitizer: DomSanitizer
+    private sanitizer: DomSanitizer,
+    private alertCtrl: AlertController
   ) {}
 
   async ngOnInit() {
@@ -86,34 +87,44 @@ export class ProductDetailsPage implements OnInit {
       await this.apiService.ensureReady();
     }
 
-    await this.initCarrinho();
+    await this.initCarrinho(); // ✅ Agora está no sítio certo
+
     this.loadProduct();
   }
 
   private async showToast(message: string, color: 'success' | 'warning' | 'danger', buttons?: any[]) {
-    const toast = await this.toastCtrl.create({ 
-      message, 
-      duration: 2000, 
-      color, 
+    const toast = await this.toastCtrl.create({
+      message,
+      duration: 2000,
+      color,
       buttons: buttons || []
     });
     await toast.present();
   }
 
   private initCarrinho(): Promise<void> {
+    console.log('initCarrinho chamado com utilizadorId:', this.utilizadorId);
     return new Promise<void>((resolve) => {
       this.apiService
-        .get(`${ApiEndpoints.CARRINHOS}?utilizador_id=${this.utilizadorId}`)
+        .get(`${ApiEndpoints.CARRINHOS}/utilizador/${this.utilizadorId}`)
         .subscribe(
-          (res: any[]) => {
+          async (res: any[]) => {
             if (res && res.length > 0) {
               this.carrinhoId = res[0].id;
+
+              // 👉 guardar no storage
+              await this.storage.set('carrinho_id', this.carrinhoId);
+
               resolve();
             } else {
               const payloadCreate = { utilizador_id: this.utilizadorId };
               this.apiService.post(ApiEndpoints.CARRINHOS, payloadCreate).subscribe(
-                (novoCarrinho: any) => {
+                async (novoCarrinho: any) => {
                   this.carrinhoId = novoCarrinho.id;
+
+                  // 👉 guardar no storage
+                  await this.storage.set('carrinho_id', this.carrinhoId);
+
                   resolve();
                 },
                 async (err) => {
@@ -132,6 +143,7 @@ export class ProductDetailsPage implements OnInit {
         );
     });
   }
+
 
   private loadProduct() {
     this.apiService.get(`${ApiEndpoints.PRODUTOS}/${this.productId}`).subscribe(
@@ -209,26 +221,56 @@ export class ProductDetailsPage implements OnInit {
       return;
     }
 
-    const payload = {
-      carrinho_id: this.carrinhoId,
-      produto_id: this.productId,
-      quantidade: 1
-    };
+    this.apiService.get(`${ApiEndpoints.CARRINHO_PRODUTOS}?carrinho_id=${this.carrinhoId}`).subscribe(
+      async (existingItems: any[]) => {
+        const existingItem = existingItems.find(item => item.produto_id === this.productId);
 
-    this.apiService.post(ApiEndpoints.CARRINHO_PRODUTOS, payload).subscribe(
-      async () => {
-        await this.showToast('Produto adicionado ao carrinho.', 'success', [
-          {
-            text: 'Ver carrinho',
-            handler: () => {
-              this.navCtrl.navigateForward('/tabs/cart');
+        if (existingItem) {
+          const novaQuantidade = existingItem.quantidade + 1;
+          this.apiService.put(`${ApiEndpoints.CARRINHO_PRODUTOS}/${existingItem.id}`, { quantidade: novaQuantidade }).subscribe(
+            async () => {
+              await this.showToast('Quantidade do produto atualizada no carrinho.', 'success', [
+                {
+                  text: 'Ver carrinho',
+                  handler: () => {
+                    this.navCtrl.navigateForward('/tabs/cart');
+                  }
+                }
+              ]);
+            },
+            async (err) => {
+              console.error('Erro ao atualizar a quantidade do produto:', err.error || err);
+              await this.showToast('Não foi possível atualizar a quantidade do produto no carrinho.', 'danger');
             }
-          }
-        ]);
+          );
+        } else {
+          const payload = {
+            carrinho_id: this.carrinhoId,
+            produto_id: this.productId,
+            quantidade: 1
+          };
+
+          this.apiService.post(ApiEndpoints.CARRINHO_PRODUTOS, payload).subscribe(
+            async () => {
+              await this.showToast('Produto adicionado ao carrinho.', 'success', [
+                {
+                  text: 'Ver carrinho',
+                  handler: () => {
+                    this.navCtrl.navigateForward('/tabs/cart');
+                  }
+                }
+              ]);
+            },
+            async (err) => {
+              console.error('Erro ao adicionar ao carrinho:', err.error || err);
+              await this.showToast('Não foi possível adicionar ao carrinho.', 'danger');
+            }
+          );
+        }
       },
       async (err) => {
-        console.error('Erro ao adicionar ao carrinho:', err.error || err);
-        await this.showToast('Não foi possível adicionar ao carrinho.', 'danger');
+        console.error('Erro ao verificar produto no carrinho:', err.error || err);
+        await this.showToast('Erro ao verificar produto no carrinho.', 'danger');
       }
     );
   }
@@ -240,12 +282,17 @@ export class ProductDetailsPage implements OnInit {
     return soma / reviews.length;
   }
 
-  escreverAvaliacao() {
-    this.navCtrl.navigateForward(`/working-on-it`);
+  async escreverAvaliacao() {
+    const alert = await this.alertCtrl.create({
+      header: 'Avaliação',
+      message: 'Funcionalidade de serviços não implementada nesta versão.',
+      buttons: ['OK']
+    });
+    await alert.present();
   }
 
   @ViewChild('searchBar') searchBar!: SearchHeaderComponent;
-  
+
   collapseSearchBar() {
     this.searchBar.collapseSearch();
   }

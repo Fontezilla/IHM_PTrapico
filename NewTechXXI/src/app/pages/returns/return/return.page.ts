@@ -40,9 +40,31 @@ export class ReturnPage implements OnInit {
   carregarProdutosRecentes() {
     this.api.get(`${ApiEndpoints.ENCOMENDAS}/encomendas-recentes/${this.utilizadorId}`)
       .subscribe((produtos: any[]) => {
-        this.recentProducts = produtos;
+        const vistos = new Set<number>();
+        const unicos: any[] = [];
 
-        this.recentProducts.forEach((p) => {
+        // Eliminar produtos repetidos (por produto_id)
+        for (let p of produtos) {
+          if (!vistos.has(p.produto_id)) {
+            vistos.add(p.produto_id);
+            unicos.push({ ...p }); // copia do objeto
+          }
+        }
+
+        // Buscar nome e imagem
+        unicos.forEach((p) => {
+          // Nome do produto
+          this.api.get(`${ApiEndpoints.PRODUTOS}/${p.produto_id}`).subscribe({
+            next: (produtoCompleto: any) => {
+              console.log('📦 Produto carregado:', produtoCompleto);
+              p.name = produtoCompleto.name || 'Produto';
+            },
+            error: () => {
+              p.name = 'Produto desconhecido';
+            }
+          });
+
+          // Imagem do produto
           this.api.getImageBlob(ApiEndpoints.PRODUTOS, p.produto_id).subscribe({
             next: (blob: Blob) => {
               p.image = URL.createObjectURL(blob);
@@ -52,13 +74,20 @@ export class ReturnPage implements OnInit {
             }
           });
         });
+
+        this.recentProducts = unicos;
       }, (erro) => {
         console.error('Erro ao carregar produtos recentes:', erro);
       });
   }
 
   selectProduct(prod: any) {
-    this.selectedProduct = prod;
+    // Alterna entre selecionar e desselecionar
+    if (this.selectedProduct?.produto_id === prod.produto_id) {
+      this.selectedProduct = null;
+    } else {
+      this.selectedProduct = prod;
+    }
   }
 
   proceedToDetails() {
