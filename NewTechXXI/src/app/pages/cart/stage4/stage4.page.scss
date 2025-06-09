@@ -1,4 +1,4 @@
-/* Header fixo com logo central */
+/* Estilos do cabeçalho fixo com logo centralizado */
 .etapa4-header {
   --background: var(--ion-color-primary);
   --color: var(--ion-color-primary-contrast);
@@ -33,7 +33,7 @@
   font-weight: bold;
 }
 
-/* Conteúdo principal */
+/* Estilos do conteúdo principal da página */
 .etapa4-content {
   --ion-background-color: var(--ion-color-background_light);
   min-height: 100vh;
@@ -41,7 +41,7 @@
   overflow-y: auto;
 }
 
-/* Passos do checkout */
+/* Estilos dos indicadores de progresso do checkout */
 .etapa4-steps {
   display: flex;
   justify-content: center;
@@ -70,14 +70,14 @@
   border-color: var(--ion-color-primary);
 }
 
-/* Linha divisória */
+/* Estilo da linha divisória entre seções */
 .etapa4-divider {
   border-bottom: 2px solid var(--ion-color-primary);
   width: 100%;
   margin: 0 0 25px 0;
 }
 
-/* Título */
+/* Estilos dos títulos das seções */
 .etapa4-title {
   color: #333;
   font-size: 1.6rem;
@@ -86,7 +86,7 @@
   text-align: left;
 }
 
-/* Lista de produtos */
+/* Estilos da lista de produtos no carrinho */
 .cart-items {
   margin: 0 20px;
 }
@@ -106,8 +106,8 @@
 }
 
 .cart-item-img {
-  width: 90px; /* Increased size */
-  height: 105px; /* Increased size */
+  width: 90px; /* Tamanho aumentado */
+  height: 105px; /* Tamanho aumentado */
   object-fit: cover;
   border-radius: 8px;
 }
@@ -147,7 +147,7 @@
   color: var(--ion-color-light-contrast);
 }
 
-/* Resumo expansível */
+/* Estilos do resumo expansível de entrega e pagamento */
 .etapa4-summary {
   margin: 0 20px;
   padding-bottom: 120px;
@@ -207,7 +207,7 @@
   color: var(--ion-color-primary-contrast);
 }
 
-/* Detalhes expansíveis */
+/* Estilos dos detalhes expansíveis */
 .etapa4-details {
   background: #f9f9f9;
   border-radius: 0 0 8px 8px;
@@ -237,7 +237,7 @@
   color: #333;
 }
 
-/* Footer fixo com total e botão */
+/* Estilos da barra fixa inferior com total e botão de concluir */
 .etapa4-footer-bar {
   position: fixed;
   left: 0;

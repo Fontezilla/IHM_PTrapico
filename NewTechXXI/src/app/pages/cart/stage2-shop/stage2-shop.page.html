@@ -1,3 +1,4 @@
+<!-- Cabeçalho da página com botão de voltar e logótipo -->
 <ion-header>
   <ion-toolbar class="etapa2-loja-header">
     <ion-buttons slot="start">
@@ -6,16 +7,17 @@
       </ion-button>
     </ion-buttons>
     <div class="etapa2-loja-logo">
-      <div class="etapa2-loja-logo-circle">NT</div>
+      <div class="etapa2-loja-logo-circle">NT</div> <!-- Logótipo circular -->
     </div>
   </ion-toolbar>
 </ion-header>
 
+<!-- Conteúdo principal da página de seleção de loja -->
 <ion-content class="etapa2-loja-content">
-  <!-- Passos do checkout -->
+  <!-- Indicador de progresso do checkout -->
   <div class="etapa2-loja-steps">
     <div class="etapa2-loja-step">1</div>
-    <div class="etapa2-loja-step active">2</div>
+    <div class="etapa2-loja-step active">2</div> <!-- Passo atual -->
     <div class="etapa2-loja-step">3</div>
     <div class="etapa2-loja-step">4</div>
   </div>
@@ -24,7 +26,7 @@
 
   <h2 class="etapa2-loja-title">Loja NewTechXXI</h2>
 
-  <!-- Pesquisa de cidades -->
+  <!-- Campo de pesquisa de lojas -->
   <div class="etapa2-loja-search">
     <ion-input 
       placeholder="Localização" 
@@ -35,7 +37,7 @@
     <ion-icon name="search-outline" class="etapa2-loja-search-icon"></ion-icon>
   </div>
 
-  <!-- Lista de cidades -->
+  <!-- Lista de lojas disponíveis -->
   <div class="etapa2-loja-cities">
     <div 
       *ngFor="let city of filteredCities" 
@@ -51,7 +53,7 @@
   </div>
 </ion-content>
 
-<!-- Footer fixo com total e botão -->
+<!-- Barra inferior fixa com total e botão de continuar -->
 <div class="etapa2-loja-footer-bar">
   <div class="etapa2-loja-footer-total">
     €{{ total | number:'1.2-2' }}

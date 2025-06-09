@@ -1,3 +1,4 @@
+// Estilos base para o host, conteúdo e container principal
 :host,
 ion-content,
 .register-content {
@@ -11,19 +12,23 @@ ion-content,
   justify-content: space-between;
   padding: 0 24px;
   box-sizing: border-box;
+  overflow-y: hidden; // impede scroll indesejado
 }
 
+// Configuração do conteúdo para evitar scroll
 ion-content {
   width: 100%;
+  --overflow: hidden; // evita scroll ao mostrar mensagens de erro
 }
 
-/* Logo no topo à esquerda */
+/* Estilo da barra superior com logo */
 .top-bar {
   display: flex;
   align-items: flex-start;
   margin: 40px 0 20px;
 }
 
+// Estilo do avatar circular com as iniciais
 .circle-avatar {
   width: 56px;
   height: 56px;
@@ -38,19 +43,19 @@ ion-content {
   letter-spacing: 1px;
 }
 
-/* Título grande e centrado - ABAIXADO */
+/* Estilo do título da página */
 .register-title {
   text-align: center;
   font-size: 3.5rem;
   font-weight: 600;
   color: var(--ion-color-dark);
   margin-bottom: 38px;
-  margin-top: 40px; 
+  margin-top: 40px;
   font-family: 'Montserrat', Arial, sans-serif;
   letter-spacing: 0.5px;
 }
 
-/* Formulário centrado */
+/* Estilo do formulário centralizado */
 form {
   width: 100%;
   max-width: 440px;
@@ -64,7 +69,7 @@ form {
   padding-bottom: 140px;
 }
 
-/* Campos com o mesmo estilo do login */
+// Estilo dos itens do formulário
 .custom-item {
   display: flex;
   align-items: center;
@@ -84,6 +89,7 @@ form {
   --padding-end: 0;
 }
 
+/* Estilo dos inputs centralizados */
 .custom-input {
   width: 100%;
   text-align: center;
@@ -96,14 +102,24 @@ form {
   font-family: 'Montserrat', Arial, sans-serif;
 }
 
-/* Centraliza texto e placeholder */
+/* Centralização do texto e placeholder */
 .custom-input .native-input,
 .custom-input input,
 .custom-input::placeholder {
   text-align: center !important;
 }
 
-/* Botões fixos no fundo */
+/* Estilo das mensagens de erro */
+ion-text {
+  margin-top: -15px; 
+  margin-bottom: 10px;
+  font-size: 0.85rem;
+  display: block;
+  padding-left: 16px;
+  color: var(--ion-color-danger);
+}
+
+/* Estilo do grupo de botões fixos no fundo */
 .btn-group {
   position: fixed;
   left: 0;
@@ -124,6 +140,7 @@ form {
   box-sizing: border-box;
 }
 
+// Estilo dos botões de registo e voltar
 .btn-register,
 .btn-back {
   font-weight: 600;
@@ -135,33 +152,35 @@ form {
   letter-spacing: 0.5px;
 }
 
+// Estilo específico do botão de registo
 .btn-register {
   --background: var(--ion-color-primary);
   --color: var(--ion-color-primary-contrast);
 }
 
-/* Botão voltar - SEM RETÂNGULO, COM BORDER RADIUS */
+/* Estilo do botão voltar */
 .btn-back {
-  background: transparent; /* <- Remove fundo sólido */
+  background: transparent;
   --background: transparent;
   --color: var(--ion-color-primary);
   border: 1.5px solid var(--ion-color-primary);
-  border-radius: var(--border-radius-global); /* <- Border radius aplicado */
+  border-radius: var(--border-radius-global);
   --border-radius: var(--border-radius-global);
-  transition: all 0.3s ease; /* <- Transição suave */
+  transition: all 0.3s ease;
 }
 
+// Efeito hover no botão voltar
 .btn-back:hover {
   background: var(--ion-color-primary);
   --background: var(--ion-color-primary);
   --color: var(--ion-color-primary-contrast);
 }
 
-/* Responsividade */
+/* Estilos responsivos para ecrãs pequenos */
 @media (max-width: 300px) {
   .register-title {
     font-size: 2.8rem;
-    margin-top: 30px; 
+    margin-top: 30px;
   }
   form {
     max-width: 95vw;

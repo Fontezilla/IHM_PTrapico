@@ -1,3 +1,4 @@
+// Estilos para o conteúdo principal da página de carrinho
 .page-content {
   display: flex;
   flex-direction: column;
@@ -5,7 +6,7 @@
   padding-bottom: 64px; 
 }
 
-// Header
+// Estilos para o cabeçalho
 .after-fake {
   position: sticky;
   top: 24px;
@@ -45,7 +46,7 @@
   color: var(--ion-color-primary-contrast);
 }
 
-// Contador de artigos
+// Estilos para o contador de artigos
 .cart-count {
   width: 100%;
   max-width: 400px;
@@ -66,7 +67,7 @@
   border-radius: 4px;
 }
 
-// Cartões de produto
+// Estilos para os cartões de produto
 .cart-items {
   width: 100%;
   max-width: 420px;
@@ -186,7 +187,7 @@
   cursor: pointer;
 }
 
-// Carrinho vazio
+// Estilos para o carrinho vazio
 .cart-empty-wrapper {
   flex: 1;
   display: flex;
@@ -229,7 +230,7 @@
   font-size: 1.05rem;
 }
 
-
+// Estilos para a barra inferior do carrinho
 .cart-footer-bar {
   position: fixed;
   bottom: 0;

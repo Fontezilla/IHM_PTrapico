@@ -1,3 +1,4 @@
+// Estilo do cabeçalho da página de produtos
 .produto-header {
   display: flex;
   align-items: center;
@@ -9,10 +10,12 @@
   border-bottom-right-radius: var(--border-radius-global);
 }
 
+// Espaçamento para o cabeçalho
 .header-gap{
   padding-top: 60px;
-}s
+}
 
+// Estilo do título do produto
 .produto-title {
   color: var(--ion-color-primary-contrast);
   font-size: 1.2rem;
@@ -20,6 +23,7 @@
   letter-spacing: 0.5px;
 }
 
+// Estilo do ícone de voltar
 .back-icon {
   color: var(--ion-color-primary-contrast);
   font-size: 2rem;
@@ -33,6 +37,7 @@
   background: var(--ion-color-primary-shade);
 }
 
+// Estilo do ícone de pesquisa no cabeçalho
 .search-header-icon {
   color: var(--ion-color-primary-contrast);
   font-size: 1.7rem;
@@ -61,6 +66,7 @@
   box-shadow: 0 2px 8px rgba(var(--ion-color-primary-rgb), 0.15);
 }
 
+// Estilo do campo de pesquisa
 .pesquisa-input {
   flex: 1;
   padding: 10px 16px;
@@ -71,6 +77,7 @@
   margin-right: 12px;
 }
 
+// Estilo do botão para fechar a pesquisa
 .pesquisa-fechar {
   color: var(--ion-color-primary-contrast);
   font-size: 2rem;
@@ -100,6 +107,7 @@
   color: var(--ion-color-primary);
 }
 
+// Estilo dos botões de filtro, preço, aplicar, limpar e mostrar mais
 .filtro-btn, .preco-btn, .filtro-aplicar, .filtro-limpar, .mostrar-mais-btn {
   @extend %btn-base;
   font-size: 1rem;

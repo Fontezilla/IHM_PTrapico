@@ -1,4 +1,4 @@
-/* Header fixo com logo central */
+/* Estilos do cabeçalho fixo com logo centralizado */
 .etapa3-header {
   --background: var(--ion-color-primary);
   --color: var(--ion-color-primary-contrast);
@@ -22,7 +22,7 @@
   font-size: 1.3rem; font-weight: bold;
 }
 
-/* Conteúdo principal */
+/* Estilos do conteúdo principal da página */
 .etapa3-content {
   --ion-background-color: var(--ion-color-background_light);
   min-height: 100vh;
@@ -30,7 +30,7 @@
   font-family: var(--font-family, 'Poppins', sans-serif);
 }
 
-/* Passos do checkout */
+/* Estilos dos indicadores de progresso do checkout */
 .etapa3-steps {
   display: flex;
   justify-content: center;
@@ -50,14 +50,14 @@
   border-color: var(--ion-color-primary);
 }
 
-/* Linha divisória */
+/* Estilo da linha divisória entre seções */
 .etapa3-divider {
   border-bottom: 2px solid var(--ion-color-primary);
   width: 100%;
   margin: 0 0 25px 0;
 }
 
-/* Título */
+/* Estilos dos títulos das seções */
 .etapa3-title {
   color: #333;
   font-size: 1.6rem;
@@ -66,7 +66,7 @@
   text-align: left;
 }
 
-/* Opções de pagamento */
+/* Estilos das opções de pagamento */
 .etapa3-payment-options {
   display: flex;
   flex-direction: column;
@@ -101,7 +101,7 @@
 }
 .etapa3-payment-icon { font-size: 1.5rem; color: #333; }
 
-/* Formulário do cartão */
+/* Estilos do formulário de cartão de crédito */
 .etapa3-card-form {
   margin: 0 20px;
   padding-bottom: 120px;
@@ -115,6 +115,7 @@
   gap: 12px;
 }
 
+/* Estilos dos campos de entrada */
 ion-item {
   align-items: stretch;
 }
@@ -130,7 +131,7 @@ ion-item {
   --min-height: 52px;
   font-size: 1rem;
 
-  /* Estilo interno */
+  /* Estilos internos do campo */
   padding-top: 8px;
   padding-bottom: 8px;
   box-shadow: none;
@@ -142,7 +143,7 @@ ion-item {
   z-index: 999;
 }
 
-
+/* Estilos dos ícones dos campos */
 .etapa3-input-icon {
   position: absolute;
   right: 16px;
@@ -153,7 +154,7 @@ ion-item {
   pointer-events: none;
 }
 
-/* Footer fixo com total e botão */
+/* Estilos da barra fixa inferior com total e botão */
 .etapa3-footer-bar {
   position: fixed;
   left: 0; right: 0; bottom: 0;
@@ -190,6 +191,7 @@ ion-item {
   text-transform: none;
 }
 
+/* Estilos das mensagens de erro */
 .etapa3-error {
   font-size: 12px;
   margin-left: 12px;

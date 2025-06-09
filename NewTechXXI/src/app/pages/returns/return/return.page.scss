@@ -1,3 +1,4 @@
+// Estilo do conteúdo principal da página de devoluções
 .return-content {
   --ion-background-color: var(--ion-color-background_light);
   --padding-start: 0;
@@ -5,6 +6,7 @@
   padding-bottom: 80px;
 }
 
+// Estilo do cabeçalho da página
 .return-header {
   position: relative; 
   display: flex;
@@ -16,10 +18,11 @@
   font-weight: bold;
   width: 100vw;
   box-sizing: border-box;
-max-width: 420px; /* ou o valor desejado */
+  max-width: 420px; // Largura máxima do cabeçalho
   margin: 0 auto;
 }
 
+// Estilo do ícone de voltar
 .back-icon {
   color: var(--ion-color-primary-contrast);
   font-size: 2rem;
@@ -28,14 +31,16 @@ max-width: 420px; /* ou o valor desejado */
   border-radius: 50%;
   padding: 6px;
   transition: background 0.2s ease-in-out;
-  z-index: 10; /* Para ficar acima do título absoluto */
+  z-index: 10; // Para ficar acima do título absoluto
   position: relative;
 }
 
+// Efeito hover no ícone de voltar
 .back-icon:hover {
   background: var(--ion-color-primary-shade);
 }
 
+// Estilo do título da página
 .return-title {
   position: absolute;
   left: 50%;
@@ -43,13 +48,15 @@ max-width: 420px; /* ou o valor desejado */
   color: var(--ion-color-primary-contrast);
   font-size: 1.2rem;
   font-weight: bold;
-  pointer-events: none; /* Para não interferir com clique no botão voltar */
+  pointer-events: none; // Para não interferir com clique no botão voltar
 }
 
+// Estilo da secção de produtos recentes
 .recent-section {
   padding: 18px 16px 0 16px;
 }
 
+// Estilo do título da secção
 .recent-section h2 {
   font-size: 1.1rem;
   color: var(--ion-color-primary);
@@ -57,6 +64,7 @@ max-width: 420px; /* ou o valor desejado */
   font-weight: 600;
 }
 
+// Estilo da grelha de produtos recentes
 .recent-products {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
@@ -64,6 +72,7 @@ max-width: 420px; /* ou o valor desejado */
   justify-content: center;
 }
 
+// Estilo do card de produto
 .recent-card {
   background: var(--ion-color-background_light);
   border-radius: var(--border-radius-global);
@@ -81,15 +90,18 @@ max-width: 420px; /* ou o valor desejado */
   border: 2px solid transparent;
 }
 
+// Efeito hover no card de produto
 .recent-card:hover {
   box-shadow: 0 4px 16px rgba(var(--ion-color-primary-rgb), 0.15);
 }
 
+// Estilo do card quando selecionado
 .recent-card.selected {
   border: 2px solid var(--ion-color-primary);
   box-shadow: 0 4px 16px rgba(var(--ion-color-primary-rgb), 0.25);
 }
 
+// Estilo da imagem do produto
 .recent-img {
   width: 90px;
   height: 90px;
@@ -99,10 +111,12 @@ max-width: 420px; /* ou o valor desejado */
   border-radius: 8px;
 }
 
+// Estilo da informação do produto
 .recent-info {
   text-align: center;
 }
 
+// Estilo do nome do produto
 .recent-name {
   font-size: 0.95rem;
   font-weight: 500;
@@ -110,13 +124,14 @@ max-width: 420px; /* ou o valor desejado */
   color: var(--ion-color-dark);
 }
 
+// Estilo do preço do produto
 .recent-price {
   color: var(--ion-color-primary);
   font-weight: bold;
   font-size: 0.98rem;
 }
 
-// Botão Seguinte fixo
+// Estilo da barra do botão seguinte
 .seguinte-bar {
   position: fixed;
   left: 0;
@@ -131,6 +146,7 @@ max-width: 420px; /* ou o valor desejado */
   border-top: 1px solid var(--ion-color-light);
 }
 
+// Estilo do botão seguinte
 .seguinte-btn {
   width: 100%;
   max-width: 420px;
@@ -148,10 +164,12 @@ max-width: 420px; /* ou o valor desejado */
   box-shadow: 0 2px 8px rgba(var(--ion-color-primary-rgb), 0.2);
 }
 
+// Efeito hover no botão seguinte
 .seguinte-btn:hover {
   background: var(--ion-color-primary-shade);
 }
 
+// Efeito de clique no botão seguinte
 .seguinte-btn:active {
   transform: scale(0.98);
 }

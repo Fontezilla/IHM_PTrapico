@@ -30,8 +30,6 @@
     "@capacitor/screen-orientation": "^7.0.1",
     "@capacitor/splash-screen": "^7.0.1",
     "@capacitor/status-bar": "^7.0.1",
-    "@ionic-native/core": "^5.36.0",
-    "@ionic-native/sqlite": "^5.36.0",
     "@ionic/angular": "^8.0.0",
     "@ionic/storage-angular": "^4.0.0",
     "cordova-sqlite-storage": "^7.0.0",
@@ -41,7 +39,7 @@
     "zone.js": "~0.15.0"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "^19.0.0",
+    "@angular-devkit/build-angular": "^19.2.14",
     "@angular-eslint/builder": "^19.0.0",
     "@angular-eslint/eslint-plugin": "^19.0.0",
     "@angular-eslint/eslint-plugin-template": "^19.0.0",

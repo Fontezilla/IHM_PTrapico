@@ -1,57 +1,92 @@
+<!-- Conteúdo principal da página de registo -->
 <ion-content [fullscreen]="true" class="register-content">
+  <!-- Barra superior com logo -->
   <div class="top-bar">
     <div class="circle-avatar">NT</div>
   </div>
   <h1 class="register-title">Registar</h1>
-  <form (ngSubmit)="onSubmit()">
+
+  <!-- Formulário de registo -->
+  <form [formGroup]="formRegister" (ngSubmit)="onSubmit()">
+    <!-- Campo de nome completo -->
     <ion-item class="custom-item" lines="none">
       <ion-input
-        [(ngModel)]="nome"
-        name="nome"
+        formControlName="nome"
         placeholder="Nome Completo"
-        required
         class="custom-input center-input"
       ></ion-input>
     </ion-item>
+    <!-- Mensagens de erro para o campo nome -->
+    <ion-text color="danger" *ngIf="formRegister.get('nome')?.touched && formRegister.get('nome')?.invalid">
+      <div *ngIf="formRegister.get('nome')?.errors?.['required']">Nome é obrigatório.</div>
+      <div *ngIf="formRegister.get('nome')?.errors?.['minlength']">Mínimo 2 letras.</div>
+      <div *ngIf="formRegister.get('nome')?.errors?.['pattern']">Apenas letras e espaços.</div>
+    </ion-text>
+
+    <!-- Campo de email -->
     <ion-item class="custom-item" lines="none">
       <ion-input
-        [(ngModel)]="email"
-        name="email"
+        formControlName="email"
         type="email"
         placeholder="Endereço de E-mail"
-        required
         class="custom-input center-input"
       ></ion-input>
     </ion-item>
+    <!-- Mensagens de erro para o campo email -->
+    <ion-text color="danger" *ngIf="formRegister.get('email')?.touched && formRegister.get('email')?.invalid">
+      <div *ngIf="formRegister.get('email')?.errors?.['required']">Email é obrigatório.</div>
+      <div *ngIf="formRegister.get('email')?.errors?.['email']">Formato inválido.</div>
+    </ion-text>
+
+    <!-- Campo de telefone -->
     <ion-item class="custom-item" lines="none">
       <ion-input
-        [(ngModel)]="telefone"
-        name="telefone"
+        formControlName="telefone"
         type="tel"
         placeholder="Número de telemóvel"
-        required
         class="custom-input center-input"
       ></ion-input>
     </ion-item>
+    <!-- Mensagens de erro para o campo telefone -->
+    <ion-text color="danger" *ngIf="formRegister.get('telefone')?.touched && formRegister.get('telefone')?.invalid">
+      <div *ngIf="formRegister.get('telefone')?.errors?.['required']">Telefone é obrigatório.</div>
+      <div *ngIf="formRegister.get('telefone')?.errors?.['pattern']">Formato inválido.</div>
+    </ion-text>
+
+    <!-- Campo de palavra-passe -->
     <ion-item class="custom-item" lines="none">
       <ion-input
-        [(ngModel)]="password"
-        name="password"
-        type="password"
+        [type]="showPassword ? 'text' : 'password'"
+        formControlName="password"
         placeholder="Palavra-passe"
-        required
         class="custom-input center-input"
       ></ion-input>
+      <!-- Ícone para mostrar/ocultar palavra-passe -->
+      <ion-icon
+        slot="end"
+        class="password-toggle-icon"
+        [name]="showPassword ? 'eye-off-outline' : 'eye-outline'"
+        (click)="togglePasswordVisibility()"
+      ></ion-icon>
     </ion-item>
+    <!-- Mensagens de erro para o campo palavra-passe -->
+    <ion-text color="danger" *ngIf="formRegister.get('password')?.touched && formRegister.get('password')?.invalid">
+      <div *ngIf="formRegister.get('password')?.errors?.['required']">Palavra-passe é obrigatória.</div>
+      <div *ngIf="formRegister.get('password')?.errors?.['minlength']">Mínimo 6 caracteres.</div>
+    </ion-text>
+
+    <!-- Grupo de botões -->
     <div class="btn-group">
+      <!-- Botão de registo -->
       <ion-button
         expand="block"
         type="submit"
-        [disabled]="!nome || !email || !telefone || !password"
+        [disabled]="formRegister.invalid || isLoading"
         class="btn-register"
       >
         Registar
       </ion-button>
+      <!-- Botão de voltar -->
       <ion-button expand="block" fill="outline" (click)="goBack()" class="btn-back">
         Voltar
       </ion-button>

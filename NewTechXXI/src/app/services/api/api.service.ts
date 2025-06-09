@@ -3,12 +3,14 @@ import { HttpClient } from '@angular/common/http';
 import { Storage } from '@ionic/storage-angular';
 import { Observable } from 'rxjs';
 
+// Serviço de API injetável em toda a aplicação
 @Injectable({
   providedIn: 'root'
 })
 export class ApiService {
-  private baseUrl: string = '';
+  private baseUrl: string = ''; // URL base da API
 
+  // Construtor com injeção de dependências
   constructor(
     private http: HttpClient,
     @Inject(Storage) private storage: Storage
@@ -16,11 +18,13 @@ export class ApiService {
     this.init();
   }
 
+  // Inicialização do serviço
   private async init() {
     await this.storage.create();
     this.baseUrl = (await this.storage.get('apiUrl')) || '';
   }
 
+  // Garante que o serviço está pronto para uso
   public async ensureReady(): Promise<void> {
     if (!this.baseUrl) {
       await this.storage.create();
@@ -28,7 +32,7 @@ export class ApiService {
     }
   }
 
-  // Autenticação
+  // Método de autenticação
   login(identificador: string, password: string): Observable<any> {
     return this.http.post(
       `${this.baseUrl}/utilizadores/login`,
@@ -36,7 +40,7 @@ export class ApiService {
     );
   }
 
-  // CRUD genérico
+  // Métodos CRUD genéricos
   get(endpoint: string): Observable<any> {
     return this.http.get(`${this.baseUrl}/${endpoint}`);
   }

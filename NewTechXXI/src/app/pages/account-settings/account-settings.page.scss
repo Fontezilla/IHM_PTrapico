@@ -1,9 +1,10 @@
+// Estilo do conteúdo principal da página de perfil
 .profile-content {
   --ion-background-color: var(--ion-color-background_light);
   padding-bottom: 70px;
 }
 
-/* Header com avatar, nome e ícone */
+/* Estilo do cabeçalho que contém o avatar, nome e ícone de notificações */
 .profile-header {
   display: flex;
   align-items: center;
@@ -15,6 +16,7 @@
   gap: 16px;
 }
 
+// Estilo do avatar circular com as iniciais do utilizador
 .avatar {
   background-color: var(--ion-color-primary-contrast);
   color: var(--ion-color-primary);
@@ -29,7 +31,7 @@
   font-family: var(--font-family);
 }
 
-/* Saudação */
+/* Estilo da saudação no cabeçalho */
 .profile-header > div:not(.avatar) {
   padding-top: env(safe-area-inset-top);
   color: var(--ion-color-primary-contrast);
@@ -38,14 +40,14 @@
   flex-grow: 1;
 }
 
-/* Notificação */
+/* Estilo do ícone de notificações */
 ion-icon[name="notifications"] {
   color: var(--ion-color-primary-contrast);
   font-size: 1.5rem;
   cursor: pointer;
 }
 
-/* Lista de opções */
+/* Estilo dos itens da lista de opções */
 .profile-list-item {
   display: flex;
   justify-content: space-between;
@@ -59,23 +61,25 @@ ion-icon[name="notifications"] {
   cursor: pointer;
 }
 
+/* Efeito de clique nos itens da lista */
 .profile-list-item:active {
   background: var(--ion-color-background_light);
 }
 
-/* Ícone de seta */
+/* Estilo dos ícones de seta nos itens da lista */
 .profile-list-item ion-icon {
   color: var(--ion-color-light);
   font-size: 1.5rem;
   margin-left: 8px;
 }
 
-/* Destaque vermelho para "Terminar Sessão" */
+/* Estilo especial para o texto "Terminar Sessão" */
 .logout-option-text span {
   color: var(--ion-color-danger);
   font-weight: 500;
 }
 
+/* Estilo especial para o ícone de terminar sessão */
 .logout-icon {
   color: var(--ion-color-danger);
   --color: var(--ion-color-danger);

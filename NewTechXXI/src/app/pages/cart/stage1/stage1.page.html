@@ -1,3 +1,4 @@
+<!-- Cabeçalho da página com botão de voltar e logótipo -->
 <ion-header>
   <ion-toolbar class="stage1-header">
     <ion-buttons slot="start">
@@ -9,14 +10,15 @@
       </ion-button>
     </ion-buttons>
     <div class="stage1-logo">
-      <div class="stage1-logo-circle">NT</div>
+      <div class="stage1-logo-circle">NT</div> <!-- Logótipo circular -->
     </div>
   </ion-toolbar>
 </ion-header>
 
+<!-- Conteúdo principal da página de seleção de entrega -->
 <ion-content class="stage1-content">
   <div class="stage1-steps">
-    <div class="stage1-step active">1</div>
+    <div class="stage1-step active">1</div> <!-- Passo atual -->
     <div class="stage1-step">2</div>
     <div class="stage1-step">3</div>
     <div class="stage1-step">4</div>
@@ -25,6 +27,7 @@
 
   <h2 class="stage1-title">Local de Entrega</h2>
 
+  <!-- Opções de entrega -->
   <div class="stage1-delivery-options">
     <div
       class="stage1-delivery-option"
@@ -52,6 +55,7 @@
   </div>
 </ion-content>
 
+<!-- Barra inferior fixa com total e botão de continuar -->
 <div class="stage1-footer-bar">
   <div class="stage1-footer-total">
     €{{ total | number:'1.2-2' }}

@@ -16,9 +16,12 @@ import { NavController }     from '@ionic/angular';
   standalone: false
 })
 export class Stage1Page implements OnInit {
+  // Tipo de entrega selecionado: loja ou morada
   selectedDelivery: 'store' | 'home' | null = null;
+  // Total do carrinho
   total = 0;
 
+  // Injecção de dependências necessárias
   constructor(
     private router: Router,
     private api: ApiService,
@@ -27,20 +30,24 @@ export class Stage1Page implements OnInit {
     private navCtrl: NavController
   ) {}
 
+  // Método do ciclo de vida do Angular, chamado na inicialização
   ngOnInit() {}
 
+  // Método chamado sempre que a página vai ser apresentada
   async ionViewWillEnter() {
     await this.storage.create();
     const rawUser = await this.storage.get('utilizador');
     if (!rawUser) return;
     const user = typeof rawUser === 'string' ? JSON.parse(rawUser) : rawUser;
 
+    // Busca o carrinho do utilizador
     this.api.get(`carrinhos/utilizador/${user.id}`).subscribe({
       next: (carts: any[]) => {
         if (!carts.length) return;
         const cart = carts[0];
         this.checkoutService.setCarrinhoId(cart.id);
 
+        // Busca os produtos do carrinho
         this.api
           .get(`${ApiEndpoints.CARRINHO_PRODUTOS}/detalhes/${cart.id}`)
           .subscribe((items: any[]) => {
@@ -64,10 +71,12 @@ export class Stage1Page implements OnInit {
     });
   }
 
+  // Seleciona o tipo de entrega
   selectDelivery(tipo: 'store' | 'home') {
     this.selectedDelivery = tipo;
   }
 
+  // Avança para a próxima etapa do checkout
   continuar() {
     if (!this.selectedDelivery) return;
     const tipo = this.selectedDelivery === 'store' ? 'LOJA' : 'MORADA';
@@ -77,6 +86,7 @@ export class Stage1Page implements OnInit {
     );
   }
 
+  // Volta para a página anterior
   goBack() {
     this.navCtrl.back();
   }

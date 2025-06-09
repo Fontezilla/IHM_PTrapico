@@ -1,3 +1,4 @@
+// Estilos para o container do logo
 .splash-wrapper {
   display: flex;
   justify-content: center;
@@ -6,12 +7,14 @@
   background-color: white;
 }
 
+// Estilos para o logo
 .splash-logo {
   width: 600px;
   max-width: 600px;
   height: auto;
 }
 
+// Estilos para a secção do spinner
 .spinner-section {
   position: fixed;
   bottom: 80px;
@@ -23,12 +26,13 @@
   gap: 10px;
 }
 
-
+// Estilos para o spinner de carregamento
 .spinner {
   font-size: 32px;
   color: var(--ion-color-primary);
 }
 
+// Estilos para o texto de carregamento
 .loading-text {
   font-size: 16px;
   color: var(--ion-color-medium);

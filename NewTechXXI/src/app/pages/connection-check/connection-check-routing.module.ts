@@ -1,17 +1,21 @@
+// Importação dos módulos necessários do Angular
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
+// Importação do componente da página
 import { ConnectionCheckPage } from './connection-check.page';
 
+// Definição das rotas do módulo
 const routes: Routes = [
   {
-    path: '',
-    component: ConnectionCheckPage
+    path: '', // Rota principal (vazia)
+    component: ConnectionCheckPage // Componente a ser carregado
   }
 ];
 
+// Decorador que define o módulo de rotas
 @NgModule({
-  imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule],
+  imports: [RouterModule.forChild(routes)], // Importa o RouterModule com as rotas definidas
+  exports: [RouterModule], // Exporta o RouterModule para uso em outros módulos
 })
 export class ConnectionCheckPageRoutingModule {}

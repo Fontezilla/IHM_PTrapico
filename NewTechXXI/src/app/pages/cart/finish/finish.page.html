@@ -1,17 +1,20 @@
+<!-- Cabeçalho da página com título -->
 <ion-header>
   <ion-toolbar color="primary">
     <ion-title>Compra Concluída</ion-title>
   </ion-toolbar>
 </ion-header>
 
+<!-- Conteúdo principal da página de finalização -->
 <ion-content class="finish-content">
   <div class="finish-body">
-    <ion-icon name="checkmark-circle-outline" class="finish-icon animate-pop"></ion-icon>
-    <div class="finish-title">Compra finalizada <br> com sucesso!</div>
-    <div class="finish-desc">Obrigado por comprar conosco! <br> Esperamos vê-lo novamente em breve. </div>
+    <ion-icon name="checkmark-circle-outline" class="finish-icon animate-pop"></ion-icon> <!-- Ícone de sucesso -->
+    <div class="finish-title">Compra finalizada <br> com sucesso!</div> <!-- Mensagem de sucesso -->
+    <div class="finish-desc">Obrigado por comprar conosco! <br> Esperamos vê-lo novamente em breve. </div> <!-- Mensagem de agradecimento -->
   </div>
 </ion-content>
 
+<!-- Rodapé com botão para continuar a comprar -->
 <ion-footer>
   <div class="fixed-bottom">
     <ion-button expand="block" class="success-btn" (click)="continuarComprando()">

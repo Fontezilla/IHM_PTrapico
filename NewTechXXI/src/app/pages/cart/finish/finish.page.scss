@@ -1,3 +1,4 @@
+// Estilo do conteúdo principal da página de finalização
 .finish-content {
   --background: var(--ion-color-background_light);
   display: flex;
@@ -6,6 +7,7 @@
   height: 100%;
 }
 
+// Estilo do corpo da mensagem de finalização
 .finish-body {
   display: flex;
   flex-direction: column;
@@ -15,16 +17,19 @@
   height: 100%;
 }
 
+// Estilo do ícone de sucesso
 .finish-icon {
   font-size: 100px;
   color: var(--ion-color-success);
   margin-bottom: 24px;
 }
 
+// Animação de "pop" para o ícone
 .animate-pop {
   animation: pop 0.6s ease;
 }
 
+// Keyframes da animação de "pop"
 @keyframes pop {
   0% {
     transform: scale(0.6);
@@ -36,6 +41,7 @@
   }
 }
 
+// Estilo do título de finalização
 .finish-title {
   font-size: 1.5rem;
   font-weight: bold;
@@ -44,17 +50,20 @@
   text-align: center;
 }
 
+// Estilo da descrição de agradecimento
 .finish-desc {
   font-size: 1rem;
   color: var(--ion-color-medium);
   margin-bottom: 20px;
 }
 
+// Estilo do rodapé fixo
 .fixed-bottom {
   background-color: var(--ion-color-background_light);
   padding: 16px;
 }
 
+// Estilo do botão de sucesso
 .success-btn {
   --background: var(--ion-color-success);
   --background-hover: var(--ion-color-success-shade);
