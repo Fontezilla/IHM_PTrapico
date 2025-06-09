@@ -14,9 +14,10 @@ export class AppComponent {
       ScreenOrientation.lock({ orientation: 'portrait' });
     });
   }
+  
   initializeApp() {
     setTimeout(() => {
       SplashScreen.hide(); 
-    }, 10000);
+    }, 5000);
   }
 }
