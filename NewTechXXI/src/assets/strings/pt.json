@@ -1,0 +1,12 @@
+{
+    "login": {
+        "mensage": "Acede à tua conta para continuar",
+        "dados": "E-mail ou telefone",
+        "password": "Palavra-passe",
+        "mensage-forgot": "Esqueceu a Palavra-Passe?",
+        "mensage-register": "Ainda não tens conta?",
+        "mensage-register-with": "Entrar com",
+        "btn-enter": "Enter",
+        "btn-register": "Registar"
+    }
+}

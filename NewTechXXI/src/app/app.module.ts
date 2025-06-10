@@ -2,10 +2,10 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
-import { provideHttpClient } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { IonicStorageModule } from '@ionic/storage-angular';
+import { HttpClientModule } from '@angular/common/http';
 
 // Decorador que define o módulo principal da aplicação
 @NgModule({
@@ -19,10 +19,7 @@ import { IonicStorageModule } from '@ionic/storage-angular';
     IonicModule.forRoot(), // Configuração do Ionic
     AppRoutingModule, // Módulo de rotas da aplicação
     IonicStorageModule.forRoot(), // Módulo para armazenamento local
-  ],
-  // Provedores de serviços disponíveis em toda a aplicação
-  providers: [
-    provideHttpClient() // Provedor para fazer requisições HTTP
+    HttpClientModule
   ],
   // Componente que será inicializado quando a aplicação iniciar
   bootstrap: [AppComponent],
